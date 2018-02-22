@@ -60,16 +60,16 @@ public class RegisterCourseInfo  {
             TextView t1v = new TextView(context);
             TextView t2v = new TextView(context);
 
-            t1v.setText("" + i);
+            t1v.setText("CSCI" + i);
             t1v.setTextColor(Color.WHITE);
             t1v.setGravity(Gravity.CENTER);
             tbrow.addView(t1v);
-            t2v.setText("Product " + i);
+            t2v.setText("Course " + i);
             t2v.setTextColor(Color.WHITE);
             t2v.setGravity(Gravity.CENTER);
             tbrow.addView(t2v);
             TextView t3v = new TextView(context);
-            t3v.setText("Rs." + i);
+            t3v.setText("Monday" + i);
             t3v.setTextColor(Color.WHITE);
             t3v.setGravity(Gravity.CENTER);
             tbrow.addView(t3v);
