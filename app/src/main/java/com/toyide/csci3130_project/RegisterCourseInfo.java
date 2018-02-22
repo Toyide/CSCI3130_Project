@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 /**
  * Created by JingyunYang on 2018/2/21.
- * A class create display the course information with a check box to register
+ * A class display the course information with a check box to register
  */
 
 
@@ -31,6 +31,7 @@ public class RegisterCourseInfo  {
         Log.i("class", context.getClass().toString());
     }
     public void init() {
+        // Create the column name: CourseName, CourseID, Time and Location respectively
         Log.i("view", view.toString());
         Log.i("class", context.getClass().toString());
         System.out.print(context.getClass());
@@ -54,7 +55,10 @@ public class RegisterCourseInfo  {
         tv3.setTextColor(Color.WHITE);
         tbrow0.addView(tv3);
         stk.addView(tbrow0);
-
+        // TODO: Use a proper data structue to pass the course related information
+        // TODO: Add listener to the checkbox
+        // TODO: Connect to the database
+        // TODO: Adopt a better UI
         for (int i = 0; i < 25; i++) {
             TableRow tbrow = new TableRow(context);
             TextView t1v = new TextView(context);
@@ -78,7 +82,7 @@ public class RegisterCourseInfo  {
             t4v.setTextColor(Color.WHITE);
             t4v.setGravity(Gravity.CENTER);
             tbrow.addView(t4v);
-            CheckBox cb = new CheckBox(context); // create new checkBox
+            CheckBox cb = new CheckBox(context);      // create new checkBox
             tbrow.addView(cb);                          // add checkBox
             stk.addView(tbrow);
         }
