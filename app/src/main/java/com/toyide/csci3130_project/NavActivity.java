@@ -8,7 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class NavActivity extends AppCompatActivity {
@@ -49,6 +51,8 @@ public class NavActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.MainFrame,new ProfileFragment()).commit();
+
+
     }
 
 }
