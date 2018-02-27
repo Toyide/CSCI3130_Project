@@ -7,7 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.sql.Array;
+import java.util.ArrayList;
 
 
 /**
@@ -59,13 +64,66 @@ public class ScheduleFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_schedule, container, false);
+
+        //course items that should be shown in the schedule
+        ArrayList<Course> courseArrayList = new ArrayList<>();
+        Course cb1 = new Course(
+                "CSCI3130",
+                "Lec",
+                "TTh",
+                "14:25 - 15:55",
+                "Software Engineering");
+        Course cb2 = new Course(
+                "CSCI1100",
+                "Lec",
+                "M",
+                "10:25 - 13:35",
+                "Java");
+        Course cb3 = new Course(
+                "CSCI2141",
+                "Lec",
+                "MWF",
+                "8:25 - 9:35",
+                "Database");
+        Course cb4 = new Course(
+                "CSCI2112",
+                "Lec",
+                "MWF",
+                "11:25 - 12:35",
+                "Assembly");
+        Course cb5 = new Course(
+                "CSCI4116",
+                "Lec",
+                "MWF",
+                "14:25 - 15:35",
+                "Cryptography");
+
+        //add items into courseArrayList
+        courseArrayList.add(cb1);
+        courseArrayList.add(cb2);
+        courseArrayList.add(cb3);
+        courseArrayList.add(cb4);
+        courseArrayList.add(cb5);
+
+        //create a new CourseListAdapter object(CourseListAdapter.java)
+        //turns the content of courseArrayList into things that the ListView(fragment_schedule) can display
+        CourseListAdapter adapter = new CourseListAdapter(getContext(), R.layout.fragment_schedule, courseArrayList);
+
+        //look within the ListView(fragment_schedule) layout for the element with id.lv_schedule
+        ListView listView = (ListView) view.findViewById(R.id.lv_schedule);
+
+        //use ListView(fragment_schedule) adapter to draw the things on the screen
+        listView.setAdapter(adapter);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
