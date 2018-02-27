@@ -3,6 +3,21 @@
     <string name="title_profile">Profile</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_register">Register</string>
+
     <!-- TODO: Remove or change this placeholder text -->
+    <!-- Strings related to schedule will be changed in the future-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="schedule">Schedule</string>
+    <string name="csci">CSCI</string>
+    <string name="lec">Lec</string>
+    <string name="mwf">MWF</string>
+    <string name="_14_35_15_55">14:35 - 15:55</string>
+    <string name="software_engineering">Software Engineering</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="title_login">Login</string>
+    <string name="error_invalid_login">Incorrect username or password. Please try again. </string>
+    <string name="error_field_required">This field is required</string>
 </resources>
