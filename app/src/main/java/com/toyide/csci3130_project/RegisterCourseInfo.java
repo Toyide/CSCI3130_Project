@@ -51,7 +51,7 @@ public class RegisterCourseInfo  {
         tv2.setTextColor(Color.WHITE);
         tbrow0.addView(tv2);
         TextView tv3 = new TextView(context);
-        tv3.setText(" Location ");
+        tv3.setText(" Enrolled/Toatl ");
         tv3.setTextColor(Color.WHITE);
         tbrow0.addView(tv3);
         stk.addView(tbrow0);
@@ -59,7 +59,7 @@ public class RegisterCourseInfo  {
         // TODO: Add listener to the checkbox
         // TODO: Connect to the database
         // TODO: Adopt a better UI
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 20; i++) {
             TableRow tbrow = new TableRow(context);
             TextView t1v = new TextView(context);
             TextView t2v = new TextView(context);
@@ -73,12 +73,12 @@ public class RegisterCourseInfo  {
             t2v.setGravity(Gravity.CENTER);
             tbrow.addView(t2v);
             TextView t3v = new TextView(context);
-            t3v.setText("Monday" + i);
+            t3v.setText("Monday " + (8+i%8 ) + ":00" );
             t3v.setTextColor(Color.WHITE);
             t3v.setGravity(Gravity.CENTER);
             tbrow.addView(t3v);
             TextView t4v = new TextView(context);
-            t4v.setText("" + i * 15 / 32 * 10);
+            t4v.setText( i + "/50");
             t4v.setTextColor(Color.WHITE);
             t4v.setGravity(Gravity.CENTER);
             tbrow.addView(t4v);
