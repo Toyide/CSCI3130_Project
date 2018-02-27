@@ -3,13 +3,6 @@
     <string name="title_profile">Profile</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_register">Register</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="schedule">Schedule</string>
-    <string name="csci">CSCI</string>
-    <string name="lec">Lec</string>
-    <string name="mwf">MWF</string>
-    <string name="_14_35_15_55">14:35 - 15:55</string>
-    <string name="software_engineering">Software Engineering</string>
 </resources>
