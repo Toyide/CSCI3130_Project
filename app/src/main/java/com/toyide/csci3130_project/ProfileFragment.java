@@ -117,25 +117,25 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menonClick(v);
+                profileOnClick(v);
             }
         });
         info.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                menonClick(v);
+                profileOnClick(v);
             }
         });
         pass.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                menonClick(v);
+                profileOnClick(v);
             }
         });
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                menonClick(v);
+                profileOnClick(v);
             }
         });
         return view;
@@ -148,7 +148,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
  * so the function implemented the features of four buttons
  * The parameter View v used to call the components
  */
-    public void menonClick(View v) {
+    public void profileOnClick(View v) {
         switch (v.getId()) {
             case R.id.info: {
                 state1.setVisibility(View.INVISIBLE);
@@ -242,7 +242,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        menonClick(v);
+        profileOnClick(v);
     }
 
     /**
