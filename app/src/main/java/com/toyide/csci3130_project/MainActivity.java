@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * Created by Luwei Cai & Zhiyuan Wang on 2018/2/21.
+ * This activity is used to read password and username.
+ * It is used to check whether users exist.
+ */
 public class MainActivity extends AppCompatActivity {
     @Override
 protected void onCreate(Bundle savedInstanceState) {

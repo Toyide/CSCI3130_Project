@@ -101,14 +101,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container,false);
         name = view.findViewById(R.id.viewAntoNieva);
-        info1 = view.findViewById(R.id.textView);
-        state1 = view.findViewById(R.id.textView2);
-        state2 = view.findViewById(R.id.textView3);
-        state3 = view.findViewById(R.id.textView4);
-        pass1 = view.findViewById(R.id.textView5);
-        pass2 = view.findViewById(R.id.textView6);
-        oldPass = view.findViewById(R.id.editText2);
-        newPass = view.findViewById(R.id.editText3);
+        info1 = view.findViewById(R.id.Bnumber);
+        state1 = view.findViewById(R.id.department);
+        state2 = view.findViewById(R.id.level);
+        state3 = view.findViewById(R.id.university);
+        pass1 = view.findViewById(R.id.oldpassword);
+        pass2 = view.findViewById(R.id.newpassword);
+        oldPass = view.findViewById(R.id.oldpass);
+        newPass = view.findViewById(R.id.newpass);
         back = view.findViewById(R.id.back);
         state = view.findViewById(R.id.state);
         info =view.findViewById(R.id.info);
