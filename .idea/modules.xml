@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CSCI3130_Project.iml" filepath="$PROJECT_DIR$/CSCI3130_Project.iml" />
+      <module fileurl="file://C:\Users\Yide\Downloads\csci 3130\CSCI3130_Project\CSCI3130_Project.iml" filepath="C:\Users\Yide\Downloads\csci 3130\CSCI3130_Project\CSCI3130_Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Yide\Downloads\csci 3130\CSCI3130_Project\app\app.iml" filepath="C:\Users\Yide\Downloads\csci 3130\CSCI3130_Project\app\app.iml" />
     </modules>
   </component>
 </project>
