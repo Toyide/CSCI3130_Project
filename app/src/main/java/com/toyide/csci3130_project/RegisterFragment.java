@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -77,9 +78,17 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // create a view instance to add the courseInfo
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+
         TableLayout courseInfoView = view.findViewById(R.id.registerCourseInfo);
         RegisterCourseInfo myRegisteration = new RegisterCourseInfo(getActivity(),this,view);
         myRegisteration.init();
+        Button RegButt = (Button) view.findViewById(R.id.RegisterButt);
+        RegButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Register Confirmed", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
