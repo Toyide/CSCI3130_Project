@@ -142,6 +142,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
     }
+    /**
+ * A function for Button OnClickLitener.
+ * Fragment is different with Activity
+ * so the function implemented the features of four buttons
+ * The parameter View v used to call the components
+ */
     public void menonClick(View v) {
         switch (v.getId()) {
             case R.id.info: {
