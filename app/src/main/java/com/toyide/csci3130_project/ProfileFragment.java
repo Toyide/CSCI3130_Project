@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     Button info;
     Button pass;
     Button modify;
+    Button back;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -98,7 +100,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container,false);
-//12345
         name = view.findViewById(R.id.viewAntoNieva);
         info1 = view.findViewById(R.id.textView);
         state1 = view.findViewById(R.id.textView2);
@@ -107,7 +108,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         pass1 = view.findViewById(R.id.textView5);
         pass2 = view.findViewById(R.id.textView6);
         oldPass = view.findViewById(R.id.editText2);
-        modify = view.findViewById(R.id.button3);
+        newPass = view.findViewById(R.id.editText3);
+        back = view.findViewById(R.id.back);
         state = view.findViewById(R.id.state);
         info =view.findViewById(R.id.info);
         pass = view.findViewById(R.id.pass);
@@ -125,6 +127,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         });
         pass.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                menonClick(v);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 menonClick(v);
@@ -151,6 +159,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
             case R.id.state: {
 
+
                 info1.setVisibility(View.INVISIBLE);
                 state1.setVisibility(View.VISIBLE);
                 state2.setVisibility(View.VISIBLE);
@@ -172,6 +181,27 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 oldPass.setVisibility(View.VISIBLE);
                 newPass.setVisibility(View.VISIBLE);
                 modify.setVisibility((View.VISIBLE));
+                state.setVisibility(View.INVISIBLE);
+                info.setVisibility(View.INVISIBLE);
+                pass.setVisibility(View.INVISIBLE);
+                back.setVisibility(View.VISIBLE);
+                break;
+            }
+            case R.id.back: {
+                state1.setVisibility(View.INVISIBLE);
+                state2.setVisibility(View.INVISIBLE);
+                state3.setVisibility(View.INVISIBLE);
+                pass1.setVisibility(View.INVISIBLE);
+                pass2.setVisibility(View.INVISIBLE);
+                modify.setVisibility(View.INVISIBLE);
+                info1.setVisibility(View.INVISIBLE);
+                oldPass.setVisibility(View.INVISIBLE);
+                newPass.setVisibility(View.INVISIBLE);
+                modify.setVisibility((View.INVISIBLE));
+                back.setVisibility(View.INVISIBLE);
+                info.setVisibility(View.VISIBLE);
+                state.setVisibility(View.VISIBLE);
+                pass.setVisibility(View.VISIBLE);
                 break;
             }
             default:
