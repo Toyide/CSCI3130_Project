@@ -98,7 +98,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container,false);
-
+//12345
         name = view.findViewById(R.id.viewAntoNieva);
         info1 = view.findViewById(R.id.textView);
         state1 = view.findViewById(R.id.textView2);
