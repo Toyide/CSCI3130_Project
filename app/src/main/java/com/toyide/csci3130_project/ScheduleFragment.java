@@ -34,7 +34,10 @@ public class ScheduleFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    Course receivedPersonInfo;
+    private MyApplicationData appState;
+    receivedPersonInfo = (Course) getIntent().getSerializableExtra("Contact");
+    appState = ((MyApplicationData) getApplicationContext());
     public ScheduleFragment() {
         // Required empty public constructor
     }
@@ -75,6 +78,8 @@ public class ScheduleFragment extends Fragment {
         //course items that should be shown in the schedule
         ArrayList<Course> courseArrayList = new ArrayList<>();
         Course cb1 = new Course(
+                "cid"
+                ,
                 "CSCI3130",
                 "Lec",
                 "TTh",
