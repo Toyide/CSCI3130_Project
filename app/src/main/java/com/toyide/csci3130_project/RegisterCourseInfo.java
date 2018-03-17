@@ -38,22 +38,22 @@ public class RegisterCourseInfo  {
         TableLayout stk = (TableLayout)view.findViewById(R.id.registerCourseInfo); //(TableLayout) findViewById(R.id.courseTable);
         Log.i("view", stk.toString());
         TableRow tbrow0 = new TableRow(context);
-        TextView tv0 = new TextView(context);
-        tv0.setText(" Course Name ");
-        tv0.setTextColor(Color.WHITE);
-        tbrow0.addView(tv0);
-        TextView tv1 = new TextView(context);
-        tv1.setText(" Course ID ");
-        tv1.setTextColor(Color.WHITE);
-        tbrow0.addView(tv1);
-        TextView tv2 = new TextView(context);
-        tv2.setText(" Time ");
-        tv2.setTextColor(Color.WHITE);
-        tbrow0.addView(tv2);
-        TextView tv3 = new TextView(context);
-        tv3.setText(" Enrolled/Toatl ");
-        tv3.setTextColor(Color.WHITE);
-        tbrow0.addView(tv3);
+        TextView courseNameView = new TextView(context);
+        courseNameView.setText(" Course Name ");
+        courseNameView.setTextColor(Color.WHITE);
+        tbrow0.addView(courseNameView);
+        TextView courseIDView = new TextView(context);
+        courseIDView.setText(" Course ID ");
+        courseIDView.setTextColor(Color.WHITE);
+        tbrow0.addView(courseIDView);
+        TextView courseTimeView = new TextView(context);
+        courseTimeView.setText(" Time ");
+        courseTimeView.setTextColor(Color.WHITE);
+        tbrow0.addView(courseTimeView);
+        TextView spotView = new TextView(context);
+        spotView.setText(" Enrolled/Toatl ");
+        spotView.setTextColor(Color.WHITE);
+        tbrow0.addView(spotView);
         stk.addView(tbrow0);
         // TODO: Use a proper data structue to pass the course related information
         // TODO: Add listener to the checkbox
@@ -61,27 +61,29 @@ public class RegisterCourseInfo  {
         // TODO: Adopt a better UI
         for (int i = 0; i < 20; i++) {
             TableRow tbrow = new TableRow(context);
-            TextView t1v = new TextView(context);
-            TextView t2v = new TextView(context);
+            TextView courseNameView1 = new TextView(context);
+            TextView courseIDView1 = new TextView(context);
 
-            t1v.setText("CSCI" + i);
-            t1v.setTextColor(Color.WHITE);
-            t1v.setGravity(Gravity.CENTER);
-            tbrow.addView(t1v);
-            t2v.setText("Course " + i);
-            t2v.setTextColor(Color.WHITE);
-            t2v.setGravity(Gravity.CENTER);
-            tbrow.addView(t2v);
-            TextView t3v = new TextView(context);
-            t3v.setText("Monday " + (8+i%8 ) + ":00" );
-            t3v.setTextColor(Color.WHITE);
-            t3v.setGravity(Gravity.CENTER);
-            tbrow.addView(t3v);
-            TextView t4v = new TextView(context);
-            t4v.setText( i + "/50");
-            t4v.setTextColor(Color.WHITE);
-            t4v.setGravity(Gravity.CENTER);
-            tbrow.addView(t4v);
+            courseNameView1.setText("CSCI" + i);
+            courseNameView1.setTextColor(Color.WHITE);
+            courseNameView1.setGravity(Gravity.CENTER);
+            tbrow.addView(courseNameView1);
+            courseIDView1.setText("Course " + i);
+            courseIDView1.setTextColor(Color.WHITE);
+            courseIDView1.setGravity(Gravity.CENTER);
+            tbrow.addView(courseIDView1);
+
+            TextView courseTimeView1 = new TextView(context);
+            courseTimeView1.setText("Monday " + (8+i%8 ) + ":00" );
+            courseTimeView1.setTextColor(Color.WHITE);
+            courseTimeView1.setGravity(Gravity.CENTER);
+            tbrow.addView(courseTimeView1);
+
+            TextView spotView1 = new TextView(context);
+            spotView1.setText( i + "/50");
+            spotView1.setTextColor(Color.WHITE);
+            spotView1.setGravity(Gravity.CENTER);
+            tbrow.addView(spotView1);
             CheckBox cb = new CheckBox(context);      // create new checkBox
             tbrow.addView(cb);                          // add checkBox
             stk.addView(tbrow);
