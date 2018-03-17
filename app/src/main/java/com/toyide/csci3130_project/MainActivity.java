@@ -47,17 +47,13 @@ public void onClick(View v) {
     final String userID = userField.getText().toString();
     final String password = psField.getText().toString();
     final TextView view = findViewById(R.id.login_error);
-    appData.firebaseReference.orderByChild(userID).limitToFirst(1).addValueEventListener(new ValueEventListener() {
+    appData.firebaseReference.orderByChild("userID").equalTo(userID).addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot userSnapshot) {
             if (userSnapshot != null) {
-                Query query = appData.firebaseReference.child(userID).child("password");
-                query.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String pass = dataSnapshot.getValue(String.class);
+                        Profile pass = userSnapshot.getValue(Profile.class);
                         // Data is ordered by increasing height, so we want the first entry
-                        if (pass.equals(password)){
+                        if (pass.password.equals(password)){
                             login log =new login(userID,password);
                             LocalData.setUserID(userID);
                             showUser(log);
@@ -65,13 +61,6 @@ public void onClick(View v) {
                             String text = "Incorrect username or password. Please try again.";
                             view.setText(text);
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // ...
-                    }
-                });
             }
         }
 
