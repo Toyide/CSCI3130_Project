@@ -11,6 +11,10 @@ import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.EditText;
+import android.content.Intent;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by JingyunYang on 2018/2/21.
@@ -23,6 +27,9 @@ public class RegisterCourseInfo  {
     Activity activity;
     RegisterFragment fragment;
     View view;
+    Course receivedPersonInfo;
+    private MyApplicationData appState;
+    // Constructor
     public RegisterCourseInfo(Context context, RegisterFragment fragment,View view){
         this.context=context;
         this.fragment=fragment;
@@ -30,6 +37,7 @@ public class RegisterCourseInfo  {
         Log.i("view", fragment.getClass().toString());
         Log.i("class", context.getClass().toString());
     }
+
     public void init() {
         // Create the column name: CourseName, CourseID, Time and Location respectively
         Log.i("view", view.toString());
@@ -88,6 +96,11 @@ public class RegisterCourseInfo  {
             tbrow.addView(cb);                          // add checkBox
             stk.addView(tbrow);
         }
+    }
+    void getInstanceData(TextView courseNameView, TextView courseIDView, TextView courseTimeView, TextView spotView, DatabaseReference mDatabase){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        String cid = mDatabase.child("Course").getKey();
 
     }
+
 }
