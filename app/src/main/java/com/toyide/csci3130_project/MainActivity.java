@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         appData = (MyApplicationData)getApplication();
         //Set-up Firebase
         appData.firebaseDBInstance = FirebaseDatabase.getInstance();
-        appData.firebaseReference = appData.firebaseDBInstance.getReference("login");
+        appData.firebaseReference = appData.firebaseDBInstance.getReference("Users");
         appState = ((MyApplicationData) getApplicationContext());
 
 }
