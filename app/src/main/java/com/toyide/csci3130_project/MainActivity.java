@@ -45,21 +45,22 @@ public class MainActivity extends AppCompatActivity {
 public void onClick(View v) {
     EditText userField = findViewById(R.id.input_username);
     EditText psField = findViewById(R.id.input_password);
-    final String username = userField.getText().toString();
+    final String userID = userField.getText().toString();
     final String password = psField.getText().toString();
     final TextView view = findViewById(R.id.login_error);
-    appData.firebaseReference.orderByChild(username).limitToFirst(1).addValueEventListener(new ValueEventListener() {
+    appData.firebaseReference.orderByChild(userID).limitToFirst(1).addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot userSnapshot) {
             if (userSnapshot != null) {
-                Query query = appData.firebaseReference.child(username).child("password");
+                Query query = appData.firebaseReference.child(userID).child("password");
                 query.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String pass = dataSnapshot.getValue(String.class);
                         // Data is ordered by increasing height, so we want the first entry
                         if (pass.equals(password)){
-                            login log =new login(username,password);
+                            login log =new login(userID,password);
+                            LocalData.setUserID(userID);
                             showUser(log);
                         }else {
                             String text = "Incorrect username or password. Please try again.";
