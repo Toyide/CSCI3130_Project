@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static  final String TAG = "MainActivity";
     private MyApplicationData appState;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+
     private MyApplicationData appData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
