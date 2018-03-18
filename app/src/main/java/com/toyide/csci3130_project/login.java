@@ -11,19 +11,19 @@ import java.util.Map;
  */
 
 public class login implements Serializable {
-    public String username;
+    public String userID;
     public String password;
 
     public login() {
 
     }
 
-    public login( String username, String password) {
-        this.username = username;
+    public login( String userID, String password) {
+        this.userID = userID;
         this.password = password;
     }
-    public String getUserName(){
-        return this.username;
+    public String getUserID(){
+        return this.userID;
     }
     public String getPassword(){
         return  this.password;
@@ -31,7 +31,7 @@ public class login implements Serializable {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("username", username);
+        result.put("userID", userID);
         result.put("password", password);
         return result;
     }
