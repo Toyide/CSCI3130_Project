@@ -3,6 +3,7 @@ package com.toyide.csci3130_project;
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +18,7 @@ import java.util.Map;
 public class Registration implements Serializable {
     public String rid;                          //registeration ID,
     public String uid;                          //user ID
-    public String cid;              //a list containing coruse reference IDs
-    public String cidList="";
+    public String cidList="";                   //a list containing coruse reference IDs
     //constructor
 
     public  Registration(String rid, String uid){
@@ -47,5 +47,12 @@ public class Registration implements Serializable {
         return result;
     }
 
+
+    // Return a list of courses in the form of array
+    public String[] getCourses() {
+        return cidList.split(",");
+        //NOTICE: the last string element is "".
+    }
 }
+
 
