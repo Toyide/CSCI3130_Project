@@ -36,7 +36,7 @@ public class Profile implements Serializable {
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
         result.put("UserID", userID);
-        result.put("UseName", username);
+        result.put("UserName", username);
         result.put("Password", password);
         result.put("Department", department);
         result.put("UserDegree", degree);
