@@ -48,7 +48,7 @@ public class ExampleInstrumentedTest {
     //login
     public void check1() throws InterruptedException{
 
-        onView(withId(R.id.input_username)).perform(typeText("name"));
+        onView(withId(R.id.input_username)).perform(typeText("B00123456"));
         closeSoftKeyboard();
         onView(withId(R.id.input_password)).perform(typeText("123456789"));
         closeSoftKeyboard();
@@ -58,7 +58,7 @@ public class ExampleInstrumentedTest {
     //profile_page
     public void check2() throws InterruptedException{
 
-        onView(withId(R.id.input_username)).perform(typeText("name"));
+        onView(withId(R.id.input_username)).perform(typeText("B00123456"));
         closeSoftKeyboard();
         onView(withId(R.id.input_password)).perform(typeText("123456789"));
         closeSoftKeyboard();
@@ -77,7 +77,7 @@ public class ExampleInstrumentedTest {
     //schedule
     public void check3() throws InterruptedException{
 
-        onView(withId(R.id.input_username)).perform(typeText("name"));
+        onView(withId(R.id.input_username)).perform(typeText("B00123456"));
         closeSoftKeyboard();
         onView(withId(R.id.input_password)).perform(typeText("123456789"));
         closeSoftKeyboard();
@@ -88,7 +88,7 @@ public class ExampleInstrumentedTest {
     //registration
     public void check4() throws InterruptedException{
 
-        onView(withId(R.id.input_username)).perform(typeText("name"));
+        onView(withId(R.id.input_username)).perform(typeText("B00123456"));
         closeSoftKeyboard();
         onView(withId(R.id.input_password)).perform(typeText("123456789"));
         closeSoftKeyboard();

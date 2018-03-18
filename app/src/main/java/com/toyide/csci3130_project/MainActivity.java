@@ -53,9 +53,8 @@ public void onClick(View v) {
             if (userSnapshot != null) {
                         Profile pass = userSnapshot.getValue(Profile.class);
                         if (pass.password.equals(password)){
-                            login log =new login(userID,password);
                             LocalData.setUserID(userID);
-                            showUser(log);
+                            showUser(pass);
                         }else {
                             String text = "Incorrect username or password. Please try again.";
                             view.setText(text);
@@ -69,9 +68,9 @@ public void onClick(View v) {
         }
     });
 }
-private void showUser(login login){
+private void showUser(Profile profile){
         Intent intent = new Intent(this, NavActivity.class);
-        intent.putExtra("login", login);
+        intent.putExtra("profile", profile);
         startActivity(intent);
 }
 }
