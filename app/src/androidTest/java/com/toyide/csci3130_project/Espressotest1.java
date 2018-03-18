@@ -1,5 +1,6 @@
 package com.toyide.csci3130_project;
-
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -27,30 +28,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
-
 /**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Created by aya on 2018-03-17.
  */
-@RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
-    public ActivityTestRule<MainActivity> myActivity = new ActivityTestRule<>(MainActivity.class);
-    @Test
-    public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.toyide.csci3130_project", appContext.getPackageName());
-    }
-    @Test
-    //login
-    public void check1() throws InterruptedException{
+public class Espressotest1 extends Fragment{
 
-        onView(withId(R.id.input_username)).perform(typeText("name"));
-        closeSoftKeyboard();
-        onView(withId(R.id.input_password)).perform(typeText("123456789"));
-        closeSoftKeyboard();
-        onView(withId(R.id.btn_login)).perform(click());
-    }
 }

@@ -6,7 +6,7 @@ package com.toyide.csci3130_project;
 
 public class checkPassword {
     private String users,  password;
-    public boolean check(String name, String pass ){
+    public boolean check(String name, String pass, String dbuser, String dbpass ){
 
         if (name.equals(users)){
             if (pass.equals(password)) {

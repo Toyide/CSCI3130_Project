@@ -36,8 +36,6 @@ public class ScheduleFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     Course receivedPersonInfo;
     private MyApplicationData appState;
-    receivedPersonInfo = (Course) getIntent().getSerializableExtra("Contact");
-    appState = ((MyApplicationData) getApplicationContext());
     public ScheduleFragment() {
         // Required empty public constructor
     }
@@ -86,24 +84,29 @@ public class ScheduleFragment extends Fragment {
                 "14:25 - 15:55",
                 "Software Engineering");
         Course cb2 = new Course(
+                "cid"
+                ,
                 "CSCI1100",
                 "Lec",
                 "M",
                 "10:25 - 13:35",
                 "Java");
-        Course cb3 = new Course(
+        Course cb3 = new Course("cid"
+                ,
                 "CSCI2141",
                 "Lec",
                 "MWF",
                 "8:25 - 9:35",
                 "Database");
-        Course cb4 = new Course(
+        Course cb4 = new Course("cid"
+                ,
                 "CSCI2112",
                 "Lec",
                 "MWF",
                 "11:25 - 12:35",
                 "Assembly");
-        Course cb5 = new Course(
+        Course cb5 = new Course("cid"
+                ,
                 "CSCI4116",
                 "Lec",
                 "MWF",
