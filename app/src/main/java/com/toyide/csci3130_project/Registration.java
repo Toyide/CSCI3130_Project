@@ -28,8 +28,8 @@ public class Registration implements Serializable {
     }
     //remove empty at first
     public void add_withFirst(String add) {
-        cidList += add;
-        cidList += ",";
+        this.cidList += add;
+        this.cidList += ",";
     }
 
 
@@ -42,7 +42,6 @@ public class Registration implements Serializable {
         result.put("uid", uid);
 
         result.put("cid", cidList);
-
 
         return result;
     }

@@ -45,7 +45,6 @@ public class ExampleInstrumentedTest {
         assertEquals("com.toyide.csci3130_project", appContext.getPackageName());
     }
     @Test
-    //login
     public void check1() throws InterruptedException{
 
         onView(withId(R.id.input_username)).perform(typeText("B00123456"));
@@ -55,7 +54,6 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.btn_login)).perform(click());
     }
     @Test
-    //profile_page
     public void check2() throws InterruptedException{
 
         onView(withId(R.id.input_username)).perform(typeText("B00123456"));
@@ -74,7 +72,6 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.pass));
     }
     @Test
-    //schedule
     public void check3() throws InterruptedException{
 
         onView(withId(R.id.input_username)).perform(typeText("B00123456"));
@@ -85,7 +82,6 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.navigation_schedule));
     }
     @Test
-    //registration
     public void check4() throws InterruptedException{
 
         onView(withId(R.id.input_username)).perform(typeText("B00123456"));
