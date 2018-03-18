@@ -48,7 +48,7 @@ public class ExampleInstrumentedTest {
     //login
     public void check1() throws InterruptedException{
 
-        onView(withId(R.id.input_username)).perform(typeText("name"));
+        onView(withId(R.id.input_username)).perform(typeText("B00123456"));
         closeSoftKeyboard();
         onView(withId(R.id.input_password)).perform(typeText("123456789"));
         closeSoftKeyboard();
@@ -69,9 +69,14 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.Bnumber)).check(matches(withText("B00123456")));
         onView(withId(R.id.state));
         onView(withId(R.id.department)).check(matches(withText("wulimaqi")));
-        onView(withId(R.id.level)).check(matches(withText("undergraduate")));
-        onView(withId(R.id.university)).check(matches(withText("Dalhousie")));
-        onView(withId(R.id.pass));
+        onView(withId(R.id.level)).check(matches(withText("Undergraduate")));
+        onView(withId(R.id.university)).check(matches(withText("Dalhousie University")));
+        onView(withId(R.id.pass)).perform(click());
+        onView(withId(R.id.oldpass)).check(matches(withText("123456789")));
+        onView(withId(R.id.newpass)).perform(typeText("987654321"));
+        closeSoftKeyboard();
+        onView(withId(R.id.confirm)).perform(click());
+        onView(withId(R.id.oldpass)).check(matches(withText("987654321")));
     }
     @Test
     //schedule

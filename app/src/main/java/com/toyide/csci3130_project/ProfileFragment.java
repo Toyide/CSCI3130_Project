@@ -82,8 +82,7 @@ import static android.content.Intent.getIntent;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        appState = ((MyApplicationData) getActivity().getApplicationContext());
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -101,7 +100,7 @@ import static android.content.Intent.getIntent;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container,false);
-        myprofile = (Profile)getActivity().getIntent().getSerializableExtra("User") ;
+        myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
         name = view.findViewById(R.id.viewAntoNieva);
         info1 = view.findViewById(R.id.Bnumber);
         state1 = view.findViewById(R.id.department);
@@ -147,8 +146,6 @@ import static android.content.Intent.getIntent;
             pass1.setText(myprofile.password);
             state1.setText(myprofile.department);
             state2.setText(myprofile.degree);
-            state3.setText("Dalhousie University");
-            
 
         }
         return view;
@@ -223,9 +220,33 @@ import static android.content.Intent.getIntent;
                 pass.setVisibility(View.VISIBLE);
                 break;
             }
+            case R.id.confirm: {
+                if(newPass.getText().toString() != null){
+                    oldPass.setText(newPass.getText().toString());
+                    newPass.setText("");
+                    updateProfile(oldPass);
+                }
+            }
             default:
                 break;
         }
+    }
+
+    private void updateProfile(EditText oldPass) {
+        String ID = info1.getText().toString();
+        String Name = name.getText().toString();
+        String password = oldPass.getText().toString();
+        String Department = state1.getText().toString();
+        String Degree = state2.getText().toString();
+
+        Profile newfile = new Profile(ID, Name, password, Department,Degree);
+
+        appState.firebaseReference.child(ID).setValue(newfile);
+        getActivity().finish();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
