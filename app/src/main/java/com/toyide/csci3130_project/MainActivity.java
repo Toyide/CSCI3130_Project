@@ -52,7 +52,6 @@ public void onClick(View v) {
         public void onDataChange(DataSnapshot userSnapshot) {
             if (userSnapshot != null) {
                         Profile pass = userSnapshot.getValue(Profile.class);
-                        // Data is ordered by increasing height, so we want the first entry
                         if (pass.password.equals(password)){
                             login log =new login(userID,password);
                             LocalData.setUserID(userID);
