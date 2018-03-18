@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private Button submitButton;
 
     private static  final String TAG = "MainActivity";
-    private MyApplicationData appState;
 
     private MyApplicationData appData;
     @Override
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         //Set-up Firebase
         appData.firebaseDBInstance = FirebaseDatabase.getInstance();
         appData.firebaseReference = appData.firebaseDBInstance.getReference("Users");
-        appState = ((MyApplicationData) getApplicationContext());
 
 }
 public void onClick(View v) {
