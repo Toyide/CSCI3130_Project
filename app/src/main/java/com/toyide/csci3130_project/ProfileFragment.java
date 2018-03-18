@@ -143,6 +143,12 @@ import static android.content.Intent.getIntent;
 
         if(myprofile != null){
             name.setText(myprofile.username);
+            info1.setText(myprofile.userID);
+            pass1.setText(myprofile.password);
+            state1.setText(myprofile.department);
+            state2.setText(myprofile.degree);
+            state3.setText("Dalhousie University");
+            
 
         }
         return view;
