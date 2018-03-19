@@ -2,6 +2,7 @@ package com.toyide.csci3130_project;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -15,6 +16,15 @@ import android.view.ViewGroup;
 
 import android.widget.*;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
+import static android.content.Intent.getIntent;
 
 
 /**
@@ -46,6 +56,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    Profile myprofile;
+    private MyApplicationData appState;
+
+    private String userID;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -75,12 +89,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
-    @Override
+    /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
 
 
 
@@ -90,7 +101,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         }
     }
-
+    */
 
 
 
@@ -100,6 +111,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container,false);
+
+        userID = LocalData.getUserID();
+        myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
+
         name = view.findViewById(R.id.viewAntoNieva);
         info1 = view.findViewById(R.id.Bnumber);
         state1 = view.findViewById(R.id.department);
@@ -114,6 +129,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         info =view.findViewById(R.id.info);
         pass = view.findViewById(R.id.pass);
         modify = view.findViewById(R.id.confirm);
+
+        //Set-up Firebase
+        appState = (MyApplicationData) getActivity().getApplicationContext();
+        appState.firebaseDBInstance = FirebaseDatabase.getInstance();
+        appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
+        appState.firebaseReference.orderByChild("CourseID").addValueEventListener(new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
         state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,16 +167,49 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 profileOnClick(v);
             }
         });
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profileOnClick(v);
+            }
+        });
+        if(myprofile != null){
+            name.setText(myprofile.username);
+            info1.setText(myprofile.uid);
+            pass1.setText(myprofile.password);
+            state1.setText(myprofile.department);
+            state2.setText(myprofile.degree);
+
+        }
         return view;
 
 
     }
+
+    private void showData(DataSnapshot dataSnapshot) {
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+
+            name.setText(ds.child(userID).getValue(Profile.class).getUid()); //set the ID
+            info1.setText(ds.child(userID).getValue(Profile.class).getUsername()); //set the username
+            pass1.setText(ds.child(userID).getValue(Profile.class).getPassword()); //set the password
+            state1.setText(ds.child(userID).getValue(Profile.class).getDepartment()); //set the department
+            state2.setText(ds.child(userID).getValue(Profile.class).getDegree()); //set the degree
+            //display all the information
+            Log.d(TAG, "showData: UserID: " + name);
+            Log.d(TAG, "showData: Username: " + info1);
+            Log.d(TAG, "showData: Password: " + pass1);
+            Log.d(TAG, "showData: Deparment: " + state1);
+            Log.d(TAG, "showData: Degree: " + state2);
+
+        }
+    }
+
     /**
- * A function for Button OnClickLitener.
- * Fragment is different with Activity
- * so the function implemented the features of four buttons
- * The parameter View v used to call the components
- */
+     * A function for Button OnClickLitener.
+     * Fragment is different with Activity
+     * so the function implemented the features of four buttons
+     * The parameter View v used to call the components
+     */
     public void profileOnClick(View v) {
         switch (v.getId()) {
             case R.id.info: {
@@ -208,11 +270,34 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 info.setVisibility(View.VISIBLE);
                 state.setVisibility(View.VISIBLE);
                 pass.setVisibility(View.VISIBLE);
-                break;
+            }
+            case R.id.confirm: {
+                if(newPass.getText().toString() != null){
+                    oldPass.setText(newPass.getText().toString());
+                    newPass.setText("");
+                    updateProfile(oldPass);
+                }
             }
             default:
                 break;
         }
+    }
+
+    private void updateProfile(EditText oldPass) {
+        String ID = info1.getText().toString();
+        String Name = name.getText().toString();
+        String password = oldPass.getText().toString();
+        String Department = state1.getText().toString();
+        String Degree = state2.getText().toString();
+
+        Profile newfile = new Profile(ID, Name, password, Department,Degree);
+
+        appState.firebaseReference.child(ID).setValue(newfile);
+        getActivity().finish();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
