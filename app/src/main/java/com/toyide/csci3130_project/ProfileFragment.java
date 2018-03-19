@@ -16,6 +16,14 @@ import android.view.ViewGroup;
 
 import android.widget.*;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 import static android.content.Intent.getIntent;
 
 
@@ -28,7 +36,7 @@ import static android.content.Intent.getIntent;
  * create an instance of this fragment.
  */
 
-    public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     EditText oldPass;
@@ -50,6 +58,8 @@ import static android.content.Intent.getIntent;
 
     Profile myprofile;
     private MyApplicationData appState;
+
+    private String userID;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -79,10 +89,11 @@ import static android.content.Intent.getIntent;
         return fragment;
     }
 
-    @Override
+    /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appState = ((MyApplicationData) getActivity().getApplicationContext());
+
+
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -90,7 +101,7 @@ import static android.content.Intent.getIntent;
 
         }
     }
-
+    */
 
 
 
@@ -100,7 +111,10 @@ import static android.content.Intent.getIntent;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container,false);
+
+        userID = LocalData.getUserID();
         myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
+
         name = view.findViewById(R.id.viewAntoNieva);
         info1 = view.findViewById(R.id.Bnumber);
         state1 = view.findViewById(R.id.department);
@@ -115,6 +129,20 @@ import static android.content.Intent.getIntent;
         info =view.findViewById(R.id.info);
         pass = view.findViewById(R.id.pass);
         modify = view.findViewById(R.id.confirm);
+
+        //Set-up Firebase
+        appState = (MyApplicationData) getActivity().getApplicationContext();
+        appState.firebaseDBInstance = FirebaseDatabase.getInstance();
+        appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
+        appState.firebaseReference.orderByChild("CourseID").addValueEventListener(new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
         state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,10 +167,15 @@ import static android.content.Intent.getIntent;
                 profileOnClick(v);
             }
         });
-
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profileOnClick(v);
+            }
+        });
         if(myprofile != null){
             name.setText(myprofile.username);
-            info1.setText(myprofile.userID);
+            info1.setText(myprofile.uid);
             pass1.setText(myprofile.password);
             state1.setText(myprofile.department);
             state2.setText(myprofile.degree);
@@ -152,12 +185,31 @@ import static android.content.Intent.getIntent;
 
 
     }
+
+    private void showData(DataSnapshot dataSnapshot) {
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+
+            name.setText(ds.child(userID).getValue(Profile.class).getUid()); //set the ID
+            info1.setText(ds.child(userID).getValue(Profile.class).getUsername()); //set the username
+            pass1.setText(ds.child(userID).getValue(Profile.class).getPassword()); //set the password
+            state1.setText(ds.child(userID).getValue(Profile.class).getDepartment()); //set the department
+            state2.setText(ds.child(userID).getValue(Profile.class).getDegree()); //set the degree
+            //display all the information
+            Log.d(TAG, "showData: UserID: " + name);
+            Log.d(TAG, "showData: Username: " + info1);
+            Log.d(TAG, "showData: Password: " + pass1);
+            Log.d(TAG, "showData: Deparment: " + state1);
+            Log.d(TAG, "showData: Degree: " + state2);
+
+        }
+    }
+
     /**
- * A function for Button OnClickLitener.
- * Fragment is different with Activity
- * so the function implemented the features of four buttons
- * The parameter View v used to call the components
- */
+     * A function for Button OnClickLitener.
+     * Fragment is different with Activity
+     * so the function implemented the features of four buttons
+     * The parameter View v used to call the components
+     */
     public void profileOnClick(View v) {
         switch (v.getId()) {
             case R.id.info: {
@@ -218,7 +270,6 @@ import static android.content.Intent.getIntent;
                 info.setVisibility(View.VISIBLE);
                 state.setVisibility(View.VISIBLE);
                 pass.setVisibility(View.VISIBLE);
-                break;
             }
             case R.id.confirm: {
                 if(newPass.getText().toString() != null){
