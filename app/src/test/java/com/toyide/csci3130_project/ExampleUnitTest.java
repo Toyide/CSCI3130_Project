@@ -20,13 +20,13 @@ public class ExampleUnitTest {
 
     @Test
     public  void check_profile_map() throws Exception {
-        Profile profile = new Profile("B00123456", "name","12345678", "Computer Science", "undergraduate");
+        Profile profile = new Profile("B00123456", "names","123456789", "Computer Science", "Undergraduate");
         Map<String, Object>  check2 =profile.toMap();
         assertEquals("B00123456", check2.get("UserID") );
         assertEquals("name", check2.get("UserName"));
-        assertEquals("12345678",check2.get("Password"));
+        assertEquals("123456789",check2.get("Password"));
         assertEquals("Computer Science", check2.get("Department"));
-        assertEquals("undergraduate", check2.get("UserDegree"));
+        assertEquals("Undergraduate", check2.get("UserDegree"));
 
     }
     @Test

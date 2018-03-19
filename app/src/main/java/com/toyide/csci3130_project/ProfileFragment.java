@@ -182,8 +182,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         }
         return view;
-
-
     }
 
     private void showData(DataSnapshot dataSnapshot) {
@@ -226,8 +224,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.state: {
-
-
                 info1.setVisibility(View.INVISIBLE);
                 state1.setVisibility(View.VISIBLE);
                 state2.setVisibility(View.VISIBLE);
@@ -294,10 +290,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         appState.firebaseReference.child(ID).setValue(newfile);
         getActivity().finish();
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
