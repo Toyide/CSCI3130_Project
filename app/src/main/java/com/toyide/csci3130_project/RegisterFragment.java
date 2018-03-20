@@ -1,4 +1,5 @@
 package com.toyide.csci3130_project;
+import android.app.Activity;
 import android.content.Context;
 
 import android.net.Uri;
@@ -83,7 +84,8 @@ public class RegisterFragment extends Fragment {
         //Set-up Firebase
 
         //Get the reference to the UI contents
-        RegistrationListView = (ListView) getActivity().findViewById(R.id.listView_Registration);
+        Activity act = getActivity();
+        RegistrationListView = (ListView) view.findViewById(R.id.listView_Registration);
 
         //Set up the List View
         firebaseAdapter = new FirebaseListAdapter<Courses>(getActivity(), Courses.class,

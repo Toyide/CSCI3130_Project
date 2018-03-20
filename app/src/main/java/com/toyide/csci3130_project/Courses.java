@@ -10,17 +10,21 @@ import java.util.Map;
  */
 
 public class Courses {
-    private String CourseTitle;     //Eg. CSCI3130
-    private String CourseType;      //Eg. lecture, lab or tutorial
-    private String CourseWeekday;   //Eg. Monday, Tuesday
-    private String CourseTime;      //Eg. 13:20
-    private String CourseInfo;      //course information Eg. Software Engineering
-    private String Location;
-    private int SpotCurrent;        //number of current enrolled in the course
-    private int SpotMax;            //maximum number of students enrolled
+    public  Long CourseID;
+    public String CourseTitle;     //Eg. CSCI3130
+    public String CourseType;      //Eg. lecture, lab or tutorial
+    public String CourseWeekday;   //Eg. Monday, Tuesday
+    public String CourseTime;      //Eg. 13:20
+    public String CourseInfo;      //course information Eg. Software Engineering
+    public String Location;
+    public int SpotCurrent;        //number of current enrolled in the course
+    public int SpotMax;            //maximum number of students enrolled
 
+    public  Courses (){
+
+    }
     //constructor for registration
-    public Courses (String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo, String location, int spotCurrent, int spotMax) {
+    public Courses (Long CourseID, String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo, String location, int spotCurrent, int spotMax) {
         this.CourseTitle = courseTitle;
         this.CourseType = courseType;
         this.CourseWeekday = courseWeekday;
