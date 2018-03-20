@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,9 +33,13 @@ public class ScheduleFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private MyApplicationData appState;
-    private String[] cidList;
-    private ArrayList<Course> CourseList;
+    private static String CourseID;
+
+    //course items that should be shown in the schedule
+    private static ArrayList<Course> CourseList = new ArrayList<>();
+
+    //Retrieve schedual information for current user
+    private String UserID ; //Get userID from local
 
     public ScheduleFragment() {
         // Required empty public constructor
@@ -47,27 +52,24 @@ public class ScheduleFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        //course items that should be shown in the schedule
-        ArrayList<Course> courseArrayList = new ArrayList<>();
-
-
-        //Retrieve schedual information for current user
-        String userId = LocalData.getUserID(); //Get userID from local
-
+        Profile myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
+        Map<String, Object> pros = myprofile.toMap();
+        UserID = pros.get("UserID").toString();
         //Set-up Firebase
-        appState = (MyApplicationData) getActivity().getApplicationContext();
+        MyApplicationData appState = (MyApplicationData) getActivity().getApplication();
         appState.firebaseDBInstance = FirebaseDatabase.getInstance();
+        //Go to "Registrations" table
         appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations");
-        appState.firebaseReference.orderByChild("userID").equalTo(LocalData.getUserID()).addValueEventListener(new ValueEventListener() {
+        //Look up a specific userID in "Registrations" table
+        appState.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot != null) {
-                    Registration reg = dataSnapshot.getValue(Registration.class);
-                    cidList = reg.getCourses();
+                if (dataSnapshot.child(UserID).exists()) {
+                    String t = dataSnapshot.child("Registration1").child("CourseID").getValue().toString();
+                    CourseID = t;
                 }
-
             }
 
             @Override
@@ -76,29 +78,30 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
-
+        //Transfer to "Courses" table
         appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
-        for(int i = 0; i < cidList.length-1; i++) {
-            final String courseID = cidList[i];
-
-            appState.firebaseReference.orderByChild("CourseID").equalTo(courseID).addValueEventListener(new ValueEventListener() {
+        //Look up courses according to their courseID
+        String[] courses = CourseID.split(",");
+        for(int i = 0; i < courses.length-1; i++) {
+            final String CourseID = courses[i];
+            appState.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    String courseTitle="courseTitle", courseType="courseType", courseWeekday="courseWeekday", courseTime="courseTime", courseInfo="courseInfo";
-                    if (dataSnapshot != null) {
+                    String CourseTitle="CourseTitle", CourseType="CourseType", CourseWeekday="CourseWeekday", CourseTime="CourseTime", CourseInfo="CourseInfo";
+                    if (dataSnapshot.child(CourseID).exists()) {
                         Course course = dataSnapshot.getValue(Course.class);
-                        courseTitle = course.getCourseTitle();
-                        courseType = course.getCourseType();
-                        courseWeekday = course.getCourseWeekday();
-                        courseTime = course.getCourseTime();
-                        courseInfo = course.getCourseInfo();
+                        CourseTitle = course.getCourseTitle();
+                        CourseType = course.getCourseType();
+                        CourseWeekday = course.getCourseWeekday();
+                        CourseTime = course.getCourseTime();
+                        CourseInfo = course.getCourseInfo();
                     }
                     Course C = new Course(
-                            courseTitle,
-                            courseType,
-                            courseWeekday,
-                            courseTime,
-                            courseInfo
+                            CourseTitle,
+                            CourseType,
+                            CourseWeekday,
+                            CourseTime,
+                            CourseInfo
                     );
                     CourseList.add(C);
                 }
@@ -109,9 +112,6 @@ public class ScheduleFragment extends Fragment {
                 }
             });
         }
-
-
-;
 
         //create a new CourseListAdapter object(CourseListAdapter.java)
         //turns the content of courseArrayList into things that the ListView(fragment_schedule) can display
