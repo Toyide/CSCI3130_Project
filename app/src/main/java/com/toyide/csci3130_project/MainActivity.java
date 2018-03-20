@@ -46,11 +46,8 @@ public void onClick(View v) {
             if (userSnapshot.child(userID).exists()) {
                         if (userSnapshot.child(userID).child("Password").getValue().toString().equals(password)){
                             LocalData.setUserID(userID);
-                            String username = userSnapshot.child(userID).child("UserName").getValue().toString();
-                            String depart = userSnapshot.child(userID).child("Department").getValue().toString();
-                            String degree = userSnapshot.child(userID).child("UserDegree").getValue().toString();
-                            Profile pass = new Profile(userID,username,password,depart,degree);
-                            showUser(pass);
+                            Profile a = userSnapshot.child(userID).getValue(Profile.class);
+                            showUser(a);
                         }else {
 
                             String text = "Incorrect username or password. Please try again.";

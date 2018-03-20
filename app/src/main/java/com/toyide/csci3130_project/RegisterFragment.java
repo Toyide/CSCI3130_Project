@@ -1,22 +1,30 @@
 package com.toyide.csci3130_project;
-
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.Gravity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TableLayout;
+import android.widget.ListView;
+//import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 
 /**
@@ -24,54 +32,37 @@ import android.widget.Toast;
  * Activities that contain this fragment must implement the
  * {@link RegisterFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link RegisterFragment#newInstance} factory method to
+ * Use the {@link RegisterFragment newInstance} factory method to
  * create an instance of this fragment.
  */
 public class RegisterFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private MyApplicationData appState;
+    private String[] cidList;
+    private String courseTitle;
+    private String courseInfo;
+    private String courseSpot;
+    private String location;
+    private int spotMax;
+    private int spotCurrent;
+
+    //Not needed in the registration
+    private String courseWeekday;
+    private String courseTime;
+    private String courseType;
+    private ListView RegistrationListView;
+    private FirebaseListAdapter<Courses> firebaseAdapter;
+
+    private ArrayList<Course> CourseList;
 
     public RegisterFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RegisterFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RegisterFragment newInstance(String param1, String param2) {
-        RegisterFragment fragment = new RegisterFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,9 +70,95 @@ public class RegisterFragment extends Fragment {
         // create a view instance to add the courseInfo
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
+        //course items that should be shown in the schedule
+        ArrayList<Course> courseArrayList = new ArrayList<Course>();
+
+        //Retrieve schedual information for current user
+        String userId = LocalData.getUserID(); //Get userID from local
+
+        //Set-up Firebase
+        appState = (MyApplicationData) getActivity().getApplicationContext();
+        appState.firebaseDBInstance = FirebaseDatabase.getInstance();
+        appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
+        //Set-up Firebase
+
+        //Get the reference to the UI contents
+        RegistrationListView = (ListView) getActivity().findViewById(R.id.listView_Registration);
+
+        //Set up the List View
+        firebaseAdapter = new FirebaseListAdapter<Courses>(getActivity(), Courses.class,
+                android.R.layout.simple_list_item_1, appState.firebaseReference) {
+
+            @Override
+            protected void populateView ( View v , Courses model, int position) {
+                TextView register = (TextView) v.findViewById(android.R.id.text1);
+                TextView courseTitleView = (TextView) v.findViewById(R.id.courseName);
+                TextView courseInfoView = (TextView) v.findViewById(R.id.courseInfo);
+                TextView courseTime = (TextView) v.findViewById(R.id.courseTime);
+                TextView courseSpot = (TextView) v.findViewById(R.id.courseSpot);
+                CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox);
+                Map<String, Object> course = model.toMap();
+                //set text for TextView
+                courseTitleView.setText(course.get("CourseTitle").toString());
+                courseInfoView.setText(course.get("CourseInfo").toString());
+                courseTime.setText(course.get("CourseWeekday").toString() + course.get("CourseTime").toString());
+                courseSpot.setText(course.get("SpotCurrent").toString() + "/" + course.get("SpotMax").toString() );
+
+
+            }
+        };
+
+        RegistrationListView.setAdapter(firebaseAdapter);
+        /*
+        RegistrationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // onItemClick method is called everytime a user clicks an item on the list
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Course course = (Course) firebaseAdapter.getItem(position);
+
+            }
+        });*/
+        /*
+        appState.firebaseReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    Course course = dataSnapshot.getValue(Course.class);
+                    courseTitle = course.getCourseTitle().toString();
+                    courseInfo = course.getCourseInfo().toString();
+                    courseTime = course.getCourseTime().toString();
+                    spotMax = course.getSpotMax();
+                    spotCurrent = course.getSpotCurrent();
+                    location = course.getLocation().toString();
+                    courseWeekday = course.getCourseWeekday().toString();
+                    courseType = course.getCourseType().toString();
+                }
+                Course C = new Course(courseTitle,courseType, courseWeekday, courseTime, courseInfo, location, spotCurrent, spotMax);
+                CourseList.add(C);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+*/
+        //create a new CourseListAdapter object(CourseListAdapter.java)
+        //turns the content of courseArrayList into things that the ListView(fragment_schedule) can display
+       // RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList);
+
+        //look within the ListView(fragment_schedule) layout for the element with id.lv_schedule
+        //ListView listView = (ListView) view.findViewById(R.id.listView_Registration);
+
+        //use ListView(fragment_schedule) adapter to draw the things on the screen
+      //  listView.setAdapter(adapter);
+
+
+
+/*
         TableLayout courseInfoView = view.findViewById(R.id.registerCourseInfo);
         RegisterCourseInfo myRegisteration = new RegisterCourseInfo(getActivity(),this,view);
         myRegisteration.init();
+*/
         Button RegButt = (Button) view.findViewById(R.id.RegisterButt);
         RegButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +170,7 @@ public class RegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

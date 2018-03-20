@@ -1,36 +1,30 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/courseInfo"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.toyide.csci3130_project.RegisterFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/courseInfo"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.toyide.csci3130_project.RegisterFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:id="@+id/RegisterButt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Register"
+        app:layout_constraintBottom_toTopOf="@+id/listView_Registration"
+        app:layout_constraintLeft_toLeftOf="parent"
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/RegisterButt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="Register" />
+<ListView
+    android:id="@+id/listView_Registration"
+    android:layout_width="395dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@+id/RegisterButt"
+    app:layout_constraintRight_toRightOf="parent"/>
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#3d455b">
-
-        </ScrollView>
-    </RelativeLayout>
-
-    <TableLayout
-        android:id="@+id/registerCourseInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></TableLayout>
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

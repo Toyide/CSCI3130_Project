@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * A class display the course information with a check box to register
  */
 
-
+/*
 public class RegisterCourseInfo  {
     Context context;
     Activity activity;
@@ -43,7 +43,7 @@ public class RegisterCourseInfo  {
         Log.i("view", view.toString());
         Log.i("class", context.getClass().toString());
         System.out.print(context.getClass());
-        TableLayout stk = (TableLayout)view.findViewById(R.id.registerCourseInfo); //(TableLayout) findViewById(R.id.courseTable);
+        //TableLayout stk = (TableLayout)view.findViewById(R.id.registerCourseInfo); //(TableLayout) findViewById(R.id.courseTable);
         Log.i("view", stk.toString());
         TableRow tbrow0 = new TableRow(context);
         TextView courseNameView = new TextView(context);
@@ -62,7 +62,7 @@ public class RegisterCourseInfo  {
         spotView.setText(" Enrolled/Toatl ");
         spotView.setTextColor(Color.WHITE);
         tbrow0.addView(spotView);
-        stk.addView(tbrow0);
+        //stk.addView(tbrow0);
         // TODO: Use a proper data structue to pass the course related information
         // TODO: Add listener to the checkbox
         // TODO: Connect to the database
@@ -94,7 +94,7 @@ public class RegisterCourseInfo  {
             tbrow.addView(spotView1);
             CheckBox cb = new CheckBox(context);      // create new checkBox
             tbrow.addView(cb);                          // add checkBox
-            stk.addView(tbrow);
+           // stk.addView(tbrow);
         }
     }
     void getInstanceData(TextView courseNameView, TextView courseIDView, TextView courseTimeView, TextView spotView, DatabaseReference mDatabase){
@@ -103,4 +103,4 @@ public class RegisterCourseInfo  {
 
     }
 
-}
+}*/

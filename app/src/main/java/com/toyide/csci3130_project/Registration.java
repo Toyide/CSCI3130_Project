@@ -15,14 +15,12 @@ import java.util.Map;
  * Registration Class that defines how we access the user ID and the corresponding course ID they slected
  * project Firebase databse. This is converted to a JSON format
  */
-public class Registration implements Serializable {
-    public String rid;                          //registeration ID,
+public class Registration implements Serializable {     //registeration ID,
     public String uid;                          //user ID
     public String cidList="";                   //a list containing coruse reference IDs
     //constructor
 
-    public  Registration(String rid, String uid){
-        this.rid = rid;
+    public  Registration( String uid){
         this.uid = uid;
 
     }
@@ -38,7 +36,6 @@ public class Registration implements Serializable {
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
 
-        result.put("rid", rid);
         result.put("uid", uid);
 
         result.put("cidList", cidList);
