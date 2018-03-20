@@ -3,6 +3,7 @@
     package="com.toyide.csci3130_project">
 
     <application
+        android:name="com.toyide.csci3130_project.MyApplicationData"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

@@ -36,18 +36,31 @@ public void onClick(View v) {
     final String userID = userField.getText().toString();
     final String password = psField.getText().toString();
     final TextView view = findViewById(R.id.login_error);
-    appData.firebaseReference.orderByChild("userID").equalTo(userID).addValueEventListener(new ValueEventListener() {
-        @Override
+    if (userID.equals("")){
+        String error = "No input username or password";
+        view.setText(error);
+    }
+    appData.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener()
+    {        @Override
         public void onDataChange(DataSnapshot userSnapshot) {
-            if (userSnapshot != null) {
-                        Profile pass = userSnapshot.getValue(Profile.class);
-                        if (pass.password.equals(password)){
+            if (userSnapshot.child(userID).exists()) {
+                        if (userSnapshot.child(userID).child("Password").getValue().toString().equals(password)){
                             LocalData.setUserID(userID);
+
+                            String username = userSnapshot.child(userID).child("UserName").getValue().toString();
+
+                            String depart = userSnapshot.child(userID).child("Department").getValue().toString();
+                            String degree = userSnapshot.child(userID).child("UserDegree").getValue().toString();
+                            Profile pass = new Profile(userID,username,password,depart,degree);
                             showUser(pass);
                         }else {
+
                             String text = "Incorrect username or password. Please try again.";
                             view.setText(text);
                         }
+            } else {
+                String error2 = "User does not exist";
+                view.setText(error2);
             }
         }
 
