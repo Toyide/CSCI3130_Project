@@ -41,7 +41,7 @@ public class Registration implements Serializable {
         result.put("rid", rid);
         result.put("uid", uid);
 
-        result.put("cid", cidList);
+        result.put("cidList", cidList);
 
         return result;
     }

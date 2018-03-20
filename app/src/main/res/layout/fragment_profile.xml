@@ -90,7 +90,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/oldpass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,8 +98,7 @@
             android:layout_alignStart="@+id/state"
             android:layout_below="@+id/viewAntoNieva"
             android:layout_marginTop="54dp"
-            android:ems="10"
-            android:inputType="textPassword"
+            android:text= ""
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/confirm"
             app:layout_constraintEnd_toEndOf="parent"
@@ -143,7 +142,7 @@
             android:layout_alignBottom="@+id/state"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="Pass"
+            android:text="Password"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/state"

@@ -1,86 +1,107 @@
 package com.toyide.csci3130_project;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by JingyunYang, YideGe on 18/3/17.
  */
 
 public class Course {
-    private String courseTitle;     //Eg. CSCI3130
-    private String courseType;      //Eg. lecture, lab or tutorial
-    private String courseWeekday;   //Eg. Monday, Tuesday
-    private String courseTime;      //Eg. 13:20
-    private String courseInfo;      //course information Eg. Software Engineering
-
-    private int spotCurrent;        //number of current enrolled in the course
-    private int spotMax;            //maximum number of students enrolled
+    private String CourseTitle;     //Eg. CSCI3130
+    private String CourseType;      //Eg. lecture, lab or tutorial
+    private String CourseWeekday;   //Eg. Monday, Tuesday
+    private String CourseTime;      //Eg. 13:20
+    private String CourseInfo;      //course information Eg. Software Engineering
+    private String Location;
+    private int SpotCurrent;        //number of current enrolled in the course
+    private int SpotMax;            //maximum number of students enrolled
 
     //constructor
     public Course(String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo) {
-        this.courseTitle = courseTitle;
-        this.courseType = courseType;
-        this.courseWeekday = courseWeekday;
-        this.courseTime = courseTime;
-        this.courseInfo = courseInfo;
+        this.CourseTitle = courseTitle;
+        this.CourseType = courseType;
+        this.CourseWeekday = courseWeekday;
+        this.CourseTime = courseTime;
+        this.CourseInfo = courseInfo;
+
     }
 
     //constructor for registration
-    public Course(String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo, int spotCurrent, int spotMax ) {
-        this.courseTitle = courseTitle;
-        this.courseType = courseType;
-        this.courseWeekday = courseWeekday;
-        this.courseTime = courseTime;
-        this.courseInfo = courseInfo;
-
-        this.spotCurrent = spotCurrent;
-        this.spotMax = spotMax;
+    public Course(String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo, String location, int spotCurrent, int spotMax ) {
+        this.CourseTitle = courseTitle;
+        this.CourseType = courseType;
+        this.CourseWeekday = courseWeekday;
+        this.CourseTime = courseTime;
+        this.CourseInfo = courseInfo;
+        this.Location = location;
+        this.SpotCurrent = spotCurrent;
+        this.SpotMax = spotMax;
 
     }
 
     public String getCourseTitle() {
-        return courseTitle;
+        return CourseTitle;
     }
 
     public String getCourseType() {
-        return courseType;
+        return CourseType;
     }
 
     public String getCourseWeekday() {
-        return courseWeekday;
+        return CourseWeekday;
     }
 
     public String getCourseTime() {
-        return courseTime;
+        return CourseTime;
+    }
+
+    public String getLocation() {
+        return Location;
     }
 
     public String getCourseInfo() {
-        return courseInfo;
+        return CourseInfo;
     }
 
-    public int getSpotCurrent() {return spotCurrent;}
+    public int getSpotCurrent() {return SpotCurrent;}
 
-    public int getSpotMax() {return  spotMax;}
+    public int getSpotMax() {return  SpotMax;}
 
     public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
+        this.CourseTitle = courseTitle;
     }
 
     public void setCourseType(String courseType) {
-        this.courseType = courseType;
+        this.CourseType = courseType;
     }
 
     public void setCourseWeekday(String courseWeekday) {
-        this.courseWeekday = courseWeekday;
+        this.CourseWeekday = courseWeekday;
     }
 
-    public void setCourseTime(String courseTime) {
-        this.courseTime = courseTime;
-    }
+    public void setCourseTime(String courseTime) {this.CourseTime = courseTime;}
 
     public void setCourseInfo(String courseInfo) {
-        this.courseInfo = courseInfo;
+        this.CourseInfo = courseInfo;
     }
 
-    public void setSpotCurrent(int spotCurrent) {this.spotCurrent = spotCurrent;}
+    public void setSpotCurrent(int spotCurrent) {this.SpotCurrent = spotCurrent;}
 
-    public void setSpotMax(int spotMax) {this.spotMax = spotMax;}
+    public void setSpotMax(int spotMax) {this.SpotMax = spotMax;}
+    @Exclude
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("CourseTitle", CourseTitle );
+        result.put("CourseType", CourseType);
+        result.put("CourseWeekday", CourseWeekday);
+        result.put("CourseTime", CourseTime);
+        result.put("CourseInfo", CourseInfo);
+        result.put("SpotCurrent", SpotCurrent);
+        result.put("Location", Location);
+        result.put("SpotMax", SpotMax);
+        return result;
+    }
 }
