@@ -51,47 +51,48 @@ public class MainActivity extends AppCompatActivity {
         */
         appData.firebaseReference = appData.firebaseDBInstance.getReference("Users");
 
-}
-public void onClick(View v) {
-    EditText userField = findViewById(R.id.input_username);
-    EditText psField = findViewById(R.id.input_password);
-    final String userID = userField.getText().toString();
-    final String password = psField.getText().toString();
-    final TextView view = findViewById(R.id.login_error);
-    if (userID.equals("")){
-        String error = "No input username or password";
-        view.setText(error);
     }
-    appData.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener()
-    {        @Override
-        public void onDataChange(DataSnapshot userSnapshot) {
-            if (userSnapshot.child(userID).exists()) {
-                        if (userSnapshot.child(userID).child("Password").getValue().toString().equals(password)){
-                            LocalData.setUserID(userID);
-                            Profile a = userSnapshot.child(userID).getValue(Profile.class);
-                            showUser(a);
-                        }else {
 
-                            String text = "Incorrect username or password. Please try again.";
-                            view.setText(text);
-                        }
-            } else {
-                String error2 = "User does not exist";
-                view.setText(error2);
+    public void onClick(View v) {
+        EditText userField = findViewById(R.id.input_username);
+        EditText psField = findViewById(R.id.input_password);
+        final String userID = userField.getText().toString();
+        final String password = psField.getText().toString();
+        final TextView view = findViewById(R.id.login_error);
+        if (userID.equals("")){
+            String error = "No input username or password";
+            view.setText(error);
+        }
+        appData.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener()
+        {        @Override
+            public void onDataChange(DataSnapshot userSnapshot) {
+                if (userSnapshot.child(userID).exists()) {
+                            if (userSnapshot.child(userID).child("Password").getValue().toString().equals(password)){
+                                LocalData.setUserID(userID);
+                                Profile a = userSnapshot.child(userID).getValue(Profile.class);
+                                showUser(a);
+                            }else {
+
+                                String text = "Incorrect username or password. Please try again.";
+                                view.setText(text);
+                            }
+                } else {
+                    String error2 = "User does not exist";
+                    view.setText(error2);
+                }
             }
-        }
 
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        }
-    });
-}
-private void showUser(Profile profile){
-        Intent intent = new Intent(this, NavActivity.class);
-        intent.putExtra("profile", profile);
-        startActivity(intent);
-}
+            }
+        });
+    }
+    private void showUser(Profile profile){
+            Intent intent = new Intent(this, NavActivity.class);
+            intent.putExtra("profile", profile);
+            startActivity(intent);
+    }
 }
 
 
