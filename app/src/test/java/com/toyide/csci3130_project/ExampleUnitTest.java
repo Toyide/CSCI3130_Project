@@ -23,7 +23,7 @@ public class ExampleUnitTest {
         Profile profile = new Profile("B00123456", "names","123456789", "Computer Science", "Undergraduate");
         Map<String, Object>  check2 =profile.toMap();
         assertEquals("B00123456", check2.get("UserID") );
-        assertEquals("name", check2.get("UserName"));
+        assertEquals("names", check2.get("UserName"));
         assertEquals("123456789",check2.get("Password"));
         assertEquals("Computer Science", check2.get("Department"));
         assertEquals("Undergraduate", check2.get("UserDegree"));
@@ -40,7 +40,7 @@ public class ExampleUnitTest {
     }
     @Test
     public  void  check_registraion() throws  Exception{
-        Registration registration = new Registration("B00123456", "12345,11076,");
+        Registration registration = new Registration("B00123456", "12345,23456,");
         Map<String,Object> checks = registration.toMap();
         assertEquals("B00123456",checks.get("UserID"));
         assertEquals("12345,23456,",checks.get("CourseID"));
