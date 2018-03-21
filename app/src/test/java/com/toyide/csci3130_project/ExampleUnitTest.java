@@ -31,25 +31,19 @@ public class ExampleUnitTest {
     }
     @Test
     public  void check_course() throws  Exception{
-        Course course = new Course("CSCI 1100","Lec","MTF","10:00-12:00","Java 2");
-        Course course2 = new Course("CSCI 1100","Lec","MTF","10:00-12:00","Java 2", 20,50);
+        Course course = new Course("CSCI 1100","Lec","MTF","10:00-12:00","Java 2", "");
         assertEquals("CSCI 1100", course.getCourseTitle());
         assertEquals("Lec",course.getCourseType());
         assertEquals("MTF",course.getCourseWeekday());
         assertEquals("10:00-12:00",course.getCourseTime());
         assertEquals("Java 2", course.getCourseInfo());
-        assertEquals(50,course2.getSpotMax());
-        assertEquals(20,course2.getSpotCurrent());
     }
     @Test
     public  void  check_registraion() throws  Exception{
-        Registration registration = new Registration("wqeiqweuiqwe","B00123456");
-        registration.add_withFirst("12345");
-        registration.add_withFirst("23456");
+        Registration registration = new Registration("B00123456", "12345,11076,");
         Map<String,Object> checks = registration.toMap();
-        assertEquals("wqeiqweuiqwe",checks.get("rid"));
-        assertEquals("B00123456",checks.get("uid"));
-        assertEquals("12345,23456,",checks.get("cid"));
+        assertEquals("B00123456",checks.get("UserID"));
+        assertEquals("12345,23456,",checks.get("CourseID"));
     }
 
 }

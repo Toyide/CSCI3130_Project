@@ -1,5 +1,7 @@
 package com.toyide.csci3130_project;
 
+import android.util.Log;
+
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
@@ -16,18 +18,22 @@ import java.util.Map;
  * project Firebase databse. This is converted to a JSON format
  */
 public class Registration implements Serializable {     //registeration ID,
-    public String uid;                          //user ID
-    public String cidList="";                   //a list containing coruse reference IDs
+    public String UserID;                          //user ID
+    public String CourseID;                   //a list containing coruse reference IDs
     //constructor
 
-    public  Registration( String uid){
-        this.uid = uid;
-
+    public Registration(){
+        UserID = "";
+        CourseID = "";
+    }
+    public  Registration( String uid, String cidList){
+        this.UserID = uid;
+        this.CourseID = cidList;
     }
     //remove empty at first
     public void add_withFirst(String add) {
-        this.cidList += add;
-        this.cidList += ",";
+        this.CourseID += add;
+        this.CourseID += ",";
     }
 
 
@@ -35,18 +41,15 @@ public class Registration implements Serializable {     //registeration ID,
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
-
-        result.put("uid", uid);
-
-        result.put("cidList", cidList);
-
+        result.put("UserID", UserID);
+        result.put("CourseID", CourseID);
         return result;
     }
 
 
     // Return a list of courses in the form of array
     public String[] getCourses() {
-        return cidList.split(",");
+        return CourseID.split(",");
         //NOTICE: the last string element is "".
     }
 }

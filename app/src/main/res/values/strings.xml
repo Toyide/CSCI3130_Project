@@ -13,7 +13,7 @@
     <string name="mwf">MWF</string>
     <string name="_14_35_15_55">14:35 - 15:55</string>
     <string name="software_engineering">Software Engineering</string>
-
+    <string name="logout">Logout</string>
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>

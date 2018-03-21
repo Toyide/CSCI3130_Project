@@ -38,14 +38,14 @@ public class CourseListAdapter extends ArrayAdapter<Course> {
         TextView tvWeekday = (TextView) convertView.findViewById(R.id.tv_weekday);
         TextView tvTime = (TextView) convertView.findViewById(R.id.tv_time);
         TextView tvInfo = (TextView) convertView.findViewById(R.id.tv_info);
-
+        TextView tvLocation = (TextView) convertView.findViewById(R.id.tv_Location);
         //set text for TextView
         tvTitle.setText(course.getCourseTitle());
         tvType.setText(course.getCourseType());
         tvWeekday.setText(course.getCourseWeekday());
         tvTime.setText(course.getCourseTime());
         tvInfo.setText(course.getCourseInfo());
-
+        tvLocation.setText(course.getLocation());
         return convertView;
     }
 }

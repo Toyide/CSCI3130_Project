@@ -8,7 +8,9 @@ public class LocalData {
 
     private static String UserID;
 
+    public LocalData(){
 
+    }
     public static void setUserID(String UserId) {
         UserID = UserId;
     }

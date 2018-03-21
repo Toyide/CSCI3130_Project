@@ -64,6 +64,12 @@ public class NavActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
     @Override
+    public void onBackPressed()
+    {
+
+        // super.onBackPressed(); // Comment this super call to avoid calling finish() or fragmentmanager's backstack pop operation.
+    }
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_logout) {

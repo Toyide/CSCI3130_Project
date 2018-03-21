@@ -125,7 +125,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         pass2 = view.findViewById(R.id.newpassword);
         oldPass = view.findViewById(R.id.oldpass);
         newPass = view.findViewById(R.id.newpass);
-        back = view.findViewById(R.id.back);
         state = view.findViewById(R.id.state);
         info =view.findViewById(R.id.info);
         pass = view.findViewById(R.id.pass);
@@ -145,12 +144,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         });
         pass.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                profileOnClick(v);
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 profileOnClick(v);
@@ -190,6 +183,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
      * The parameter View v used to call the components
      */
     public void profileOnClick(View v) {
+
         switch (v.getId()) {
             case R.id.info: {
                 state1.setVisibility(View.INVISIBLE);
@@ -229,24 +223,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 state.setVisibility(View.INVISIBLE);
                 info.setVisibility(View.INVISIBLE);
                 pass.setVisibility(View.INVISIBLE);
-                back.setVisibility(View.VISIBLE);
                 break;
-            }
-            case R.id.back: {
-                state1.setVisibility(View.INVISIBLE);
-                state2.setVisibility(View.INVISIBLE);
-                state3.setVisibility(View.INVISIBLE);
-                pass1.setVisibility(View.INVISIBLE);
-                pass2.setVisibility(View.INVISIBLE);
-                modify.setVisibility(View.INVISIBLE);
-                info1.setVisibility(View.INVISIBLE);
-                oldPass.setVisibility(View.INVISIBLE);
-                newPass.setVisibility(View.INVISIBLE);
-                modify.setVisibility((View.INVISIBLE));
-                back.setVisibility(View.INVISIBLE);
-                info.setVisibility(View.VISIBLE);
-                state.setVisibility(View.VISIBLE);
-                pass.setVisibility(View.VISIBLE);
             }
             case R.id.confirm: {
                 if(newPass.getText().toString() != null){

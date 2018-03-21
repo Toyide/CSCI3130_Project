@@ -207,15 +207,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.197" />
 
-        <Button
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/info"
-            android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/info"
-            android:visibility="invisible"
-            android:text="Back" />
 
     </RelativeLayout>
     <![CDATA[

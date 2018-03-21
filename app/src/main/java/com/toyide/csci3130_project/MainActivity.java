@@ -11,6 +11,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * Created by Luwei Cai & Zhiyuan Wang on 2018/2/21.
  * This activity is used to read password and username.
@@ -27,6 +29,26 @@ public class MainActivity extends AppCompatActivity {
         appData = (MyApplicationData)getApplication();
         //Set-up Firebase
         appData.firebaseDBInstance = FirebaseDatabase.getInstance();
+        /*
+        appData.firebaseReference = appData.firebaseDBInstance.getReference("Courses");
+        final ValueEventListener DataListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> courseSnapshot =dataSnapshot.getChildren();
+                ArrayList<Courses> courseChildren = new ArrayList<Courses>();
+                for (DataSnapshot course : courseSnapshot ){
+                    Courses temp = course.getValue(Courses.class);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        }
+        */
         appData.firebaseReference = appData.firebaseDBInstance.getReference("Users");
 
 }

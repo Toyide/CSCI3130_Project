@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class RegisterFragment extends Fragment {
     private String location;
     private int spotMax;
     private int spotCurrent;
-
+    private static final String TAG = "test";
     //Not needed in the registration
     private String courseWeekday;
     private String courseTime;
@@ -85,6 +86,7 @@ public class RegisterFragment extends Fragment {
 
         //Get the reference to the UI contents
         Activity act = getActivity();
+
         RegistrationListView = (ListView) view.findViewById(R.id.listView_Registration);
 
         //Set up the List View
@@ -93,6 +95,7 @@ public class RegisterFragment extends Fragment {
 
             @Override
             protected void populateView ( View v , Courses model, int position) {
+                Log.i(TAG, "MyClass.getView()  " + model.toString()+" secod");
                 TextView register = (TextView) v.findViewById(android.R.id.text1);
                 TextView courseTitleView = (TextView) v.findViewById(R.id.courseName);
                 TextView courseInfoView = (TextView) v.findViewById(R.id.courseInfo);
@@ -101,16 +104,18 @@ public class RegisterFragment extends Fragment {
                 CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox);
                 Map<String, Object> course = model.toMap();
                 //set text for TextView
-                courseTitleView.setText(course.get("CourseTitle").toString());
-                courseInfoView.setText(course.get("CourseInfo").toString());
-                courseTime.setText(course.get("CourseWeekday").toString() + course.get("CourseTime").toString());
-                courseSpot.setText(course.get("SpotCurrent").toString() + "/" + course.get("SpotMax").toString() );
-
+                if(course !=null){
+                    courseTitleView.setText(course.get("CourseTitle").toString());
+                    courseInfoView.setText(course.get("CourseInfo").toString());
+                    courseTime.setText(course.get("CourseWeekday").toString() + course.get("CourseTime").toString());
+                    courseSpot.setText(course.get("SpotCurrent").toString() + "/" + course.get("SpotMax").toString() );
+                }
 
             }
         };
-
+/*
         RegistrationListView.setAdapter(firebaseAdapter);
+*/
         /*
         RegistrationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             // onItemClick method is called everytime a user clicks an item on the list
@@ -161,6 +166,7 @@ public class RegisterFragment extends Fragment {
         RegisterCourseInfo myRegisteration = new RegisterCourseInfo(getActivity(),this,view);
         myRegisteration.init();
 */
+/*
         Button RegButt = (Button) view.findViewById(R.id.RegisterButt);
         RegButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +176,7 @@ public class RegisterFragment extends Fragment {
         });
 
         // Inflate the layout for this fragment
+        */
         return view;
     }
 

@@ -20,12 +20,13 @@ public class Course {
     private int SpotMax;            //maximum number of students enrolled
 
     //constructor
-    public Course(String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo) {
+    public Course(String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo, String location) {
         this.CourseTitle = courseTitle;
         this.CourseType = courseType;
         this.CourseWeekday = courseWeekday;
         this.CourseTime = courseTime;
         this.CourseInfo = courseInfo;
+        this.Location = location;
 
     }
 
