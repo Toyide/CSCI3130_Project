@@ -86,7 +86,8 @@ public class RegisterFragment extends Fragment {
 
         //Get the reference to the UI contents
         Activity act = getActivity();
-
+        Log.i(TAG, "MyClass.getView()  " + getData.courses_list.toString()+" second");
+/*
         RegistrationListView = (ListView) view.findViewById(R.id.listView_Registration);
 
         //Set up the List View
@@ -113,9 +114,10 @@ public class RegisterFragment extends Fragment {
 
             }
         };
+        */
 /*
         RegistrationListView.setAdapter(firebaseAdapter);
-*/
+
         /*
         RegistrationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             // onItemClick method is called everytime a user clicks an item on the list

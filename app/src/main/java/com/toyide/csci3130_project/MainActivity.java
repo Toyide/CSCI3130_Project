@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "test";
     private MyApplicationData appData;
+    private final ArrayList<Courses> courseChildren = new ArrayList<Courses>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,26 +31,6 @@ public class MainActivity extends AppCompatActivity {
         appData = (MyApplicationData)getApplication();
         //Set-up Firebase
         appData.firebaseDBInstance = FirebaseDatabase.getInstance();
-
-        appData.firebaseReference = appData.firebaseDBInstance.getReference("Courses");
-        final ValueEventListener DataListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Iterable<DataSnapshot> courseSnapshot =dataSnapshot.getChildren();
-                ArrayList<Courses> courseChildren = new ArrayList<Courses>();
-                for (DataSnapshot course : courseSnapshot ){
-                    Courses temp = course.getValue(Courses.class);
-                    Log.i(TAG, "MyClass.getView()  " + temp.toString()+" secod");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
         appData.firebaseReference = appData.firebaseDBInstance.getReference("Users");
 
     }
@@ -70,8 +51,30 @@ public class MainActivity extends AppCompatActivity {
                 if (userSnapshot.child(userID).exists()) {
                             if (userSnapshot.child(userID).child("Password").getValue().toString().equals(password)){
                                 LocalData.setUserID(userID);
-                                Profile a = userSnapshot.child(userID).getValue(Profile.class);
-                                showUser(a);
+                                Profile profile = userSnapshot.child(userID).getValue(Profile.class);
+                                MyApplicationData appState = (MyApplicationData)getApplication();
+                                //Set-up Firebase
+                                appState.firebaseDBInstance = FirebaseDatabase.getInstance();
+                                appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
+                                appState.firebaseReference.addValueEventListener( new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        Iterable<DataSnapshot> courseSnapshot =dataSnapshot.getChildren();
+
+                                        for (DataSnapshot course : courseSnapshot ){
+                                            Courses temp = course.getValue(Courses.class);
+                                            courseChildren.add(temp);
+                                            getData.courses_list.add(temp);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                                showUser(profile, courseChildren);
                             }else {
 
                                 String text = "Incorrect username or password. Please try again.";
@@ -89,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void showUser(Profile profile){
+    private void showUser(Profile profile, ArrayList<Courses> course){
+
             Intent intent = new Intent(this, NavActivity.class);
             intent.putExtra("profile", profile);
             startActivity(intent);

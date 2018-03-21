@@ -63,7 +63,7 @@ public class Espressotest1 {
         onView(withId(R.id.btn_login)).perform(click());
         Thread.sleep(1500);
         onView(withId(R.id.info)).perform(click());
-        onView(withId(R.id.viewAntoNieva)).check(matches(withText("xiao yuan")));
+        onView(withId(R.id.viewAntoNieva)).check(matches(withText("Xiao Yuan")));
         onView(withId(R.id.Bnumber)).check(matches(withText("B00123456")));
         onView(withId(R.id.state)).perform(click());
         Thread.sleep(1500);
@@ -78,6 +78,7 @@ public class Espressotest1 {
         closeSoftKeyboard();
         onView(withId(R.id.input_password)).perform(typeText("123456789"));
         closeSoftKeyboard();
+        Thread.sleep(1500);
         onView(withId(R.id.btn_login)).perform(click());
         onView(withId(R.id.navigation_schedule));
     }
@@ -88,6 +89,7 @@ public class Espressotest1 {
         closeSoftKeyboard();
         onView(withId(R.id.input_password)).perform(typeText("123456789"));
         closeSoftKeyboard();
+        Thread.sleep(1500);
         onView(withId(R.id.btn_login)).perform(click());
         onView(withId(R.id.navigation_register));
     }
