@@ -35,6 +35,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class Espressotest1 {
+    @Rule
     public ActivityTestRule<MainActivity> myActivity = new ActivityTestRule<>(MainActivity.class);
     @Test
     public void useAppContext() throws Exception {
@@ -60,14 +61,14 @@ public class Espressotest1 {
         onView(withId(R.id.input_password)).perform(typeText("123456789"));
         closeSoftKeyboard();
         onView(withId(R.id.btn_login)).perform(click());
-        onView(withId(R.id.navigation_profile));
-        onView(withId(R.id.info));
-        onView(withId(R.id.viewAntoNieva)).check(matches(withText("wulimaqi")));
+        Thread.sleep(1500);
+        onView(withId(R.id.info)).perform(click());
+        onView(withId(R.id.viewAntoNieva)).check(matches(withText("xiao yuan")));
         onView(withId(R.id.Bnumber)).check(matches(withText("B00123456")));
-        onView(withId(R.id.state));
-        onView(withId(R.id.department)).check(matches(withText("wulimaqi")));
-        onView(withId(R.id.level)).check(matches(withText("undergraduate")));
-        onView(withId(R.id.university)).check(matches(withText("Dalhousie")));
+        onView(withId(R.id.state)).perform(click());
+        Thread.sleep(1500);
+        onView(withId(R.id.department)).check(matches(withText("Computer Science")));
+        onView(withId(R.id.level)).check(matches(withText("Undergraduate")));
         onView(withId(R.id.pass));
     }
     @Test

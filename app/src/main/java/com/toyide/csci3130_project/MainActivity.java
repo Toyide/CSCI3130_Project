@@ -2,6 +2,7 @@ package com.toyide.csci3130_project;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity {
 
-
+    private static final String TAG = "test";
     private MyApplicationData appData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         appData = (MyApplicationData)getApplication();
         //Set-up Firebase
         appData.firebaseDBInstance = FirebaseDatabase.getInstance();
-        /*
+
         appData.firebaseReference = appData.firebaseDBInstance.getReference("Courses");
         final ValueEventListener DataListener = new ValueEventListener() {
             @Override
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<Courses> courseChildren = new ArrayList<Courses>();
                 for (DataSnapshot course : courseSnapshot ){
                     Courses temp = course.getValue(Courses.class);
-
+                    Log.i(TAG, "MyClass.getView()  " + temp.toString()+" secod");
                 }
             }
 
@@ -47,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        }
-        */
+        };
+
         appData.firebaseReference = appData.firebaseDBInstance.getReference("Users");
 
     }
