@@ -48,17 +48,25 @@ public class RegisterFragment extends Fragment {
     private String courseInfo;
     private String courseSpot;
     private String location;
-    private int spotMax;
-    private int spotCurrent;
-    private static final String TAG = "test";
-    //Not needed in the registration
     private String courseWeekday;
     private String courseTime;
     private String courseType;
+    private int spotMax;
+    private int spotCurrent;
+
+    private static final String TAG = "test";
+    //Not needed in the registration
+
     private ListView RegistrationListView;
+    private Button RegButton;
+    private ArrayList<Courses> CourseList;
+
     private FirebaseListAdapter<Courses> firebaseAdapter;
 
-    private ArrayList<Course> CourseList;
+
+
+
+
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -73,7 +81,34 @@ public class RegisterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
         //course items that should be shown in the schedule
-        ArrayList<Course> courseArrayList = new ArrayList<Course>();
+        CourseList = getData.courses_list;
+        RegistrationListView= (ListView) view.findViewById(R.id.listView_Registration);
+        RegButton= (Button) view.findViewById(R.id.RegisterButt);
+
+        RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_schedule, CourseList);
+        RegistrationListView.setAdapter(adapter);
+        /*RegButton.setOnClickListener(new OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+                StringBuilder result = new StringBuilder();
+                for(int i=0;i<adapter.mCheckStates.size();i++)
+                {
+                    if(adapter.mCheckStates.get(i)==true)
+                    {
+
+                        result.append(app_info[i].applicationName);
+                        result.append("\n");
+                    }
+
+                }
+                Toast.makeText(MainActivity.this, result, 1000).show();
+            }
+
+        });*/
 
         //Retrieve schedual information for current user
         String userId = LocalData.getUserID(); //Get userID from local
@@ -86,8 +121,10 @@ public class RegisterFragment extends Fragment {
 
         //Get the reference to the UI contents
         Activity act = getActivity();
-        ArrayList<Courses> g = getData.courses_list;
-/*
+        Log.i(TAG, "MyClass.getView()  " + getData.courses_list.toString()+" second");
+
+
+        /*
         RegistrationListView = (ListView) view.findViewById(R.id.listView_Registration);
 
         //Set up the List View
@@ -114,9 +151,10 @@ public class RegisterFragment extends Fragment {
 
             }
         };
+        */
 /*
         RegistrationListView.setAdapter(firebaseAdapter);
-*/
+
         /*
         RegistrationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             // onItemClick method is called everytime a user clicks an item on the list
