@@ -188,6 +188,8 @@ public class ScheduleFragment extends Fragment {
     public String getCList(){
         return cid;
     }
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * Created by JingyunYang on 2018/3/17.
  */
 
-public class RegistrationAdapter extends ArrayAdapter<Course> {
+public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
     //constructor
-    public RegistrationAdapter(Context context, int resource, ArrayList<Course> objects) {
+    public RegistrationAdapter(Context context, int resource, ArrayList<Courses> objects) {
         super(context, resource, objects);
     }
 
@@ -25,7 +25,7 @@ public class RegistrationAdapter extends ArrayAdapter<Course> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         //get data for the position
-        Course course = getItem(position);
+        Courses course = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content, parent, false);
         }
