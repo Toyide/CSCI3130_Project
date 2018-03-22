@@ -37,55 +37,6 @@ public class Courses {
     }
 
 
-    public String getCourseTitle() {
-        return CourseTitle;
-    }
-
-    public String getCourseType() {
-        return CourseType;
-    }
-
-    public String getCourseWeekday() {
-        return CourseWeekday;
-    }
-
-    public String getCourseTime() {
-        return CourseTime;
-    }
-
-    public String getLocation() {
-        return Location;
-    }
-
-    public String getCourseInfo() {
-        return CourseInfo;
-    }
-
-    public int getSpotCurrent() {return SpotCurrent;}
-
-    public int getSpotMax() {return  SpotMax;}
-
-    public void setCourseTitle(String courseTitle) {
-        this.CourseTitle = courseTitle;
-    }
-
-    public void setCourseType(String courseType) {
-        this.CourseType = courseType;
-    }
-
-    public void setCourseWeekday(String courseWeekday) {
-        this.CourseWeekday = courseWeekday;
-    }
-
-    public void setCourseTime(String courseTime) {this.CourseTime = courseTime;}
-
-    public void setCourseInfo(String courseInfo) {
-        this.CourseInfo = courseInfo;
-    }
-
-    public void setSpotCurrent(int spotCurrent) {this.SpotCurrent = spotCurrent;}
-
-    public void setSpotMax(int spotMax) {this.SpotMax = spotMax;}
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

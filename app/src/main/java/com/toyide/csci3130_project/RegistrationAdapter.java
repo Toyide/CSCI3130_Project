@@ -37,10 +37,10 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
 
         //set text for TextView
-        courseTitleView.setText(course.getCourseTitle());
-        courseInfoView.setText(course.getCourseInfo());
-        courseTime.setText(course.getCourseWeekday() + course.getCourseTime());
-        courseSpot.setText(course.getSpotCurrent() + "/" + course.getSpotMax());
+        courseTitleView.setText(course.CourseTitle);
+        courseInfoView.setText(course.CourseInfo);
+        courseTime.setText(course.CourseWeekday + course.CourseTime);
+        courseSpot.setText(course.SpotCurrent + "/" + course.SpotMax);
 
 
         return convertView;
