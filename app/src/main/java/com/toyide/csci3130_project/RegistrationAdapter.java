@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by JingyunYang on 2018/3/17.
- */
 
+//remove useless variables
 public class RegistrationAdapter extends ArrayAdapter<Course> {
 
     //constructor

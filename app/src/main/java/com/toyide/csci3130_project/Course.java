@@ -5,9 +5,7 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by JingyunYang, YideGe on 18/3/17.
- */
+
 
 public class Course {
     private String CourseTitle;     //Eg. CSCI3130
@@ -71,27 +69,6 @@ public class Course {
 
     public int getSpotMax() {return  SpotMax;}
 
-    public void setCourseTitle(String courseTitle) {
-        this.CourseTitle = courseTitle;
-    }
-
-    public void setCourseType(String courseType) {
-        this.CourseType = courseType;
-    }
-
-    public void setCourseWeekday(String courseWeekday) {
-        this.CourseWeekday = courseWeekday;
-    }
-
-    public void setCourseTime(String courseTime) {this.CourseTime = courseTime;}
-
-    public void setCourseInfo(String courseInfo) {
-        this.CourseInfo = courseInfo;
-    }
-
-    public void setSpotCurrent(int spotCurrent) {this.SpotCurrent = spotCurrent;}
-
-    public void setSpotMax(int spotMax) {this.SpotMax = spotMax;}
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
