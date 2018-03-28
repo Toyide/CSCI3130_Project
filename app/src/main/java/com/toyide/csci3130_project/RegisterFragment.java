@@ -82,10 +82,12 @@ public class RegisterFragment extends Fragment {
 
         //course items that should be shown in the schedule
         CourseList = getData.courses_list;
+        Log.i(TAG, "MyClass.getView()  " + CourseList.toString()+" secod");
+
         RegistrationListView= (ListView) view.findViewById(R.id.listView_Registration);
         RegButton= (Button) view.findViewById(R.id.RegisterButt);
 
-        RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_schedule, CourseList);
+        RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList);
         RegistrationListView.setAdapter(adapter);
         /*RegButton.setOnClickListener(new OnClickListener()
         {

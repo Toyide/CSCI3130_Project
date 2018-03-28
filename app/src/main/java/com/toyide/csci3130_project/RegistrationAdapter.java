@@ -38,7 +38,7 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
         //set text for TextView
         courseTitleView.setText(course.CourseTitle);
-        courseInfoView.setText(course.CourseInfo);
+     // courseInfoView.setText(course.CourseInfo);
         courseTime.setText(course.CourseWeekday + course.CourseTime);
         courseSpot.setText(course.SpotCurrent + "/" + course.SpotMax);
 
