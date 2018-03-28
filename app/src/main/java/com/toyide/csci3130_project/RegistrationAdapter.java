@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Created by JingyunYang on 2018/3/17.
+ */
 
-//remove useless variables
-public class RegistrationAdapter extends ArrayAdapter<Course> {
+public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
     //constructor
-    public RegistrationAdapter(Context context, int resource, ArrayList<Course> objects) {
+    public RegistrationAdapter(Context context, int resource, ArrayList<Courses> objects) {
         super(context, resource, objects);
     }
 
@@ -23,7 +25,7 @@ public class RegistrationAdapter extends ArrayAdapter<Course> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         //get data for the position
-        Course course = getItem(position);
+        Courses course = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content, parent, false);
         }
@@ -35,10 +37,10 @@ public class RegistrationAdapter extends ArrayAdapter<Course> {
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
 
         //set text for TextView
-        courseTitleView.setText(course.getCourseTitle());
-        courseInfoView.setText(course.getCourseInfo());
-        courseTime.setText(course.getCourseWeekday() + course.getCourseTime());
-        courseSpot.setText(course.getSpotCurrent() + "/" + course.getSpotMax());
+        courseTitleView.setText(course.CourseTitle);
+        courseInfoView.setText(course.CourseInfo);
+        courseTime.setText(course.CourseWeekday + course.CourseTime);
+        courseSpot.setText(course.SpotCurrent + "/" + course.SpotMax);
 
 
         return convertView;
