@@ -1,6 +1,7 @@
 package com.toyide.csci3130_project;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
  */
 
 public class RegistrationAdapter extends ArrayAdapter<Courses> {
+
+    private static final String TAG ="test" ;
 
     //constructor
     public RegistrationAdapter(Context context, int resource, ArrayList<Courses> objects) {
@@ -35,10 +38,10 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         TextView courseTime = (TextView) convertView.findViewById(R.id.courseTime);
         TextView courseSpot = (TextView) convertView.findViewById(R.id.courseSpot);
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
-
+        Log.i(TAG, "MyClass.getView()  " + course.CourseInfo+" secod");
         //set text for TextView
         courseTitleView.setText(course.CourseTitle);
-        courseInfoView.setText(course.CourseInfo);
+        //courseInfoView.setText(course.CourseInfo);
         courseTime.setText(course.CourseWeekday + course.CourseTime);
         courseSpot.setText(course.SpotCurrent + "/" + course.SpotMax);
 
