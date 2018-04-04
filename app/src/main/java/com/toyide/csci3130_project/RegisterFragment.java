@@ -82,142 +82,37 @@ public class RegisterFragment extends Fragment {
 
         //course items that should be shown in the schedule
         CourseList = getData.courses_list;
-
-
         RegistrationListView= (ListView) view.findViewById(R.id.listView_Registration);
         RegButton= (Button) view.findViewById(R.id.RegisterButt);
 
-        RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList);
+        final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList);
         RegistrationListView.setAdapter(adapter);
-        /*RegButton.setOnClickListener(new OnClickListener()
-        {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-
-                StringBuilder result = new StringBuilder();
-                for(int i=0;i<adapter.mCheckStates.size();i++)
-                {
-                    if(adapter.mCheckStates.get(i)==true)
-                    {
-
-                        result.append(app_info[i].applicationName);
-                        result.append("\n");
-                    }
-
-                }
-                Toast.makeText(MainActivity.this, result, 1000).show();
-            }
-
-        });*/
 
         //Retrieve schedual information for current user
         String userId = LocalData.getUserID(); //Get userID from local
-
+/*
         //Set-up Firebase
         appState = (MyApplicationData) getActivity().getApplicationContext();
         appState.firebaseDBInstance = FirebaseDatabase.getInstance();
         appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
         //Set-up Firebase
-
+*/
         //Get the reference to the UI contents
         Activity act = getActivity();
         Log.i(TAG, "MyClass.getView()  " + getData.courses_list.toString()+" second");
 
 
-        /*
-        RegistrationListView = (ListView) view.findViewById(R.id.listView_Registration);
-
-        //Set up the List View
-        firebaseAdapter = new FirebaseListAdapter<Courses>(getActivity(), Courses.class,
-                android.R.layout.simple_list_item_1, appState.firebaseReference) {
-
-            @Override
-            protected void populateView ( View v , Courses model, int position) {
-                Log.i(TAG, "MyClass.getView()  " + model.toString()+" secod");
-                TextView register = (TextView) v.findViewById(android.R.id.text1);
-                TextView courseTitleView = (TextView) v.findViewById(R.id.courseName);
-                TextView courseInfoView = (TextView) v.findViewById(R.id.courseInfo);
-                TextView courseTime = (TextView) v.findViewById(R.id.courseTime);
-                TextView courseSpot = (TextView) v.findViewById(R.id.courseSpot);
-                CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox);
-                Map<String, Object> course = model.toMap();
-                //set text for TextView
-                if(course !=null){
-                    courseTitleView.setText(course.get("CourseTitle").toString());
-                    courseInfoView.setText(course.get("CourseInfo").toString());
-                    courseTime.setText(course.get("CourseWeekday").toString() + course.get("CourseTime").toString());
-                    courseSpot.setText(course.get("SpotCurrent").toString() + "/" + course.get("SpotMax").toString() );
-                }
-
-            }
-        };
-        */
-/*
-        RegistrationListView.setAdapter(firebaseAdapter);
-
-        /*
-        RegistrationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            // onItemClick method is called everytime a user clicks an item on the list
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Course course = (Course) firebaseAdapter.getItem(position);
-
-            }
-        });*/
-        /*
-        appState.firebaseReference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot != null) {
-                    Course course = dataSnapshot.getValue(Course.class);
-                    courseTitle = course.getCourseTitle().toString();
-                    courseInfo = course.getCourseInfo().toString();
-                    courseTime = course.getCourseTime().toString();
-                    spotMax = course.getSpotMax();
-                    spotCurrent = course.getSpotCurrent();
-                    location = course.getLocation().toString();
-                    courseWeekday = course.getCourseWeekday().toString();
-                    courseType = course.getCourseType().toString();
-                }
-                Course C = new Course(courseTitle,courseType, courseWeekday, courseTime, courseInfo, location, spotCurrent, spotMax);
-                CourseList.add(C);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-*/
-        //create a new CourseListAdapter object(CourseListAdapter.java)
-        //turns the content of courseArrayList into things that the ListView(fragment_schedule) can display
-       // RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList);
-
-        //look within the ListView(fragment_schedule) layout for the element with id.lv_schedule
-        //ListView listView = (ListView) view.findViewById(R.id.listView_Registration);
-
-        //use ListView(fragment_schedule) adapter to draw the things on the screen
-      //  listView.setAdapter(adapter);
-
-
-
-/*
-        TableLayout courseInfoView = view.findViewById(R.id.registerCourseInfo);
-        RegisterCourseInfo myRegisteration = new RegisterCourseInfo(getActivity(),this,view);
-        myRegisteration.init();
-*/
-/*
-        Button RegButt = (Button) view.findViewById(R.id.RegisterButt);
-        RegButt.setOnClickListener(new View.OnClickListener() {
+        RegButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Register Confirmed", Toast.LENGTH_SHORT).show();
+
+
+
+                //confirm information on screen
+                Toast.makeText(getActivity(), adapter.CourseIDString.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Inflate the layout for this fragment
-        */
         return view;
     }
 
