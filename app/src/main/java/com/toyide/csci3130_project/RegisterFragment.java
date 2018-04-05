@@ -90,26 +90,26 @@ public class RegisterFragment extends Fragment {
 
         //Retrieve schedual information for current user
         String userId = LocalData.getUserID(); //Get userID from local
-/*
-        //Set-up Firebase
-        appState = (MyApplicationData) getActivity().getApplicationContext();
-        appState.firebaseDBInstance = FirebaseDatabase.getInstance();
-        appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
-        //Set-up Firebase
-*/
+
+
         //Get the reference to the UI contents
         Activity act = getActivity();
         Log.i(TAG, "MyClass.getView()  " + getData.courses_list.toString()+" second");
 
+        //Set-up Firebase
+        appState = (MyApplicationData) getActivity().getApplicationContext();
+        appState.firebaseDBInstance = FirebaseDatabase.getInstance();
+        appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations");
+        //Set-up Firebase
 
         RegButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                String IDlist = adapter.CourseIDString.toString().replace("[", "").replace("]", "").replace(" ","");
+                appState.firebaseReference.child(LocalData.getUserID()).child("CourseID").setValue(IDlist);
 
                 //confirm information on screen
-                Toast.makeText(getActivity(), adapter.CourseIDString.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), IDlist, Toast.LENGTH_SHORT).show();
             }
         });
 
