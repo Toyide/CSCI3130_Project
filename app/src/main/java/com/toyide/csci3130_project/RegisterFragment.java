@@ -3,7 +3,9 @@ import android.app.Activity;
 import android.content.Context;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import android.support.v4.widget.TextViewCompat;
@@ -12,9 +14,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 //import android.widget.TableLayout;
@@ -36,6 +40,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -50,7 +55,12 @@ public class RegisterFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
+    String myLog = "myLog";
 
+    AlphaAnimation inAnimation;
+    AlphaAnimation outAnimation;
+
+    FrameLayout progressBarHolder;
     private MyApplicationData appState;
     private String[] cidList;
     private String courseTitle;
@@ -91,7 +101,7 @@ public class RegisterFragment extends Fragment {
         checkTimeConflict = new CheckTimeConflict();
         RegistrationListView= (ListView) view.findViewById(R.id.listView_Registration);
         RegButton= (Button) view.findViewById(R.id.RegisterButt);
-
+        progressBarHolder = (FrameLayout) getActivity().findViewById(R.id.progressBarHolder);
         final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList);
         RegistrationListView.setAdapter(adapter);
 
@@ -164,10 +174,26 @@ public class RegisterFragment extends Fragment {
                 }
                 if (checkConflict == false) {
                     appState.firebaseReference.child(LocalData.getUserID()).child("CourseID").setValue(currentIDList);
-                    Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+                    new MyTask().execute();
+                    new MyTask().execute();
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+                        }
+                    }, 2200);
                 }
                 else {
-                    Toast.makeText(getActivity(), "Conflicted.", Toast.LENGTH_SHORT).show();
+                    new MyTask().execute();
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Conflict!", Toast.LENGTH_SHORT).show();
+                        }
+                    }, 2200);
+
                     /*
                     final PopupWindow popUpWindow =new PopupWindow(getActivity());
                     LinearLayout mainLayout = new LinearLayout(getActivity());
@@ -251,18 +277,43 @@ public class RegisterFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            RegButton.setEnabled(false);
+            inAnimation = new AlphaAnimation(0f, 1f);
+            inAnimation.setDuration(200);
+            progressBarHolder.setAnimation(inAnimation);
+            progressBarHolder.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            outAnimation = new AlphaAnimation(1f, 0f);
+            outAnimation.setDuration(200);
+            progressBarHolder.setAnimation(outAnimation);
+            progressBarHolder.setVisibility(View.GONE);
+            RegButton.setEnabled(true);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                for (int i = 0; i < 2; i++) {
+                    Log.d(myLog, "Loading.. " );
+                    TimeUnit.SECONDS.sleep(1);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
