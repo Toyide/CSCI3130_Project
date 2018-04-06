@@ -86,15 +86,6 @@ public class ScheduleFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                while (cid ==null) {
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Do something after 100ms
-                        }
-                    }, 100);
-                }
                 Log.i(TAG, "MyClass.getView()  " + cid+" secod");
 
                 for (String s : cid.split(",")) {
@@ -143,15 +134,6 @@ public class ScheduleFragment extends Fragment {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            while (cidList.size() != CourseList.size()) {
-                                final Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //Do something after 100ms
-                                    }
-                                }, 50);
-                            }
                             Log.i(TAG, "MyClass.getView()  " + cidList.toString()+" secod");
                             //create a new CourseListAdapter object(CourseListAdapter.java)
                             //turns the content of courseArrayList into things that the ListView(fragment_schedule) can display
@@ -163,11 +145,11 @@ public class ScheduleFragment extends Fragment {
                             //use ListView(fragment_schedule) adapter to draw the things on the screen
                             listView.setAdapter(adapter);
                         }
-                    }, 400);
+                    }, 200);
 
                 }
 
-        }, 100);
+        }, 400);
 
         // Inflate the layout for this fragment
         return view;
