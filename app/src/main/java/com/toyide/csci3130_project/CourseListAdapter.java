@@ -1,6 +1,7 @@
 package com.toyide.csci3130_project;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class CourseListAdapter extends ArrayAdapter<Courses> {
         TextView tvTime = (TextView) convertView.findViewById(R.id.tv_time);
         TextView tvInfo = (TextView) convertView.findViewById(R.id.tv_info);
         TextView tvLocation = (TextView) convertView.findViewById(R.id.tv_Location);
+
         //set text for TextView
         tvTitle.setText(course.CourseTitle);
         tvType.setText(course.CourseType);
@@ -46,6 +48,20 @@ public class CourseListAdapter extends ArrayAdapter<Courses> {
         tvTime.setText(course.CourseTime);
         tvInfo.setText(course.CourseInfo);
         tvLocation.setText(course.Location);
+
+        if (course.CourseType.equalsIgnoreCase("Lec")) {
+            convertView.setBackgroundColor(Color.parseColor("#fffff0f5")); //fffff0f5 light red
+        }
+        else if (course.CourseType.equalsIgnoreCase("Tut")) {
+            convertView.setBackgroundColor(Color.parseColor("#ffe6e6fa")); //ffe6e6fa light purple
+        }
+        else {
+            convertView.setBackgroundColor(Color.parseColor("#fff0f8ff")); //fff0f8ff light blue
+        }
+
+
         return convertView;
     }
+
+
 }
