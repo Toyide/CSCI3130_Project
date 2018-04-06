@@ -40,7 +40,7 @@ public class ScheduleFragment extends Fragment {
 
     private MyApplicationData appState;
     private ArrayList<String> cidList;
-    private ArrayList<Course> CourseList;
+    private ArrayList<Courses> CourseList;
     private String cid;
     public ScheduleFragment() {
         // Required empty public constructor
@@ -54,7 +54,7 @@ public class ScheduleFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         //course items that should be shown in the schedule
-        CourseList = new ArrayList<Course>();
+        CourseList = new ArrayList<Courses>();
         cidList = new ArrayList<String>();
 
 
@@ -119,7 +119,7 @@ public class ScheduleFragment extends Fragment {
                                     courseInfo = course.CourseInfo;
                                     Location = course.Location;
                                 }
-                                Course C = new Course(
+                                Courses C = new Courses(
                                         courseTitle,
                                         courseType,
                                         courseWeekday,
