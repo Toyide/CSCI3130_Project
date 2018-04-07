@@ -23,6 +23,17 @@ public class Courses {
     public  Courses (){
 
     }
+
+    //constructor for registration
+    public Courses (String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo, String location) {
+        this.CourseTitle = courseTitle;
+        this.CourseType = courseType;
+        this.CourseWeekday = courseWeekday;
+        this.CourseTime = courseTime;
+        this.CourseInfo = courseInfo;
+        this.Location = location;
+    }
+
     //constructor for registration
     public Courses (Long CourseID, String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo, String location, int spotCurrent, int spotMax) {
         this.CourseID=CourseID;
@@ -34,7 +45,6 @@ public class Courses {
         this.Location = location;
         this.SpotCurrent = spotCurrent;
         this.SpotMax = spotMax;
-
     }
 
 
