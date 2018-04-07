@@ -93,12 +93,13 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final Profile myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
+        //Retrieve schedual information for current user
+        final String userId = LocalData.getUserID(); //Get userID from local
 
         //Set-up Firebase
         appState = (MyApplicationData) getActivity().getApplicationContext();
         appState.firebaseDBInstance = FirebaseDatabase.getInstance();
-        appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(myprofile.UserID).child("CourseID");
+        appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(userId).child("CourseID");
         appState.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -121,13 +122,6 @@ public class RegisterFragment extends Fragment {
         RegistrationListView= (ListView) view.findViewById(R.id.listView_Registration);
         RegButton= (Button) view.findViewById(R.id.RegisterButt);
         progressBarHolder = (FrameLayout) getActivity().findViewById(R.id.progressBarHolder);
-
-
-        //Retrieve schedual information for current user
-        String userId = LocalData.getUserID(); //Get userID from local
-
-
-
 
         RegButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,8 +165,7 @@ public class RegisterFragment extends Fragment {
                     }
                 }
                 if (checkConflict == false) {
-                    appState.firebaseReference.child(LocalData.getUserID()).child("CourseID").setValue(currentIDList);
-                    new MyTask().execute();
+                    appState.firebaseReference.setValue(currentIDList);
                     new MyTask().execute();
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
