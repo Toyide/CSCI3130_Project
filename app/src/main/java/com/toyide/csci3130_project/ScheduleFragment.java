@@ -129,6 +129,7 @@ public class ScheduleFragment extends Fragment {
 
                 }
 
+
         }, 400);
 
         // Inflate the layout for this fragment
