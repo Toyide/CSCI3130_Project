@@ -93,6 +93,25 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final Profile myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
+
+        //Set-up Firebase
+        appState = (MyApplicationData) getActivity().getApplicationContext();
+        appState.firebaseDBInstance = FirebaseDatabase.getInstance();
+        appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(myprofile.UserID).child("CourseID");
+        appState.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentIDList = dataSnapshot.getValue(String.class);
+                final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
+                RegistrationListView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
         // create a view instance to add the courseInfo
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
@@ -102,39 +121,21 @@ public class RegisterFragment extends Fragment {
         RegistrationListView= (ListView) view.findViewById(R.id.listView_Registration);
         RegButton= (Button) view.findViewById(R.id.RegisterButt);
         progressBarHolder = (FrameLayout) getActivity().findViewById(R.id.progressBarHolder);
-        final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList);
-        RegistrationListView.setAdapter(adapter);
+
 
         //Retrieve schedual information for current user
         String userId = LocalData.getUserID(); //Get userID from local
 
 
-        //Get the reference to the UI contents
-        Activity act = getActivity();
-        Log.i(TAG, "MyClass.getView()  " + getData.courses_list.toString()+" second");
 
-        //Set-up Firebase
-        appState = (MyApplicationData) getActivity().getApplicationContext();
-        appState.firebaseDBInstance = FirebaseDatabase.getInstance();
-        appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations");
-        //Set-up Firebase
 
         RegButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String IDlist = adapter.CourseIDString.toString().replace("[", "").replace("]", "").replace(" ","");
-                //FIXME: remove update to REGISTER
-                //appState.firebaseReference.child(LocalData.getUserID()).child("CourseID").setValue(IDlist);
-
-                //confirm information on screen
-
-
-                currentIDList = IDlist;
 
                 boolean checkConflict = false;//false -> no conflict
                 ArrayList<String> selectedCourseTimeList = new ArrayList<String>();
                 ArrayList<String> selectedCourseDayList = new ArrayList<String>();
-                Log.i(TAG,  "View()"+currentIDList.toString().split(",")[0]+"  alalal  "+currentIDList.toString().split(",").length);
 
                 //Check conflict: CourseList a list of courses
                 for (int i = 0; i < currentIDList.toString().split(",").length; i++) {
@@ -142,7 +143,6 @@ public class RegisterFragment extends Fragment {
                     for (int j = 0; j < CourseList.size(); j++) {
                         Courses temp_course = CourseList.get(j);
                         //Courss matches get courseTime
-                        Log.i(TAG,  "View()"+currentIDList.toString().split(",")[i]+"  alalal  "+temp_course.CourseID.toString());
                         if (temp_course.CourseID.toString().equals(currentIDList.toString().split(",")[i]) ) {
 
                             String currentCourseTime = temp_course.CourseTime;
@@ -154,9 +154,7 @@ public class RegisterFragment extends Fragment {
                                 //FIXME:problem with exception in method developed
                                 //Conflictcheck(selectedCourseTimeList[k],currentCourseTime
 
-                                Log.i(TAG,  "  alalal  "+checkTimeConflict.confliCtcheck(selectedCourseTimeList.get(k), currentCourseTime) + "   "+ checkTimeConflict.sameChars(selectedCourseDayList.get(k), currentCourseDay));
                                 if (checkTimeConflict.confliCtcheck(selectedCourseTimeList.get(k), currentCourseTime) && checkTimeConflict.sameChars(selectedCourseDayList.get(k), currentCourseDay)) {
-                                    Log.i(TAG,  "  alalal  "+k);
                                     checkConflict = true; //there is conflict
                                     break outerloop;
                                 }
@@ -194,30 +192,6 @@ public class RegisterFragment extends Fragment {
                         }
                     }, 2200);
 
-                    /*
-                    final PopupWindow popUpWindow =new PopupWindow(getActivity());
-                    LinearLayout mainLayout = new LinearLayout(getActivity());
-                    LinearLayout containerLayout =new LinearLayout(getActivity());
-                    Button btnClick =new Button(getActivity());
-                    btnClick.setText("RETURN");
-                    btnClick.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            popUpWindow.dismiss();
-                        }
-                    });
-                    popUpWindow.showAtLocation(  getActivity() , Gravity.BOTTOM, 10, 10);
-                    popUpWindow.update(50,50,320,90);
-                    TextView tvMsg = new TextView(getActivity());
-                    tvMsg.setText("Courses conflicted");
-
-                    ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
-                    containerLayout.setOrientation(LinearLayout.VERTICAL);
-                    containerLayout.addView(tvMsg, layoutParams);
-                    popUpWindow.setContentView(containerLayout);
-                    containerLayout.addView(btnClick, layoutParams);
-*/
                     //TODO disable register && conflict messages
                     //TODO update currentSpot
 

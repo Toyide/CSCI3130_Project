@@ -30,7 +30,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import com.toyide.csci3130_project.login;
 
 
 public class ScheduleFragment extends Fragment {
@@ -68,7 +67,7 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(myprofile.UserID).exists()) {
-                    setCidList( dataSnapshot.child(myprofile.UserID).child("CourseID").getValue(String.class));
+                    setCidList(dataSnapshot.child(myprofile.UserID).child("CourseID").getValue(String.class));
                     Log.i(TAG, "MyClass.getView()  " + cid);
 
                 }
