@@ -19,10 +19,12 @@ import java.util.ArrayList;
 public class RegistrationAdapter extends ArrayAdapter<Courses> {
     public ArrayList<String> CourseIDString= new ArrayList<String>();
     private static final String TAG ="test" ;
+    boolean[] checkedStates; 
 
     //constructor
     public RegistrationAdapter(Context context, int resource, ArrayList<Courses> objects) {
         super(context, resource, objects);
+        checkedStates = new boolean[objects.size()]; //********** NEW ********
     }
 
     @Override

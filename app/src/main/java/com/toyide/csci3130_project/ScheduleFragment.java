@@ -1,5 +1,4 @@
 package com.toyide.csci3130_project;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,35 +8,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
-
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import com.toyide.csci3130_project.login;
-
 
 public class ScheduleFragment extends Fragment {
 
-
     private OnFragmentInteractionListener mListener;
     private static final String TAG = "test";
-
     private MyApplicationData appState;
     private ArrayList<String> cidList;
     private ArrayList<Course> CourseList;
@@ -138,10 +120,8 @@ public class ScheduleFragment extends Fragment {
                             //create a new CourseListAdapter object(CourseListAdapter.java)
                             //turns the content of courseArrayList into things that the ListView(fragment_schedule) can display
                             CourseListAdapter adapter = new CourseListAdapter(getContext(), R.layout.fragment_schedule, CourseList);
-
                             //look within the ListView(fragment_schedule) layout for the element with id.lv_schedule
                             ListView listView = (ListView) view.findViewById(R.id.lv_schedule);
-
                             //use ListView(fragment_schedule) adapter to draw the things on the screen
                             listView.setAdapter(adapter);
                         }
@@ -187,7 +167,6 @@ public class ScheduleFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
