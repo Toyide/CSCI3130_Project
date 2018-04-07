@@ -25,6 +25,7 @@ public class Courses {
     }
     //constructor for registration
     public Courses (Long CourseID, String courseTitle, String courseType, String courseWeekday, String courseTime, String courseInfo, String location, int spotCurrent, int spotMax) {
+        this.CourseID=CourseID;
         this.CourseTitle = courseTitle;
         this.CourseType = courseType;
         this.CourseWeekday = courseWeekday;
