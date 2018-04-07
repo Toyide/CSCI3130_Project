@@ -62,8 +62,8 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
         Log.i(TAG, "MyClass.getView()  " + course.CourseInfo+" secod");
         //set text for TextView
-        courseTitleView.setText(" "+course.CourseTitle.substring(0,3)+ "\n"+course.CourseTitle.substring(4));
-        civ.setText(" "+course.CourseInfo);
+        courseTitleView.setText(course.CourseTitle);
+        civ.setText(course.CourseInfo);
         //civ.setSingleLine(true);
         civ.setMovementMethod(ScrollingMovementMethod.getInstance());
         //Collapse if not long enough to display
