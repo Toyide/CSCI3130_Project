@@ -1,7 +1,6 @@
 package com.toyide.csci3130_project;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +33,8 @@ import com.toyide.csci3130_project.login;
 
 
 public class ScheduleFragment extends Fragment {
+
+
     private OnFragmentInteractionListener mListener;
     private static final String TAG = "test";
 
@@ -41,10 +42,10 @@ public class ScheduleFragment extends Fragment {
     private ArrayList<String> cidList;
     private ArrayList<Courses> CourseList;
     private String cid;
-
     public ScheduleFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,9 +57,9 @@ public class ScheduleFragment extends Fragment {
         CourseList = new ArrayList<Courses>();
         cidList = new ArrayList<String>();
 
+
         //Retrieve schedual information for current user
         final Profile myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
-
         //Set-up Firebase
         appState = (MyApplicationData) getActivity().getApplicationContext();
         appState.firebaseDBInstance = FirebaseDatabase.getInstance();
@@ -72,10 +73,12 @@ public class ScheduleFragment extends Fragment {
                     Log.i(TAG, "MyClass.getView()  " + cid);
 
                 }
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -99,40 +102,42 @@ public class ScheduleFragment extends Fragment {
                             cidList.add(s);
                 }
 
-                appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
-                for ( int i = 0; i < cidList.size(); i++) {
-                    final String courseID = cidList.get(i);
+                    appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
+                    for ( int i = 0; i < cidList.size(); i++) {
+                        final String courseID = cidList.get(i);
 
-                    appState.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener(){
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String courseTitle = "courseTitle", courseType = "courseType", courseWeekday = "courseWeekday", courseTime = "courseTime", courseInfo = "courseInfo", Location="TAD";
-                            if (dataSnapshot != null) {
-                                Courses course = dataSnapshot.child(courseID).getValue(Courses.class);
-                                courseTitle = course.CourseTitle;
-                                courseType = course.CourseType;
-                                courseWeekday = course.CourseWeekday;
-                                courseTime = course.CourseTime;
-                                courseInfo = course.CourseInfo;
-                                Location = course.Location;
+                        appState.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener(){
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String courseTitle = "courseTitle", courseType = "courseType", courseWeekday = "courseWeekday", courseTime = "courseTime", courseInfo = "courseInfo", Location="TAD";
+                                if (dataSnapshot != null) {
+                                    Courses course = dataSnapshot.child(courseID).getValue(Courses.class);
+                                    courseTitle = course.CourseTitle;
+                                    courseType = course.CourseType;
+                                    courseWeekday = course.CourseWeekday;
+                                    courseTime = course.CourseTime;
+                                    courseInfo = course.CourseInfo;
+                                    Location = course.Location;
+                                }
+                                Courses C = new Courses(
+                                        courseTitle,
+                                        courseType,
+                                        courseWeekday,
+                                        courseTime,
+                                        courseInfo,
+                                        Location
+                                );
+
+                                CourseList.add(C);
+                                Log.i(TAG, "MyClass.getView()  " + CourseList.toString()+" secod");
                             }
-                            Courses C = new Courses(
-                                    courseTitle,
-                                    courseType,
-                                    courseWeekday,
-                                    courseTime,
-                                    courseInfo,
-                                    Location
-                            );
-                            CourseList.add(C);
-                            Log.i(TAG, "MyClass.getView()  " + CourseList.toString()+" secod");
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
 
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -163,11 +168,6 @@ public class ScheduleFragment extends Fragment {
                 }
 
         }, 100);
-
-
-        //Set background color for different course type
-        view.setBackgroundColor(0x00FF00);
-
 
         // Inflate the layout for this fragment
         return view;

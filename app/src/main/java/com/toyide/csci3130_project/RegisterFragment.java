@@ -175,7 +175,6 @@ public class RegisterFragment extends Fragment {
                 if (checkConflict == false) {
                     appState.firebaseReference.child(LocalData.getUserID()).child("CourseID").setValue(currentIDList);
                     new MyTask().execute();
-                    new MyTask().execute();
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
