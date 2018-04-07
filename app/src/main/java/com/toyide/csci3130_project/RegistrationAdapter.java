@@ -17,14 +17,18 @@ import java.util.ArrayList;
  */
 
 public class RegistrationAdapter extends ArrayAdapter<Courses> {
+    private MyApplicationData appState;
     public ArrayList<String> CourseIDString= new ArrayList<String>();
     private static final String TAG ="test" ;
-    boolean[] checkedStates; 
+    boolean[] checkedStates;
 
     //constructor
-    public RegistrationAdapter(Context context, int resource, ArrayList<Courses> objects) {
+    public RegistrationAdapter(Context context, int resource, ArrayList<Courses> objects, String currentCourses) {
         super(context, resource, objects);
         checkedStates = new boolean[objects.size()]; //********** NEW ********
+        for (String cid : currentCourses.split(",")) {
+            CourseIDString.add(cid);
+        }
     }
 
     @Override
@@ -52,16 +56,14 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
                 } else {
                     CourseIDString.remove(ID);
                 }
-
-
             }
         });
 
 
         Log.i(TAG, "MyClass.getView()  " + course.CourseInfo+" secod");
         //set text for TextView
-        courseTitleView.setText(" "+course.CourseTitle.substring(0,3)+ "\n"+course.CourseTitle.substring(4));
-        civ.setText(" "+course.CourseInfo);
+        courseTitleView.setText(course.CourseTitle);
+        civ.setText(course.CourseInfo);
         //civ.setSingleLine(true);
         civ.setMovementMethod(ScrollingMovementMethod.getInstance());
         //Collapse if not long enough to display
@@ -81,7 +83,10 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
         courseTime.setText(" "+course.CourseWeekday + "\n"+ course.CourseTime);
         courseSpot.setText(" "+course.SpotCurrent + "/" + course.SpotMax);
-
+        //Set state of checkbox for selected courses
+        if (CourseIDString.contains(course.CourseID.toString())) {
+            checkBox.setChecked(true);
+        }
 
 
         return convertView;
