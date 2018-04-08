@@ -46,7 +46,6 @@ public class ScheduleFragment extends Fragment {
 
         final String userId = LocalData.getUserID(); //Get userID from local
 
-        Iteration3_schedule_data
         //course items that should be shown in the schedule
         CourseList = new ArrayList();
         cidList = new ArrayList();
