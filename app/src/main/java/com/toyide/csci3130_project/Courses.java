@@ -1,5 +1,7 @@
 package com.toyide.csci3130_project;
 
+import android.util.Log;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;

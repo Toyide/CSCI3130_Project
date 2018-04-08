@@ -17,7 +17,8 @@ import java.util.ArrayList;
  */
 
 public class RegistrationAdapter extends ArrayAdapter<Courses> {
-    public ArrayList<String> CourseIDString= new ArrayList<String>();
+    public ArrayList<String> CourseList = new ArrayList<>();
+    public ArrayList<String> oldList = new ArrayList<>();
     private static final String TAG ="test" ;
     boolean[] checkedStates;
 
@@ -26,32 +27,29 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         super(context, resource, objects);
         checkedStates = new boolean[objects.size()]; //********** NEW ********
         for (String cid : currentCourses.split(",")) {
-            CourseIDString.add(cid);
+            CourseList.add(cid);
         }
+        oldList.addAll(CourseList);
     }
 
     public String getCourseList() {
-        return CourseIDString.toString().replace("[", "").replace("]", "").replace(" ","");
+        return CourseList.toString().replace("[", "").replace("]", "").replace(" ","");
+    }
+
+    public ArrayList<String> getOldList() {
+        return oldList;
     }
 
     @Override
     public View getView( int position, View convertView, final ViewGroup parent) {
 
-
         //get data for the position
         Courses course = getItem(position);
         final String ID = course.CourseID.toString();
-        final String LabID = course.LabID.toString();
-        final String TutID = course.TutID.toString();
-        final String Type = course.CourseType.toString();
-        final int total = count(LabID, TutID);
-        final View nextView = convertView;
-        final ViewGroup nextparent = parent;
-        final int nextpos = position;
-        final String CourseType = course.CourseType.toString();
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content, parent, false);
-        }
+
+
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content,parent,false);
+
 
         TextView courseTitleView = (TextView) convertView.findViewById(R.id.courseTitle);
         final TextView civ = (TextView) convertView.findViewById(R.id.courseInfo);
@@ -64,10 +62,10 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.i(TAG,  "View()");
                 if (buttonView.isChecked()) {
-                    if (!CourseIDString.contains(ID))
-                        CourseIDString.add(ID);
+                    if (!CourseList.contains(ID))
+                        CourseList.add(ID);
                 } else {
-                    CourseIDString.remove(ID);
+                    CourseList.remove(ID);
                 }
             }
         });
@@ -95,13 +93,19 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         courseTime.setText(" "+course.CourseWeekday + "\n "+ course.CourseTime);
         courseSpot.setText(" "+course.SpotCurrent + "/" + course.SpotMax);
         //Set state of checkbox for selected courses
-        if (CourseIDString.contains(course.CourseID.toString())) {
+        if (CourseList.contains(course.CourseID.toString())) {
             if (!checkBox.isChecked())
                 checkBox.setChecked(true);
         } else {
             checkBox.setChecked(false);
         }
 
+        // Get the Layout Parameters for ListView Current Item View
+        ViewGroup.LayoutParams params = convertView.getLayoutParams();
+
+        // Set the height of the Item View
+        params.height = 180;
+        convertView.setLayoutParams(params);
 
         return convertView;
     }
