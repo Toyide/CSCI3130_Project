@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 
 import android.support.v4.widget.TextViewCompat;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +17,9 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-//import android.widget.TableLayout;
-import android.widget.PopupWindow;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,13 +29,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
+
 import java.util.concurrent.TimeUnit;
 
 
