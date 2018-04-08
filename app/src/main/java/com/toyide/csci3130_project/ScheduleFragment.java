@@ -36,7 +36,7 @@ public class ScheduleFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private static final String TAG = "test";
-
+    private ListView ScheduleListView;
     private MyApplicationData appState;
     private ArrayList<String> cidList;
     private ArrayList<Courses> CourseList;
@@ -47,11 +47,10 @@ public class ScheduleFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_schedule, container, false);
-
         //course items that should be shown in the schedule
         CourseList = new ArrayList<Courses>();
         cidList = new ArrayList<String>();
@@ -68,9 +67,23 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(myprofile.UserID).exists()) {
-                    setCidList(dataSnapshot.child(myprofile.UserID).child("CourseID").getValue(String.class));
+                    cid = (dataSnapshot.child(myprofile.UserID).child("CourseID").getValue(String.class));
                     Log.i(TAG, "MyClass.getView()  " + cid);
-
+                    for (String s : cid.split(",")) {
+                        if (!s.isEmpty())
+                            cidList.add(s);
+                    }
+                    Log.i(TAG, "MyClass.getView()  " + cidList);
+                    for (int i=0; i <getData.courses_list.size();i ++){
+                        if( cidList.contains(getData.courses_list.get (i).CourseID.toString())){
+                            CourseList.add(getData.courses_list.get(i));
+                        }
+                    }
+                    Log.i(TAG, "MyClass.getView()  " + CourseList.toString());
+                    ScheduleListView= (ListView) view.findViewById(R.id.lv_schedule);
+                    final CourseListAdapter adapter = new CourseListAdapter(getContext(), R.layout.fragment_schedule, CourseList);
+                    ScheduleListView.setAdapter(adapter);
+                    //look within the ListView(fragment_schedule) layout for the element with id.lv_schedule
                 }
 
             }
@@ -80,93 +93,6 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                while (cid ==null) {
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Do something after 100ms
-                        }
-                    }, 100);
-                }
-                Log.i(TAG, "MyClass.getView()  " + cid+" secod");
-
-                for (String s : cid.split(",")) {
-                        if (!s.isEmpty())
-                            cidList.add(s);
-                }
-
-                    appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
-                    for ( int i = 0; i < cidList.size(); i++) {
-                        final String courseID = cidList.get(i);
-
-                        appState.firebaseReference.addListenerForSingleValueEvent(new ValueEventListener(){
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                String courseTitle = "courseTitle", courseType = "courseType", courseWeekday = "courseWeekday", courseTime = "courseTime", courseInfo = "courseInfo", Location="TAD";
-                                if (dataSnapshot != null) {
-                                    Courses course = dataSnapshot.child(courseID).getValue(Courses.class);
-                                    courseTitle = course.CourseTitle;
-                                    courseType = course.CourseType;
-                                    courseWeekday = course.CourseWeekday;
-                                    courseTime = course.CourseTime;
-                                    courseInfo = course.CourseInfo;
-                                    Location = course.Location;
-                                }
-                                Courses C = new Courses(
-                                        courseTitle,
-                                        courseType,
-                                        courseWeekday,
-                                        courseTime,
-                                        courseInfo,
-                                        Location
-                                );
-
-                                CourseList.add(C);
-                                Log.i(TAG, "MyClass.getView()  " + CourseList.toString()+" secod");
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            while (cidList.size() != CourseList.size()) {
-                                final Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //Do something after 100ms
-                                    }
-                                }, 50);
-                            }
-                            Log.i(TAG, "MyClass.getView()  " + cidList.toString()+" secod");
-                            //create a new CourseListAdapter object(CourseListAdapter.java)
-                            //turns the content of courseArrayList into things that the ListView(fragment_schedule) can display
-                            CourseListAdapter adapter = new CourseListAdapter(getContext(), R.layout.fragment_schedule, CourseList);
-
-                            //look within the ListView(fragment_schedule) layout for the element with id.lv_schedule
-                            ListView listView = (ListView) view.findViewById(R.id.lv_schedule);
-
-                            //use ListView(fragment_schedule) adapter to draw the things on the screen
-                            listView.setAdapter(adapter);
-                        }
-                    }, 300);
-
-                }
-
-        }, 100);
 
         // Inflate the layout for this fragment
         return view;

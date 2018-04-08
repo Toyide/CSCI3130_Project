@@ -205,10 +205,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.confirm: {
-                if(newPass.getText().toString() != null){
+                if(newPass.getText().toString() != null && !newPass.getText().toString().equals(oldPass.getText().toString()) && newPass.getText().toString().matches("[a-z0-9A-Z]*") && newPass.getText().toString().length()>=8){
                     oldPass.setText(newPass.getText().toString());
                     newPass.setText("");
                     updateProfile(oldPass);
+                    Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "New Password should be longer than 8 chars and not the same", Toast.LENGTH_SHORT).show();
                 }
             }
             default:
@@ -224,11 +227,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         String Degree = state2.getText().toString();
 
         Profile new_Value = new Profile(ID, Name, password, Department,Degree);
-        MyApplicationData appState = (MyApplicationData) getActivity().getApplication();
-        appState.firebaseDBInstance = FirebaseDatabase.getInstance();
-        appState.firebaseReference = appState.firebaseDBInstance.getReference("Users");
-        appState.firebaseReference.child(ID).setValue(new_Value);
-        getActivity().finish();
+        if (new_Value.Password.matches("[a-z0-9A-Z]*") && new_Value.Password.length()>=8) {
+            MyApplicationData appState = (MyApplicationData) getActivity().getApplication();
+            appState.firebaseDBInstance = FirebaseDatabase.getInstance();
+            appState.firebaseReference = appState.firebaseDBInstance.getReference("Users");
+            appState.firebaseReference.child(ID).setValue(new_Value);
+
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
