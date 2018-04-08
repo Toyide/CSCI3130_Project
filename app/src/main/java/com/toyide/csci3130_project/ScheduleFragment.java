@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class ScheduleFragment extends Fragment {
+
+
     private OnFragmentInteractionListener mListener;
     private static final String TAG = "test";
 
@@ -31,10 +33,10 @@ public class ScheduleFragment extends Fragment {
     private ArrayList<String> cidList;
     private ArrayList<Courses> CourseList;
     private String cid;
-
     public ScheduleFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,9 +46,11 @@ public class ScheduleFragment extends Fragment {
 
         final String userId = LocalData.getUserID(); //Get userID from local
 
+        Iteration3_schedule_data
         //course items that should be shown in the schedule
         CourseList = new ArrayList();
         cidList = new ArrayList();
+
 
         //Set-up Firebase
         appState = (MyApplicationData) getActivity().getApplicationContext();
@@ -56,10 +60,10 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cid = dataSnapshot.child(userId).child("CourseID").getValue(String.class);
-
                 for (String s : cid.split(",")) {
                     cidList.add(s);
                 }
+
                 for(Courses c : getData.courses_list) {
                     if (cidList.contains(c.CourseID.toString())) {
                         CourseList.add(c);
@@ -75,6 +79,7 @@ public class ScheduleFragment extends Fragment {
 
                 //use ListView(fragment_schedule) adapter to draw the things on the screen
                 listView.setAdapter(adapter);
+
 
 
                 //Set background color for different course type
