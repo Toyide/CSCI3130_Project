@@ -46,9 +46,9 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         //get data for the position
         Courses course = getItem(position);
         final String ID = course.CourseID.toString();
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content, parent, false);
-        }
+
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content,parent,false);
+
 
         TextView courseTitleView = (TextView) convertView.findViewById(R.id.courseTitle);
         final TextView civ = (TextView) convertView.findViewById(R.id.courseInfo);
@@ -98,6 +98,12 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
             checkBox.setChecked(false);
         }
 
+        // Get the Layout Parameters for ListView Current Item View
+        ViewGroup.LayoutParams params = convertView.getLayoutParams();
+
+        // Set the height of the Item View
+        params.height = 180;
+        convertView.setLayoutParams(params);
 
         return convertView;
     }

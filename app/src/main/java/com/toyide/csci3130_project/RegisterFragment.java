@@ -109,7 +109,7 @@ public class RegisterFragment extends Fragment {
                         for (Courses c : CourseList) {
                             for (String s : adapter.getCourseList().split(",")) {
                                 if (s.equals(c.CourseID.toString())) {
-                                    Log.d("SSSSSIZE", "" + adapter.getCourseList() + " " );
+                                    Log.d("SSSSSIZE", "" + adapter.getCourseList() + " "+getData.courses_list.size() );
                                     curCourses.add(c);
                                 }
                             }
