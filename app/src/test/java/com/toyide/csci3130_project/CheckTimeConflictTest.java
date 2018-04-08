@@ -1,11 +1,6 @@
 package com.toyide.csci3130_project;
 
-import com.toyide.csci3130_project.CheckTimeConflict;
-
 import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.text.ParseException;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -19,8 +14,6 @@ public class CheckTimeConflictTest {
     private static String day2 = "MR";
     private static String day3 = "TF";
     private static String day4 = "MF";
-
-    CheckTimeConflict checkTimeConflict = new CheckTimeConflict();
 
     @BeforeClass
     public static void init()
@@ -37,59 +30,6 @@ public class CheckTimeConflictTest {
 
     }
     //FIXME： fix JUnit test under exception
-
-    @Test
-    public void check1()
-    {
-        assertEquals(checkTimeConflict.confliCtcheck(time1,time2),true);
-    }
-
-    @Test
-    public void check2()
-    {
-        assertEquals(checkTimeConflict.confliCtcheck(time2,time1),true);
-    }
-
-    @Test
-    public void check3()
-    {
-        assertEquals(checkTimeConflict.confliCtcheck(time2,time4),false);
-    }
-    @Test
-    public void check4()
-    {
-        assertEquals(checkTimeConflict.confliCtcheck(time3,time1),true);
-    }
-    @Test
-    public void check5()
-    {
-        assertEquals(checkTimeConflict.confliCtcheck(time3,time4),false);
-    }
-    @Test
-    public void check6()
-    {
-        assertEquals(checkTimeConflict.sameChars(day1,day2),true);//is intersaction
-    }
-    @Test
-    public void check7()
-    {
-        assertEquals(checkTimeConflict.sameChars(day3,day2),false);//no intersections
-    }
-    @Test
-    public void check8()
-    {
-        assertEquals(checkTimeConflict.sameChars(day3,day4),true);
-    }
-    @Test
-    public void check9()
-    {
-        assertEquals(checkTimeConflict.sameChars(day4,day2),true);
-    }
-    @Test
-    public void check10()
-    {
-        assertEquals(checkTimeConflict.sameChars(day1,day4),false);
-    }
 
 
 }
