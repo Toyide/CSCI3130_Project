@@ -17,7 +17,8 @@ import java.util.ArrayList;
  */
 
 public class RegistrationAdapter extends ArrayAdapter<Courses> {
-    public ArrayList<String> CourseIDString= new ArrayList<String>();
+    public ArrayList<String> CourseList = new ArrayList<>();
+    public ArrayList<String> oldList = new ArrayList<>();
     private static final String TAG ="test" ;
     boolean[] checkedStates;
 
@@ -26,17 +27,21 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         super(context, resource, objects);
         checkedStates = new boolean[objects.size()]; //********** NEW ********
         for (String cid : currentCourses.split(",")) {
-            CourseIDString.add(cid);
+            CourseList.add(cid);
         }
+        oldList.addAll(CourseList);
     }
 
     public String getCourseList() {
-        return CourseIDString.toString().replace("[", "").replace("]", "").replace(" ","");
+        return CourseList.toString().replace("[", "").replace("]", "").replace(" ","");
+    }
+
+    public ArrayList<String> getOldList() {
+        return oldList;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
 
         //get data for the position
         Courses course = getItem(position);
@@ -55,10 +60,10 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (buttonView.isChecked()) {
-                    if (!CourseIDString.contains(ID))
-                        CourseIDString.add(ID);
+                    if (!CourseList.contains(ID))
+                        CourseList.add(ID);
                 } else {
-                    CourseIDString.remove(ID);
+                    CourseList.remove(ID);
                 }
             }
         });
@@ -86,7 +91,7 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         courseTime.setText(" "+course.CourseWeekday + "\n "+ course.CourseTime);
         courseSpot.setText(" "+course.SpotCurrent + "/" + course.SpotMax);
         //Set state of checkbox for selected courses
-        if (CourseIDString.contains(course.CourseID.toString())) {
+        if (CourseList.contains(course.CourseID.toString())) {
             if (!checkBox.isChecked())
                 checkBox.setChecked(true);
         } else {
