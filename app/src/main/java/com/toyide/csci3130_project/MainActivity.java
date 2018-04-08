@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                                         Iterable<DataSnapshot> courseSnapshot =dataSnapshot.getChildren();
 
                                         for (DataSnapshot course : courseSnapshot ){
-                                                Log.i(TAG,  "View()"+course);
+                                            //Log.i(TAG,  "View()"+course);
                                             Courses temp = course.getValue(Courses.class);
 
                                             courseChildren.add(temp);
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         getData.currentList = dataSnapshot.getValue(String.class);
-
                                     }
 
                                     @Override
