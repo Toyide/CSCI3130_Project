@@ -49,7 +49,7 @@ public class RegisterFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-
+    private static final String TAG = "test";
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
 
@@ -99,7 +99,11 @@ public class RegisterFragment extends Fragment {
                 RegButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        boolean checkLab_Tut = false;
+                        boolean checkLec_count = false;
+                        int LecCount = 0;
+                        int num_Tub_Lab = 0;
+                        ArrayList<String> tut_lab = new ArrayList();
                         boolean checkConflict = false;//false -> no conflict
                         final ArrayList<String> courseFull = new ArrayList<>();
                         final ArrayList<Courses> curCourses = new ArrayList<>();
@@ -109,7 +113,7 @@ public class RegisterFragment extends Fragment {
                         for (Courses c : CourseList) {
                             for (String s : adapter.getCourseList().split(",")) {
                                 if (s.equals(c.CourseID.toString())) {
-                                    Log.d("SSSSSIZE", "" + adapter.getCourseList() + " "+getData.courses_list.size() );
+
                                     curCourses.add(c);
                                 }
                             }
@@ -117,18 +121,46 @@ public class RegisterFragment extends Fragment {
                             for (String s : adapter.getOldList()) {
                                 if (s.equals(c.CourseID.toString()))
                                     oldCourses.add(c);
+                                    if (c.CourseType.toString().equals("Lec")) {
+                                        LecCount++;
+                                        if (!c.TutID.toString().equals("00000")) {
+                                            tut_lab.add(c.TutID);
+                                        }
+                                        if (!c.LabID.toString().equals("00000")) {
+                                            tut_lab.add(c.LabID);
+                                        }
+                                    }
+                                    if (c.CourseType.equals("Tut")){
+                                        if (tut_lab.toString().indexOf(c.CourseID.toString()) != -1)
+
+                                            num_Tub_Lab++;
+                                    }
+                                    if (c.CourseType.equals("Lab")){
+                                        if (tut_lab.toString().indexOf(c.CourseID.toString()) !=- 1)
+                                            num_Tub_Lab++;
+                                    }
+                                }
                             }
                         }
 
                         checkList.addAll(curCourses);
                         checkList.removeAll(oldCourses);
+                  
                         for (Courses c: checkList) {
                             if (c.SpotCurrent == c.SpotMax) {
                                 courseFull.add(c.CourseTitle);
                             }
                         }
 
-                        //Check time conflict
+
+
+                        if(tut_lab.size() != num_Tub_Lab){
+                            checkLab_Tut =true;
+                        }
+                        if(LecCount >5){
+                            checkLec_count =true;
+                        }
+
                         for (int i = 0; i < curCourses.size(); i++) {
                             for (int j = i + 1; j < curCourses.size(); j++) {
                                 for (char day : curCourses.get(i).CourseWeekday.toCharArray()) {
@@ -147,7 +179,8 @@ public class RegisterFragment extends Fragment {
                             if (checkConflict)
                                 break;
                         }
-                        if (checkConflict == false && courseFull.isEmpty()) {
+
+                        if (checkConflict == false && checkLab_Tut == false && checkLec_count == false && courseFull.isEmpty()) {
                             currentIDList = adapter.getCourseList();
                             appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(userId).child("CourseID");
                             appState.firebaseReference.setValue(currentIDList);
@@ -201,7 +234,7 @@ public class RegisterFragment extends Fragment {
                             //TODO update currentSpot
 
                         }
-                        else {
+                        else  if (checkConflict){
                             new MyTask().execute();
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
@@ -214,6 +247,26 @@ public class RegisterFragment extends Fragment {
                             //TODO disable register && conflict messages
                             //TODO update currentSpot
 
+                        }
+                        else if (checkLab_Tut){
+                            new MyTask().execute();
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getActivity(), "Lecture, tut, lab is not paired!", Toast.LENGTH_SHORT).show();
+                                }
+                            }, 2200);
+                        }
+                        else {
+                            new MyTask().execute();
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getActivity(), "Five more courses chosen", Toast.LENGTH_SHORT).show();
+                                }
+                            }, 2200);
                         }
 
                     }
