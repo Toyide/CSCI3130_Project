@@ -22,6 +22,7 @@ public class Registration implements Serializable {     //registeration ID,
         UserID = "";
         CourseID = "";
     }
+
     public  Registration( String uid, String cidList){
         this.UserID = uid;
         this.CourseID = cidList;
