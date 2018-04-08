@@ -29,15 +29,7 @@ public class ExampleUnitTest {
         assertEquals("Undergraduate", check2.get("UserDegree"));
 
     }
-    @Test
-    public  void check_course() throws  Exception{
-        Course course = new Course("CSCI 1100","Lec","MTF","10:00-12:00","Java 2", "");
-        assertEquals("CSCI 1100", course.getCourseTitle());
-        assertEquals("Lec",course.getCourseType());
-        assertEquals("MTF",course.getCourseWeekday());
-        assertEquals("10:00-12:00",course.getCourseTime());
-        assertEquals("Java 2", course.getCourseInfo());
-    }
+
     @Test
     public  void  check_registraion() throws  Exception{
         Registration registration = new Registration("B00123456", "12345,23456,");

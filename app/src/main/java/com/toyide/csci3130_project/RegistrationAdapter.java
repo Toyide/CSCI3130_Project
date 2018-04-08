@@ -35,12 +35,20 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView( int position, View convertView, final ViewGroup parent) {
 
 
         //get data for the position
         Courses course = getItem(position);
         final String ID = course.CourseID.toString();
+        final String LabID = course.LabID.toString();
+        final String TutID = course.TutID.toString();
+        final String Type = course.CourseType.toString();
+        final int total = count(LabID, TutID);
+        final View nextView = convertView;
+        final ViewGroup nextparent = parent;
+        final int nextpos = position;
+        final String CourseType = course.CourseType.toString();
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content, parent, false);
         }
@@ -54,6 +62,7 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.i(TAG,  "View()");
                 if (buttonView.isChecked()) {
                     if (!CourseIDString.contains(ID))
                         CourseIDString.add(ID);
@@ -95,5 +104,15 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
 
         return convertView;
+    }
+    private int count(String LabID, String TutID){
+        int lab_tut = 0;
+        if (!LabID.equals("00000")){
+            lab_tut++;
+        }
+        if (!TutID.equals("00000")){
+            lab_tut++;
+        }
+        return lab_tut;
     }
 }
