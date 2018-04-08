@@ -8,9 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
-import android.support.v4.widget.TextViewCompat;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +86,7 @@ public class RegisterFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentIDList = dataSnapshot.getValue(String.class);
                 //course items that should be shown in the schedule
+
                 CourseList = new ArrayList<>(getData.courses_list);
                 RegistrationListView = view.findViewById(R.id.listView_Registration);
                 RegButton = view.findViewById(R.id.RegisterButt);
@@ -102,8 +100,11 @@ public class RegisterFragment extends Fragment {
                         boolean checkLab_Tut = false;
                         boolean checkLec_count = false;
                         int LecCount = 0;
-                        int num_Tub_Lab = 0;
-                        ArrayList<String> tut_lab = new ArrayList();
+                        int num_Tut = 0;
+                        int num_Lab = 0;
+                        ArrayList<String> tut = new ArrayList();
+                        ArrayList<String> lab = new ArrayList();
+
                         boolean checkConflict = false;//false -> no conflict
                         final ArrayList<String> courseFull = new ArrayList<>();
                         final ArrayList<Courses> curCourses = new ArrayList<>();
@@ -124,24 +125,29 @@ public class RegisterFragment extends Fragment {
                                     if (c.CourseType.toString().equals("Lec")) {
                                         LecCount++;
                                         if (!c.TutID.toString().equals("00000")) {
-                                            tut_lab.add(c.TutID);
+
+                                            tut.add(c.TutID);
+
                                         }
                                         if (!c.LabID.toString().equals("00000")) {
-                                            tut_lab.add(c.LabID);
+                                            lab.add(c.LabID);
                                         }
                                     }
                                     if (c.CourseType.equals("Tut")){
-                                        if (tut_lab.toString().indexOf(c.CourseID.toString()) != -1)
+                                        if (tut.toString().contains(c.CourseID.toString()))
+                                            num_Tut++;
 
-                                            num_Tub_Lab++;
+
                                     }
                                     if (c.CourseType.equals("Lab")){
-                                        if (tut_lab.toString().indexOf(c.CourseID.toString()) !=- 1)
-                                            num_Tub_Lab++;
+                                        if (lab.toString().contains(c.CourseID.toString()))
+                                            num_Lab++;
                                     }
                                 }
                             }
                         }
+
+                       
 
                         checkList.addAll(curCourses);
                         checkList.removeAll(oldCourses);
@@ -152,9 +158,8 @@ public class RegisterFragment extends Fragment {
                             }
                         }
 
+                        if((tut.size() !=num_Tut)||(lab.size() !=num_Lab)){
 
-
-                        if(tut_lab.size() != num_Tub_Lab){
                             checkLab_Tut =true;
                         }
                         if(LecCount >5){
