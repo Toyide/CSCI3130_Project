@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         getData.currentList = dataSnapshot.getValue(String.class);
-
                                     }
 
                                     @Override

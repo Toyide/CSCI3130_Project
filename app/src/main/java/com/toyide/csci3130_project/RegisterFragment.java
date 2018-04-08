@@ -88,8 +88,7 @@ public class RegisterFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentIDList = dataSnapshot.getValue(String.class);
                 //course items that should be shown in the schedule
-                CourseList = new ArrayList<>();
-                CourseList.addAll(getData.courses_list);
+                CourseList = new ArrayList<>(getData.courses_list);
                 RegistrationListView = view.findViewById(R.id.listView_Registration);
                 RegButton = view.findViewById(R.id.RegisterButt);
                 progressBarHolder = getActivity().findViewById(R.id.progressBarHolder);
