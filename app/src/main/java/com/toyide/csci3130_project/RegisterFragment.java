@@ -42,6 +42,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.android.gms.tasks.Tasks.await;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,7 +96,7 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final Profile myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
-
+/*
         //Set-up Firebase
         appState = (MyApplicationData) getActivity().getApplicationContext();
         appState.firebaseDBInstance = FirebaseDatabase.getInstance();
@@ -103,25 +105,24 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentIDList = dataSnapshot.getValue(String.class);
-                final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
-                RegistrationListView.setAdapter(adapter);
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
+        */
         // create a view instance to add the courseInfo
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-
         //course items that should be shown in the schedule
         CourseList = getData.courses_list;
         checkTimeConflict = new CheckTimeConflict();
         RegistrationListView= (ListView) view.findViewById(R.id.listView_Registration);
         RegButton= (Button) view.findViewById(R.id.RegisterButt);
         progressBarHolder = (FrameLayout) getActivity().findViewById(R.id.progressBarHolder);
-
+        final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, getData.currentList);
+        RegistrationListView.setAdapter(adapter);
 
         //Retrieve schedual information for current user
         String userId = LocalData.getUserID(); //Get userID from local
@@ -132,6 +133,9 @@ public class RegisterFragment extends Fragment {
         RegButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String IDlist = adapter.CourseIDString.toString().replace("[", "").replace("]", "").replace(" ","");
+                currentIDList = IDlist;
 
                 boolean checkConflict = false;//false -> no conflict
                 ArrayList<String> selectedCourseTimeList = new ArrayList<String>();
@@ -171,7 +175,9 @@ public class RegisterFragment extends Fragment {
                     }
                 }
                 if (checkConflict == false) {
-                    appState.firebaseReference.child(LocalData.getUserID()).child("CourseID").setValue(currentIDList);
+                    Log.i(TAG, "MyClass.getView()  " + currentIDList.toString()+" secod");
+                    appState.firebaseReference.setValue(currentIDList);
+                    getData.currentList = currentIDList;
                     new MyTask().execute();
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
