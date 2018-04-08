@@ -46,7 +46,6 @@ public class RegisterFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-    String myLog = "myLog";
 
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
@@ -54,7 +53,6 @@ public class RegisterFragment extends Fragment {
     FrameLayout progressBarHolder;
     private MyApplicationData appState;
 
-    private static final String TAG = "test";
     //Not needed in the registration
 
     private ListView RegistrationListView;
@@ -243,7 +241,6 @@ public class RegisterFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             try {
                 for (int i = 0; i < 2; i++) {
-                    Log.d(myLog, "Loading.. " );
                     TimeUnit.SECONDS.sleep(1);
                 }
             } catch (InterruptedException e) {

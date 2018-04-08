@@ -40,7 +40,7 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
         //get data for the position
         Courses course = getItem(position);
-        final String ID=course.CourseID.toString();
+        final String ID = course.CourseID.toString();
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content, parent, false);
         }
