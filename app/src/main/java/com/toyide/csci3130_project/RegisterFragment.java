@@ -33,6 +33,7 @@ import com.google.firebase.database.MutableData;
 
 import java.util.ArrayList;
 
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 
@@ -108,7 +109,7 @@ public class RegisterFragment extends Fragment {
                         for (Courses c : CourseList) {
                             for (String s : adapter.getCourseList().split(",")) {
                                 if (s.equals(c.CourseID.toString())) {
-                                    Log.d("SSSSSIZE", "" + adapter.getCourseList() + " " + getData.courses_list.size());
+                                    Log.d("SSSSSIZE", "" + adapter.getCourseList() + " " );
                                     curCourses.add(c);
                                 }
                             }
