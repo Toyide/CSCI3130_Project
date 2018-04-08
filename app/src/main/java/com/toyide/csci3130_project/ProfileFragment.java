@@ -49,10 +49,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     TextView state3;
     TextView pass1;
     TextView pass2;
-    Button state;
     Button info;
     Button pass;
     Button modify;
+    Button back;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container,false);
         myprofile = (Profile) getActivity().getIntent().getSerializableExtra("profile") ;
-
+        back = view.findViewById(R.id.back);
         name = view.findViewById(R.id.viewAntoNieva);
         info1 = view.findViewById(R.id.Bnumber);
         state1 = view.findViewById(R.id.department);
@@ -104,15 +104,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         pass2 = view.findViewById(R.id.newpassword);
         oldPass = view.findViewById(R.id.oldpass);
         newPass = view.findViewById(R.id.newpass);
-        state = view.findViewById(R.id.state);
         info =view.findViewById(R.id.info);
         pass = view.findViewById(R.id.pass);
         modify = view.findViewById(R.id.confirm);
         showData(myprofile);
         //Set-up Firebase
-        state.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 profileOnClick(v);
             }
         });
@@ -165,9 +164,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.info: {
-                state1.setVisibility(View.INVISIBLE);
-                state2.setVisibility(View.INVISIBLE);
-                state3.setVisibility(View.INVISIBLE);
+                state1.setVisibility(View.VISIBLE);
+                state2.setVisibility(View.VISIBLE);
+                state3.setVisibility(View.VISIBLE);
                 pass1.setVisibility(View.INVISIBLE);
                 pass2.setVisibility(View.INVISIBLE);
                 modify.setVisibility(View.INVISIBLE);
@@ -175,21 +174,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 oldPass.setVisibility(View.INVISIBLE);
                 newPass.setVisibility(View.INVISIBLE);
                 modify.setVisibility((View.INVISIBLE));
-                break;
-            }
-            case R.id.state: {
-                info1.setVisibility(View.INVISIBLE);
-                state1.setVisibility(View.VISIBLE);
-                state2.setVisibility(View.VISIBLE);
-                state3.setVisibility(View.VISIBLE);
-                pass1.setVisibility(View.INVISIBLE);
-                pass2.setVisibility(View.INVISIBLE);
-                oldPass.setVisibility(View.INVISIBLE);
-                newPass.setVisibility(View.INVISIBLE);
-                modify.setVisibility((View.INVISIBLE));
+                back.setVisibility(View.INVISIBLE);
                 break;
             }
             case R.id.pass: {
+                back.setVisibility(View.VISIBLE);
                 info1.setVisibility(View.INVISIBLE);
                 state1.setVisibility(View.INVISIBLE);
                 state2.setVisibility(View.INVISIBLE);
@@ -199,9 +188,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 oldPass.setVisibility(View.VISIBLE);
                 newPass.setVisibility(View.VISIBLE);
                 modify.setVisibility((View.VISIBLE));
-                state.setVisibility(View.INVISIBLE);
                 info.setVisibility(View.INVISIBLE);
                 pass.setVisibility(View.INVISIBLE);
+                break;
+            }
+            case R.id.back: {
+                back.setVisibility(View.INVISIBLE);
+                state1.setVisibility(View.VISIBLE);
+                state2.setVisibility(View.VISIBLE);
+                state3.setVisibility(View.VISIBLE);
+                pass1.setVisibility(View.INVISIBLE);
+                pass2.setVisibility(View.INVISIBLE);
+                modify.setVisibility(View.INVISIBLE);
+                info1.setVisibility(View.VISIBLE);
+                oldPass.setVisibility(View.INVISIBLE);
+                newPass.setVisibility(View.INVISIBLE);
+                modify.setVisibility((View.INVISIBLE));
+                info.setVisibility(View.VISIBLE);
+                pass.setVisibility(View.VISIBLE);
                 break;
             }
             case R.id.confirm: {

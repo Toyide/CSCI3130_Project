@@ -46,7 +46,7 @@ public class RegisterFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-
+    private static final String TAG = "test";
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
 
@@ -96,16 +96,45 @@ public class RegisterFragment extends Fragment {
                 RegButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        boolean checkLab_Tut = false;
+                        boolean checkLec_count = false;
+                        int LecCount = 0;
+                        int num_Tub_Lab = 0;
+                        ArrayList<String> tut_lab = new ArrayList();
                         boolean checkConflict = false;//false -> no conflict
                         ArrayList<Courses> curCourses = new ArrayList<Courses>();
                         for (Courses c : CourseList) {
                             for (String s : adapter.getCourseList().split(",")) {
-                                if (s.equals(c.CourseID.toString()))
+                                if (s.equals(c.CourseID.toString())) {
                                     curCourses.add(c);
+                                    if (c.CourseType.toString().equals("Lec")) {
+                                        LecCount++;
+                                        if (!c.TutID.toString().equals("00000")) {
+
+                                            tut_lab.add(c.TutID);
+                                        }
+                                        if (!c.LabID.toString().equals("00000")) {
+                                            tut_lab.add(c.LabID);
+                                        }
+                                    }
+                                    if (c.CourseType.equals("Tut")){
+                                        if (tut_lab.toString().indexOf(c.CourseID.toString()) != -1)
+
+                                            num_Tub_Lab++;
+                                    }
+                                    if (c.CourseType.equals("Lab")){
+                                        if (tut_lab.toString().indexOf(c.CourseID.toString()) !=- 1)
+                                            num_Tub_Lab++;
+                                    }
+                                }
                             }
                         }
-
+                        if(tut_lab.size() != num_Tub_Lab){
+                            checkLab_Tut =true;
+                        }
+                        if(LecCount >5){
+                            checkLec_count =true;
+                        }
                         for (int i = 0; i < curCourses.size(); i++) {
                             for (int j = i + 1; j < curCourses.size(); j++) {
                                 for (char day : curCourses.get(i).CourseWeekday.toCharArray()) {
@@ -124,7 +153,7 @@ public class RegisterFragment extends Fragment {
                             if (checkConflict)
                                 break;
                         }
-                        if (checkConflict == false) {
+                        if (checkConflict == false &&checkLab_Tut == false &&checkLec_count == false) {
                             currentIDList = adapter.getCourseList();
                             appState.firebaseReference.setValue(currentIDList);
                             new MyTask().execute();
@@ -136,7 +165,7 @@ public class RegisterFragment extends Fragment {
                                 }
                             }, 2200);
                         }
-                        else {
+                        else  if (checkConflict){
                             new MyTask().execute();
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
@@ -149,6 +178,26 @@ public class RegisterFragment extends Fragment {
                             //TODO disable register && conflict messages
                             //TODO update currentSpot
 
+                        }
+                        else if (checkLab_Tut){
+                            new MyTask().execute();
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getActivity(), "Lecture, tut, lab is not paired!", Toast.LENGTH_SHORT).show();
+                                }
+                            }, 2200);
+                        }
+                        else {
+                            new MyTask().execute();
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getActivity(), "Five more courses chosen", Toast.LENGTH_SHORT).show();
+                                }
+                            }, 2200);
                         }
 
                     }
