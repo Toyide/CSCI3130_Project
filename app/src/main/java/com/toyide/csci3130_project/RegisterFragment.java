@@ -102,7 +102,7 @@ public class RegisterFragment extends Fragment {
                         currentIDList = dataSnapshot.getValue(String.class);
                         //course items that should be shown in the schedule
 
-                        CourseList = new ArrayList<>(courseChildren);
+                        CourseList = courseChildren;
                         RegistrationListView = view.findViewById(R.id.listView_Registration);
                         RegButton = view.findViewById(R.id.RegisterButt);
                         final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
