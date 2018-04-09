@@ -1,11 +1,10 @@
 package com.toyide.csci3130_project;
-import android.app.Activity;
+
 import android.content.Context;
 
 import android.net.Uri;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import android.support.v4.app.FragmentTransaction;
@@ -14,12 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -32,8 +28,6 @@ import com.google.firebase.database.MutableData;
 
 import java.util.ArrayList;
 
-import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -49,10 +43,6 @@ public class RegisterFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private static final String TAG = "test";
-    AlphaAnimation inAnimation;
-    AlphaAnimation outAnimation;
-
-    FrameLayout progressBarHolder;
     private MyApplicationData appState;
 
     //Not needed in the registration
@@ -60,8 +50,6 @@ public class RegisterFragment extends Fragment {
     private ListView RegistrationListView;
     private Button RegButton;
     private ArrayList<Courses> CourseList;
-
-    private FirebaseListAdapter<Courses> firebaseAdapter;
 
     public String currentIDList;// selected courseIDList for later conflict check
 
@@ -163,9 +151,7 @@ public class RegisterFragment extends Fragment {
 
                                 checkList.addAll(curCourses);
                                 checkList.removeAll(oldCourses);
-     /*                   Log.i("getVIew() ",checkList.toString()+" asassa");
 
-                        Log.i("getVIew() ",checkList.toString()+" asassa");*/
                                 for (Courses c: checkList) {
                                     if (c.SpotCurrent == c.SpotMax) {
                                         courseFull.add(c.CourseTitle);
@@ -310,40 +296,5 @@ public class RegisterFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    /*
-    private class MyTask extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            RegButton.setEnabled(false);
-            inAnimation = new AlphaAnimation(0f, 1f);
-            inAnimation.setDuration(200);
-            progressBarHolder.setAnimation(inAnimation);
-            progressBarHolder.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            outAnimation = new AlphaAnimation(1f, 0f);
-            outAnimation.setDuration(200);
-            progressBarHolder.setAnimation(outAnimation);
-            progressBarHolder.setVisibility(View.GONE);
-            RegButton.setEnabled(true);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                for (int i = 0; i < 2; i++) {
-                    TimeUnit.SECONDS.sleep(1);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-    */
 }
