@@ -57,7 +57,7 @@ public class RegisterFragment extends Fragment {
     private MyApplicationData appState;
 
     //Not needed in the registration
-
+    private Context mContext;
     private ListView RegistrationListView;
     private Button RegButton;
     private ArrayList<Courses> CourseList;
@@ -83,7 +83,7 @@ public class RegisterFragment extends Fragment {
         //Set-up Firebase
         appState = (MyApplicationData) getActivity().getApplicationContext();
         appState.firebaseDBInstance = FirebaseDatabase.getInstance();
-
+        final Context a = mContext;
         appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
         appState.firebaseReference.addValueEventListener( new ValueEventListener() {
             @Override
@@ -108,7 +108,7 @@ public class RegisterFragment extends Fragment {
 
                         RegistrationListView = view.findViewById(R.id.listView_Registration);
                         RegButton = view.findViewById(R.id.RegisterButt);
-                        final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
+                        final RegistrationAdapter adapter = new RegistrationAdapter(a, R.layout.fragment_register, CourseList, currentIDList);
                         RegistrationListView.setAdapter(adapter);
 
                         RegButton.setOnClickListener(new View.OnClickListener() {
@@ -212,24 +212,24 @@ public class RegisterFragment extends Fragment {
                                             HashMap<String, Integer> map = new HashMap<>();
                                             for (Courses c: oldCourses) {
                                                 Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
-                                                if (map.containsKey(course.CourseID)) {
-                                                    map.put(course.CourseID.toString(), map.get(course.CourseID) - 1);
+                                                if (map.containsKey(course.CourseID.toString())) {
+                                                    map.put(course.CourseID.toString(), map.get(course.CourseID.toString()));
                                                 } else {
-                                                    map.put(course.CourseID.toString(), course.SpotCurrent - 1);
+                                                    map.put(course.CourseID.toString(), course.SpotCurrent);
                                                 }
-                                                appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(--course.SpotCurrent);
+                                                appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(map.get(course.CourseID.toString()));
                                             }
 
                                             for (Courses c : curCourses) {
                                                 Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
 
-                                                if (map.containsKey(course.CourseID)) {
-                                                    map.put(course.CourseID.toString(), map.get(course.CourseID) + 1);
+                                                if (map.containsKey(course.CourseID.toString())) {
+                                                    map.put(course.CourseID.toString(), map.get(course.CourseID.toString()) + 1);
                                                 } else {
                                                     map.put(course.CourseID.toString(), course.SpotCurrent + 1);
                                                 }
 
-                                                appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(++course.SpotCurrent);
+                                                appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(map.get(course.CourseID.toString()));
                                             }
 
 
@@ -252,7 +252,7 @@ public class RegisterFragment extends Fragment {
                                 }
                                 else if (!courseFull.isEmpty()) {
 
-                                    Toast.makeText(getActivity(), courseFull.toString().replace("[","").replace("]","") + " are full!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), courseFull.toString().replace("[","").replace("]","") + " already full!", Toast.LENGTH_SHORT).show();
 
 
                                     //TODO disable register && conflict messages
@@ -314,6 +314,7 @@ public class RegisterFragment extends Fragment {
         } else {
             Toast.makeText(context, "RegisterFragment attached", Toast.LENGTH_SHORT).show();
         }
+        mContext = context;
     }
 
     @Override
