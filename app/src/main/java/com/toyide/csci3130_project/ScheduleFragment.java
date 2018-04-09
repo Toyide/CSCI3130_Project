@@ -47,8 +47,7 @@ public class ScheduleFragment extends Fragment {
         final String userId = LocalData.getUserID(); //Get userID from local
 
         //course items that should be shown in the schedule
-        CourseList = new ArrayList();
-        cidList = new ArrayList();
+        cidList = new ArrayList<>();
 
 
         //Set-up Firebase
@@ -60,14 +59,15 @@ public class ScheduleFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cid = dataSnapshot.child(userId).child("CourseID").getValue(String.class);
                 for (String s : cid.split(",")) {
-                    cidList.add(s);
-                }
-
-                for(Courses c : getData.courses_list) {
-                    if (cidList.contains(c.CourseID.toString())) {
-                        CourseList.add(c);
+                    for(Courses c : getData.courses_list) {
+                        if (s.equals(c.CourseID.toString())) {
+                            CourseList.add(c);
+                            break;
+                        }
                     }
                 }
+
+
 
                 //create a new CourseListAdapter object(CourseListAdapter.java)
                 // turns the content of courseArrayList into things that the ListView(fragment_schedule) can display
