@@ -31,7 +31,6 @@ public class ScheduleFragment extends Fragment {
 
     private MyApplicationData appState;
     private ArrayList<String> cidList;
-    private ArrayList<Courses> CourseList;
     private String cid;
     public ScheduleFragment() {
         // Required empty public constructor
@@ -58,6 +57,7 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cid = dataSnapshot.child(userId).child("CourseID").getValue(String.class);
+                ArrayList<Courses> CourseList =new ArrayList();
                 for (String s : cid.split(",")) {
                     for(Courses c : getData.courses_list) {
                         if (s.equals(c.CourseID.toString())) {
