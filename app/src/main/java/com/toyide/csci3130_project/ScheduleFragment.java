@@ -3,9 +3,7 @@ package com.toyide.csci3130_project;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,7 +25,7 @@ public class ScheduleFragment extends Fragment {
     private static final String TAG = "test";
 
     private MyApplicationData appState;
-    private ArrayList<Courses> CourseList;
+
     private String cid;
     public ScheduleFragment() {
         // Required empty public constructor
@@ -43,12 +38,8 @@ public class ScheduleFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        final String userId = LocalData.getUserID(); //Get userID from local
-        Log.i("getView()", "it is  "+getData.courses_list);
+        final String userId = LocalData.getUserID(); //Get userID from local\
         //course items that should be shown in the schedule
-        CourseList = new ArrayList<>();
-
-
         //Set-up Firebase
         appState = (MyApplicationData) getActivity().getApplicationContext();
         appState.firebaseDBInstance = FirebaseDatabase.getInstance();
@@ -57,6 +48,7 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cid = dataSnapshot.child(userId).child("CourseID").getValue(String.class);
+                ArrayList<Courses> CourseList =new ArrayList();
                 for (String s : cid.split(",")) {
                     for(Courses c : getData.courses_list) {
                         if (s.equals(c.CourseID.toString())) {

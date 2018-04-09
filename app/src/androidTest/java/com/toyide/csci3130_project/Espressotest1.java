@@ -65,14 +65,13 @@ public class Espressotest1 {
         onView(withId(R.id.info)).perform(click());
         onView(withId(R.id.viewAntoNieva)).check(matches(withText("Xiao Yuan")));
         onView(withId(R.id.Bnumber)).check(matches(withText("B00123456")));
-        onView(withId(R.id.state)).perform(click());
-        Thread.sleep(1500);
         onView(withId(R.id.department)).check(matches(withText("Computer Science")));
         onView(withId(R.id.level)).check(matches(withText("Undergraduate")));
         onView(withId(R.id.pass));
     }
     @Test
     public void check3() throws InterruptedException{
+
 
         onView(withId(R.id.input_username)).perform(typeText("B00123456"));
         closeSoftKeyboard();

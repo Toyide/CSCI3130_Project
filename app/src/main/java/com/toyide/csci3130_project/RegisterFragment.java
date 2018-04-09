@@ -103,7 +103,9 @@ public class RegisterFragment extends Fragment {
                         currentIDList = dataSnapshot.getValue(String.class);
                         //course items that should be shown in the schedule
 
-                        CourseList = new ArrayList<>(courseChildren);
+
+                        CourseList = courseChildren;
+
                         RegistrationListView = view.findViewById(R.id.listView_Registration);
                         RegButton = view.findViewById(R.id.RegisterButt);
                         final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
@@ -206,6 +208,7 @@ public class RegisterFragment extends Fragment {
                                     appState.firebaseReference.runTransaction(new Transaction.Handler() {
                                         @Override
                                         public Transaction.Result doTransaction(MutableData mutableData) {
+
                                             HashMap<String, Integer> map = new HashMap<>();
                                             for (Courses c: oldCourses) {
                                                 Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
@@ -219,11 +222,13 @@ public class RegisterFragment extends Fragment {
 
                                             for (Courses c : curCourses) {
                                                 Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
+
                                                 if (map.containsKey(course.CourseID)) {
                                                     map.put(course.CourseID.toString(), map.get(course.CourseID) + 1);
                                                 } else {
                                                     map.put(course.CourseID.toString(), course.SpotCurrent + 1);
                                                 }
+
                                                 appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(++course.SpotCurrent);
                                             }
 

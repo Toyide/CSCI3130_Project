@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CSCI3130_Project</string>
+    <string name="app_name">Registration Application</string>
     <string name="title_profile">Profile</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_register">Register</string>
@@ -17,7 +17,7 @@
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
-    <string name="title_login">Login</string>
+    <string name="title_login">Registration Application</string>
     <string name="action_login">Login</string>
     <string name="error_invalid_login">Incorrect username or password. Please try again. </string>
     <string name="error_field_required">This field is required</string>
