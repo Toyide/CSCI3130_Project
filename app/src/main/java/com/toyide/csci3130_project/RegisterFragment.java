@@ -32,6 +32,7 @@ import com.google.firebase.database.MutableData;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
@@ -102,7 +103,9 @@ public class RegisterFragment extends Fragment {
                         currentIDList = dataSnapshot.getValue(String.class);
                         //course items that should be shown in the schedule
 
+
                         CourseList = courseChildren;
+
                         RegistrationListView = view.findViewById(R.id.listView_Registration);
                         RegButton = view.findViewById(R.id.RegisterButt);
                         final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
@@ -164,7 +167,6 @@ public class RegisterFragment extends Fragment {
                                 checkList.addAll(curCourses);
                                 checkList.removeAll(oldCourses);
      /*                   Log.i("getVIew() ",checkList.toString()+" asassa");
-
                         Log.i("getVIew() ",checkList.toString()+" asassa");*/
                                 for (Courses c: checkList) {
                                     if (c.SpotCurrent == c.SpotMax) {
@@ -206,13 +208,27 @@ public class RegisterFragment extends Fragment {
                                     appState.firebaseReference.runTransaction(new Transaction.Handler() {
                                         @Override
                                         public Transaction.Result doTransaction(MutableData mutableData) {
+
+                                            HashMap<String, Integer> map = new HashMap<>();
                                             for (Courses c: oldCourses) {
                                                 Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
+                                                if (map.containsKey(course.CourseID)) {
+                                                    map.put(course.CourseID.toString(), map.get(course.CourseID) - 1);
+                                                } else {
+                                                    map.put(course.CourseID.toString(), course.SpotCurrent - 1);
+                                                }
                                                 appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(--course.SpotCurrent);
                                             }
 
                                             for (Courses c : curCourses) {
                                                 Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
+
+                                                if (map.containsKey(course.CourseID)) {
+                                                    map.put(course.CourseID.toString(), map.get(course.CourseID) + 1);
+                                                } else {
+                                                    map.put(course.CourseID.toString(), course.SpotCurrent + 1);
+                                                }
+
                                                 appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(++course.SpotCurrent);
                                             }
 
@@ -312,7 +328,6 @@ public class RegisterFragment extends Fragment {
     }
     /*
     private class MyTask extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -322,7 +337,6 @@ public class RegisterFragment extends Fragment {
             progressBarHolder.setAnimation(inAnimation);
             progressBarHolder.setVisibility(View.VISIBLE);
         }
-
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -332,7 +346,6 @@ public class RegisterFragment extends Fragment {
             progressBarHolder.setVisibility(View.GONE);
             RegButton.setEnabled(true);
         }
-
         @Override
         protected Void doInBackground(Void... params) {
             try {
