@@ -41,14 +41,16 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView( int position, View convertView, final ViewGroup parent) {
 
         //get data for the position
         Courses course = getItem(position);
         final String ID = course.CourseID.toString();
 
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content,parent,false);
 
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content, parent, false);
+        }
 
         TextView courseTitleView = (TextView) convertView.findViewById(R.id.courseTitle);
         final TextView civ = (TextView) convertView.findViewById(R.id.courseInfo);
@@ -59,6 +61,7 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.i(TAG,  "View()");
                 if (buttonView.isChecked()) {
                     if (!CourseList.contains(ID))
                         CourseList.add(ID);
