@@ -30,7 +30,6 @@ public class ScheduleFragment extends Fragment {
     private static final String TAG = "test";
 
     private MyApplicationData appState;
-    private ArrayList<String> cidList;
     private ArrayList<Courses> CourseList;
     private String cid;
     public ScheduleFragment() {
@@ -47,7 +46,7 @@ public class ScheduleFragment extends Fragment {
         final String userId = LocalData.getUserID(); //Get userID from local
         Log.i("getView()", "it is  "+getData.courses_list);
         //course items that should be shown in the schedule
-        cidList = new ArrayList<>();
+        CourseList = new ArrayList<>();
 
 
         //Set-up Firebase
