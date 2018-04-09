@@ -8,9 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
-import android.support.v4.widget.TextViewCompat;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,10 +87,10 @@ public class RegisterFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentIDList = dataSnapshot.getValue(String.class);
                 //course items that should be shown in the schedule
+
                 CourseList = new ArrayList<>(getData.courses_list);
                 RegistrationListView = view.findViewById(R.id.listView_Registration);
                 RegButton = view.findViewById(R.id.RegisterButt);
-                progressBarHolder = getActivity().findViewById(R.id.progressBarHolder);
                 final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
                 RegistrationListView.setAdapter(adapter);
 
@@ -102,8 +100,11 @@ public class RegisterFragment extends Fragment {
                         boolean checkLab_Tut = false;
                         boolean checkLec_count = false;
                         int LecCount = 0;
-                        int num_Tub_Lab = 0;
-                        ArrayList<String> tut_lab = new ArrayList();
+                        int num_Tut = 0;
+                        int num_Lab = 0;
+                        ArrayList<String> tut = new ArrayList();
+                        ArrayList<String> lab = new ArrayList();
+                        Log.i("getView()", "asdas  "+getData.courses_list);
                         boolean checkConflict = false;//false -> no conflict
                         final ArrayList<String> courseFull = new ArrayList<>();
                         final ArrayList<Courses> curCourses = new ArrayList<>();
@@ -113,7 +114,27 @@ public class RegisterFragment extends Fragment {
                         for (Courses c : CourseList) {
                             for (String s : adapter.getCourseList().split(",")) {
                                 if (s.equals(c.CourseID.toString())) {
+                                    if (c.CourseType.toString().equals("Lec")) {
+                                        LecCount++;
+                                        if (!c.TutID.toString().equals("00000")) {
 
+                                            tut.add(c.TutID);
+
+                                        }
+                                        if (!c.LabID.toString().equals("00000")) {
+                                            lab.add(c.LabID);
+                                        }
+                                    }
+                                    if (c.CourseType.equals("Tut")){
+                                        if (tut.toString().contains(c.CourseID.toString()))
+                                            num_Tut++;
+
+
+                                    }
+                                    if (c.CourseType.equals("Lab")){
+                                        if (lab.toString().contains(c.CourseID.toString()))
+                                            num_Lab++;
+                                    }
                                     curCourses.add(c);
                                 }
                             }
@@ -121,40 +142,24 @@ public class RegisterFragment extends Fragment {
                             for (String s : adapter.getOldList()) {
                                 if (s.equals(c.CourseID.toString()))
                                     oldCourses.add(c);
-                                    if (c.CourseType.toString().equals("Lec")) {
-                                        LecCount++;
-                                        if (!c.TutID.toString().equals("00000")) {
-                                            tut_lab.add(c.TutID);
-                                        }
-                                        if (!c.LabID.toString().equals("00000")) {
-                                            tut_lab.add(c.LabID);
-                                        }
-                                    }
-                                    if (c.CourseType.equals("Tut")){
-                                        if (tut_lab.toString().indexOf(c.CourseID.toString()) != -1)
 
-                                            num_Tub_Lab++;
-                                    }
-                                    if (c.CourseType.equals("Lab")){
-                                        if (tut_lab.toString().indexOf(c.CourseID.toString()) !=- 1)
-                                            num_Tub_Lab++;
-                                    }
-                                }
                             }
+                            Log.i("getView()", "next  "+getData.courses_list);
                         }
-
+                        Log.i("getView()", "next  "+getData.courses_list);
                         checkList.addAll(curCourses);
                         checkList.removeAll(oldCourses);
-                  
+     /*                   Log.i("getVIew() ",checkList.toString()+" asassa");
+
+                        Log.i("getVIew() ",checkList.toString()+" asassa");*/
                         for (Courses c: checkList) {
                             if (c.SpotCurrent == c.SpotMax) {
                                 courseFull.add(c.CourseTitle);
                             }
                         }
 
+                        if((tut.size() !=num_Tut)||(lab.size() !=num_Lab)){
 
-
-                        if(tut_lab.size() != num_Tub_Lab){
                             checkLab_Tut =true;
                         }
                         if(LecCount >5){
@@ -179,7 +184,7 @@ public class RegisterFragment extends Fragment {
                             if (checkConflict)
                                 break;
                         }
-
+                        Log.i("getView()", "third  "+getData.courses_list);
                         if (checkConflict == false && checkLab_Tut == false && checkLec_count == false && courseFull.isEmpty()) {
                             currentIDList = adapter.getCourseList();
                             appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(userId).child("CourseID");
@@ -190,13 +195,12 @@ public class RegisterFragment extends Fragment {
                                 public Transaction.Result doTransaction(MutableData mutableData) {
                                     for (Courses c: oldCourses) {
                                         Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
-                                        course.SpotCurrent--;
-                                        mutableData.child(c.CourseID.toString()).setValue(course);
+                                        appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(--course.SpotCurrent);
                                     }
+
                                     for (Courses c : curCourses) {
                                         Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
-                                        course.SpotCurrent++;
-                                        mutableData.child(c.CourseID.toString()).setValue(course);
+                                        appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(++course.SpotCurrent);
                                     }
 
 
@@ -210,65 +214,41 @@ public class RegisterFragment extends Fragment {
                                     Log.d("SpotUpdateError", "" + databaseError);
                                 }
                             });
-
-                            new MyTask().execute();
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
-                                }
-                            }, 2200);
+                            //Refresh fragment
+                            Fragment frg = getFragmentManager().findFragmentByTag("regFragment");
+                            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.setReorderingAllowed(false);
+                            ft.detach(frg).attach(frg).commitAllowingStateLoss();
+                            Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
                         }
                         else if (!courseFull.isEmpty()) {
-                            new MyTask().execute();
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
+
                                     Toast.makeText(getActivity(), courseFull.toString().replace("[","").replace("]","") + " are full!", Toast.LENGTH_SHORT).show();
-                                }
-                            }, 2200);
+
 
                             //TODO disable register && conflict messages
                             //TODO update currentSpot
 
                         }
                         else  if (checkConflict){
-                            new MyTask().execute();
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
+
                                     Toast.makeText(getActivity(), "Conflict!", Toast.LENGTH_SHORT).show();
-                                }
-                            }, 2200);
+
 
                             //TODO disable register && conflict messages
                             //TODO update currentSpot
 
                         }
                         else if (checkLab_Tut){
-                            new MyTask().execute();
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
+
                                     Toast.makeText(getActivity(), "Lecture, tut, lab is not paired!", Toast.LENGTH_SHORT).show();
-                                }
-                            }, 2200);
+
                         }
                         else {
-                            new MyTask().execute();
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getActivity(), "Five more courses chosen", Toast.LENGTH_SHORT).show();
-                                }
-                            }, 2200);
-                        }
 
+                                    Toast.makeText(getActivity(), "Five more courses chosen", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
 
                 });
@@ -289,15 +269,15 @@ public class RegisterFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-        @Override
-        public void onAttach(Context context) {
-            super.onAttach(context);
-            if (context instanceof OnFragmentInteractionListener) {
-                mListener = (OnFragmentInteractionListener) context;
-            } else {
-                Toast.makeText(context, "RegisterFragment attached", Toast.LENGTH_SHORT).show();
-            }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            Toast.makeText(context, "RegisterFragment attached", Toast.LENGTH_SHORT).show();
         }
+    }
 
     @Override
     public void onDetach() {
@@ -309,6 +289,7 @@ public class RegisterFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    /*
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -343,4 +324,5 @@ public class RegisterFragment extends Fragment {
             return null;
         }
     }
+    */
 }

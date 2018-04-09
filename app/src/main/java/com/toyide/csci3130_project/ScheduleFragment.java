@@ -45,7 +45,7 @@ public class ScheduleFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         final String userId = LocalData.getUserID(); //Get userID from local
-
+        Log.i("getView()", "it is  "+getData.courses_list);
         //course items that should be shown in the schedule
         cidList = new ArrayList<>();
 
