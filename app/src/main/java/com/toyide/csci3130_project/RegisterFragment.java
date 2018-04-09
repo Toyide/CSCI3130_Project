@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,183 +82,203 @@ public class RegisterFragment extends Fragment {
         //Set-up Firebase
         appState = (MyApplicationData) getActivity().getApplicationContext();
         appState.firebaseDBInstance = FirebaseDatabase.getInstance();
-        appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(userId).child("CourseID");
-        appState.firebaseReference.addValueEventListener(new ValueEventListener() {
+
+        appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
+        appState.firebaseReference.addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentIDList = dataSnapshot.getValue(String.class);
-                //course items that should be shown in the schedule
 
-                CourseList = new ArrayList<>(getData.courses_list);
-                RegistrationListView = view.findViewById(R.id.listView_Registration);
-                RegButton = view.findViewById(R.id.RegisterButt);
-                final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
-                RegistrationListView.setAdapter(adapter);
-
-                RegButton.setOnClickListener(new View.OnClickListener() {
+                Iterable<DataSnapshot> courseSnapshot =dataSnapshot.getChildren();
+                final ArrayList<Courses> courseChildren = new ArrayList<Courses>();
+                for (DataSnapshot course : courseSnapshot ){
+                    //Log.i(TAG,  "View()"+course);
+                    Courses temp = course.getValue(Courses.class);
+                    courseChildren.add(temp);
+                }
+                appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(userId).child("CourseID");
+                appState.firebaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onClick(View view) {
-                        boolean checkLab_Tut = false;
-                        boolean checkLec_count = false;
-                        int LecCount = 0;
-                        int num_Tut = 0;
-                        int num_Lab = 0;
-                        ArrayList<String> tut = new ArrayList();
-                        ArrayList<String> lab = new ArrayList();
-                        Log.i("getView()", "asdas  "+getData.courses_list);
-                        boolean checkConflict = false;//false -> no conflict
-                        final ArrayList<String> courseFull = new ArrayList<>();
-                        final ArrayList<Courses> curCourses = new ArrayList<>();
-                        final ArrayList<Courses> oldCourses = new ArrayList<>();
-                        ArrayList<Courses> checkList = new ArrayList<>();
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        currentIDList = dataSnapshot.getValue(String.class);
+                        //course items that should be shown in the schedule
 
-                        for (Courses c : CourseList) {
-                            for (String s : adapter.getCourseList().split(",")) {
-                                if (s.equals(c.CourseID.toString())) {
-                                    if (c.CourseType.toString().equals("Lec")) {
-                                        LecCount++;
-                                        if (!c.TutID.toString().equals("00000")) {
+                        CourseList = new ArrayList<>(courseChildren);
+                        RegistrationListView = view.findViewById(R.id.listView_Registration);
+                        RegButton = view.findViewById(R.id.RegisterButt);
+                        final RegistrationAdapter adapter = new RegistrationAdapter(getContext(), R.layout.fragment_register, CourseList, currentIDList);
+                        RegistrationListView.setAdapter(adapter);
 
-                                            tut.add(c.TutID);
+                        RegButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                boolean checkLab_Tut = false;
+                                boolean checkLec_count = false;
+                                int LecCount = 0;
+                                int num_Tut = 0;
+                                int num_Lab = 0;
+                                ArrayList<String> tut = new ArrayList();
+                                ArrayList<String> lab = new ArrayList();
 
+                                boolean checkConflict = false;//false -> no conflict
+                                final ArrayList<String> courseFull = new ArrayList<>();
+                                final ArrayList<Courses> curCourses = new ArrayList<>();
+                                final ArrayList<Courses> oldCourses = new ArrayList<>();
+                                ArrayList<Courses> checkList = new ArrayList<>();
+
+                                for (Courses c : CourseList) {
+                                    for (String s : adapter.getCourseList().split(",")) {
+                                        if (s.equals(c.CourseID.toString())) {
+                                            if (c.CourseType.toString().equals("Lec")) {
+                                                LecCount++;
+                                                if (!c.TutID.toString().equals("00000")) {
+
+                                                    tut.add(c.TutID);
+
+                                                }
+                                                if (!c.LabID.toString().equals("00000")) {
+                                                    lab.add(c.LabID);
+                                                }
+                                            }
+                                            if (c.CourseType.equals("Tut")){
+                                                if (tut.toString().contains(c.CourseID.toString()))
+                                                    num_Tut++;
+
+
+                                            }
+                                            if (c.CourseType.equals("Lab")){
+                                                if (lab.toString().contains(c.CourseID.toString()))
+                                                    num_Lab++;
+                                            }
+                                            curCourses.add(c);
                                         }
-                                        if (!c.LabID.toString().equals("00000")) {
-                                            lab.add(c.LabID);
-                                        }
                                     }
-                                    if (c.CourseType.equals("Tut")){
-                                        if (tut.toString().contains(c.CourseID.toString()))
-                                            num_Tut++;
 
+                                    for (String s : adapter.getOldList()) {
+                                        if (s.equals(c.CourseID.toString()))
+                                            oldCourses.add(c);
 
                                     }
-                                    if (c.CourseType.equals("Lab")){
-                                        if (lab.toString().contains(c.CourseID.toString()))
-                                            num_Lab++;
-                                    }
-                                    curCourses.add(c);
+
                                 }
-                            }
 
-                            for (String s : adapter.getOldList()) {
-                                if (s.equals(c.CourseID.toString()))
-                                    oldCourses.add(c);
-
-                            }
-                            Log.i("getView()", "next  "+getData.courses_list);
-                        }
-                        Log.i("getView()", "next  "+getData.courses_list);
-                        checkList.addAll(curCourses);
-                        checkList.removeAll(oldCourses);
+                                checkList.addAll(curCourses);
+                                checkList.removeAll(oldCourses);
      /*                   Log.i("getVIew() ",checkList.toString()+" asassa");
 
                         Log.i("getVIew() ",checkList.toString()+" asassa");*/
-                        for (Courses c: checkList) {
-                            if (c.SpotCurrent == c.SpotMax) {
-                                courseFull.add(c.CourseTitle);
-                            }
-                        }
+                                for (Courses c: checkList) {
+                                    if (c.SpotCurrent == c.SpotMax) {
+                                        courseFull.add(c.CourseTitle);
+                                    }
+                                }
 
-                        if((tut.size() !=num_Tut)||(lab.size() !=num_Lab)){
+                                if((tut.size() !=num_Tut)||(lab.size() !=num_Lab)){
 
-                            checkLab_Tut =true;
-                        }
-                        if(LecCount >5){
-                            checkLec_count =true;
-                        }
+                                    checkLab_Tut =true;
+                                }
+                                if(LecCount >5){
+                                    checkLec_count =true;
+                                }
 
-                        for (int i = 0; i < curCourses.size(); i++) {
-                            for (int j = i + 1; j < curCourses.size(); j++) {
-                                for (char day : curCourses.get(i).CourseWeekday.toCharArray()) {
-                                    if (curCourses.get(j).CourseWeekday.indexOf(day) !=  -1) {
-                                        String time1[] = curCourses.get(i).CourseTime.split("-");
-                                        String time2[] = curCourses.get(j).CourseTime.split("-");
-                                        if ((time1[0].compareTo(time2[0]) >= 0 && time1[0].compareTo(time2[1]) < 0) || (time2[0].compareTo(time1[0]) >= 0 && time2[0].compareTo(time1[1]) < 0)) {
-                                            checkConflict = true;
-                                            break;
+                                for (int i = 0; i < curCourses.size(); i++) {
+                                    for (int j = i + 1; j < curCourses.size(); j++) {
+                                        for (char day : curCourses.get(i).CourseWeekday.toCharArray()) {
+                                            if (curCourses.get(j).CourseWeekday.indexOf(day) !=  -1) {
+                                                String time1[] = curCourses.get(i).CourseTime.split("-");
+                                                String time2[] = curCourses.get(j).CourseTime.split("-");
+                                                if ((time1[0].compareTo(time2[0]) >= 0 && time1[0].compareTo(time2[1]) < 0) || (time2[0].compareTo(time1[0]) >= 0 && time2[0].compareTo(time1[1]) < 0)) {
+                                                    checkConflict = true;
+                                                    break;
+                                                }
+                                            }
                                         }
+                                        if (checkConflict)
+                                            break;
                                     }
+                                    if (checkConflict)
+                                        break;
                                 }
-                                if (checkConflict)
-                                    break;
-                            }
-                            if (checkConflict)
-                                break;
-                        }
-                        Log.i("getView()", "third  "+getData.courses_list);
-                        if (checkConflict == false && checkLab_Tut == false && checkLec_count == false && courseFull.isEmpty()) {
-                            currentIDList = adapter.getCourseList();
-                            appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(userId).child("CourseID");
-                            appState.firebaseReference.setValue(currentIDList);
-                            appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
-                            appState.firebaseReference.runTransaction(new Transaction.Handler() {
-                                @Override
-                                public Transaction.Result doTransaction(MutableData mutableData) {
-                                    for (Courses c: oldCourses) {
-                                        Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
-                                        appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(--course.SpotCurrent);
-                                    }
+                                if (checkConflict == false && checkLab_Tut == false && checkLec_count == false && courseFull.isEmpty()) {
+                                    currentIDList = adapter.getCourseList();
+                                    appState.firebaseReference = appState.firebaseDBInstance.getReference("Registrations").child(userId).child("CourseID");
+                                    appState.firebaseReference.setValue(currentIDList);
+                                    appState.firebaseReference = appState.firebaseDBInstance.getReference("Courses");
+                                    appState.firebaseReference.runTransaction(new Transaction.Handler() {
+                                        @Override
+                                        public Transaction.Result doTransaction(MutableData mutableData) {
+                                            for (Courses c: oldCourses) {
+                                                Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
+                                                appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(--course.SpotCurrent);
+                                            }
 
-                                    for (Courses c : curCourses) {
-                                        Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
-                                        appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(++course.SpotCurrent);
-                                    }
+                                            for (Courses c : curCourses) {
+                                                Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
+                                                appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(++course.SpotCurrent);
+                                            }
 
 
-                                    return Transaction.success(mutableData);
+                                            return Transaction.success(mutableData);
+                                        }
+
+                                        @Override
+                                        public void onComplete(DatabaseError databaseError, boolean b,
+                                                               DataSnapshot dataSnapshot) {
+                                            // Transaction completed
+                                            Log.d("SpotUpdateError", "" + databaseError);
+                                        }
+                                    });
+                                    //Refresh fragment
+                                    Fragment frg = getFragmentManager().findFragmentByTag("regFragment");
+                                    final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                    ft.setReorderingAllowed(false);
+                                    ft.detach(frg).attach(frg).commitAllowingStateLoss();
+                                    Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
                                 }
-
-                                @Override
-                                public void onComplete(DatabaseError databaseError, boolean b,
-                                                       DataSnapshot dataSnapshot) {
-                                    // Transaction completed
-                                    Log.d("SpotUpdateError", "" + databaseError);
-                                }
-                            });
-                            //Refresh fragment
-                            Fragment frg = getFragmentManager().findFragmentByTag("regFragment");
-                            final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                            ft.setReorderingAllowed(false);
-                            ft.detach(frg).attach(frg).commitAllowingStateLoss();
-                            Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
-                        }
-                        else if (!courseFull.isEmpty()) {
+                                else if (!courseFull.isEmpty()) {
 
                                     Toast.makeText(getActivity(), courseFull.toString().replace("[","").replace("]","") + " are full!", Toast.LENGTH_SHORT).show();
 
 
-                            //TODO disable register && conflict messages
-                            //TODO update currentSpot
+                                    //TODO disable register && conflict messages
+                                    //TODO update currentSpot
 
-                        }
-                        else  if (checkConflict){
+                                }
+                                else  if (checkConflict){
 
                                     Toast.makeText(getActivity(), "Conflict!", Toast.LENGTH_SHORT).show();
 
 
-                            //TODO disable register && conflict messages
-                            //TODO update currentSpot
+                                    //TODO disable register && conflict messages
+                                    //TODO update currentSpot
 
-                        }
-                        else if (checkLab_Tut){
+                                }
+                                else if (checkLab_Tut){
 
                                     Toast.makeText(getActivity(), "Lecture, tut, lab is not paired!", Toast.LENGTH_SHORT).show();
 
-                        }
-                        else {
+                                }
+                                else {
 
                                     Toast.makeText(getActivity(), "Five more courses chosen", Toast.LENGTH_SHORT).show();
 
-                        }
+                                }
+                            }
+
+                        });
                     }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 });
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
 
         return view;
     }
