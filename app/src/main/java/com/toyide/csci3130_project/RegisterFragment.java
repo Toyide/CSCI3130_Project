@@ -195,14 +195,12 @@ public class RegisterFragment extends Fragment {
                                 public Transaction.Result doTransaction(MutableData mutableData) {
                                     for (Courses c: oldCourses) {
                                         Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
-                                        Log.i("getView()", "that one  "+getData.courses_list);
-                                        course.SpotCurrent--;
-                                        mutableData.child(c.CourseID.toString()).setValue(course);
+                                        appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(--course.SpotCurrent);
                                     }
+
                                     for (Courses c : curCourses) {
                                         Courses course = mutableData.child(c.CourseID.toString()).getValue(Courses.class);
-                                        course.SpotCurrent++;
-                                        mutableData.child(c.CourseID.toString()).setValue(course);
+                                        appState.firebaseReference.child(c.CourseID.toString()).child("SpotCurrent").setValue(++course.SpotCurrent);
                                     }
 
 
@@ -216,7 +214,12 @@ public class RegisterFragment extends Fragment {
                                     Log.d("SpotUpdateError", "" + databaseError);
                                 }
                             });
-                                    Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+                            //Refresh fragment
+                            Fragment frg = getFragmentManager().findFragmentByTag("regFragment");
+                            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.setReorderingAllowed(false);
+                            ft.detach(frg).attach(frg).commitAllowingStateLoss();
+                            Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
                         }
                         else if (!courseFull.isEmpty()) {
 
@@ -246,7 +249,6 @@ public class RegisterFragment extends Fragment {
                                     Toast.makeText(getActivity(), "Five more courses chosen", Toast.LENGTH_SHORT).show();
 
                         }
-
                     }
 
                 });
