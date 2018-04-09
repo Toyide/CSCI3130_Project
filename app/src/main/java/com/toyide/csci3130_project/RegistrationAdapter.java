@@ -48,8 +48,9 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         final String ID = course.CourseID.toString();
 
 
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content,parent,false);
-
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.registration_content, parent, false);
+        }
 
         TextView courseTitleView = (TextView) convertView.findViewById(R.id.courseTitle);
         final TextView civ = (TextView) convertView.findViewById(R.id.courseInfo);
@@ -108,15 +109,5 @@ public class RegistrationAdapter extends ArrayAdapter<Courses> {
         convertView.setLayoutParams(params);
 
         return convertView;
-    }
-    private int count(String LabID, String TutID){
-        int lab_tut = 0;
-        if (!LabID.equals("00000")){
-            lab_tut++;
-        }
-        if (!TutID.equals("00000")){
-            lab_tut++;
-        }
-        return lab_tut;
     }
 }
