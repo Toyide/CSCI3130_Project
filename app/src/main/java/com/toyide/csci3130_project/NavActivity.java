@@ -36,7 +36,7 @@ public class NavActivity extends AppCompatActivity {
                     transaction.replace(R.id.MainFrame,new ScheduleFragment()).commit();
                     return true;
                 case R.id.navigation_register:
-                    transaction.replace(R.id.MainFrame,new RegisterFragment()).commit();
+                    transaction.replace(R.id.MainFrame,new RegisterFragment(),"regFragment").commit();
                     return true;
             }
             return false;
