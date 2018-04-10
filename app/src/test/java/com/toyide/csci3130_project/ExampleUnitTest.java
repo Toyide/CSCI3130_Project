@@ -32,13 +32,6 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public  void  check_registraion() throws  Exception{
-        Registration registration = new Registration("B00123456", "12345,23456,");
-        Map<String,Object> checks = registration.toMap();
-        assertEquals("B00123456",checks.get("UserID"));
-        assertEquals("12345,23456,",checks.get("CourseID"));
-    }
-    @Test
     public void check_courses() throws  Exception{
         assertEquals("CSCI 2102", course.CourseTitle);
         assertEquals("Lec", course.CourseType);
