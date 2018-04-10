@@ -145,12 +145,18 @@ public class RegisterFragment extends Fragment {
                                             if (c.CourseType.equals("Tut")){
                                                 if (tut.toString().contains(c.CourseID.toString()))
                                                     num_Tut++;
+                                                else {
+                                                    checkLab_Tut =true;
+                                                }
 
 
                                             }
                                             if (c.CourseType.equals("Lab")){
                                                 if (lab.toString().contains(c.CourseID.toString()))
                                                     num_Lab++;
+                                                else {
+                                                    checkLab_Tut =true;
+                                                }
                                             }
                                             curCourses.add(c);
                                         }
