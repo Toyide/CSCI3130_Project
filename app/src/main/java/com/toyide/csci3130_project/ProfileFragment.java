@@ -235,7 +235,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             MyApplicationData appState = (MyApplicationData) getActivity().getApplication();
             appState.firebaseDBInstance = FirebaseDatabase.getInstance();
             appState.firebaseReference = appState.firebaseDBInstance.getReference("Users");
-            appState.firebaseReference.child(ID).setValue(new_Value);
+            appState.firebaseReference.child(ID).child("Password").setValue(password);
 
         }
     }
@@ -255,7 +255,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "ProfileFragment attached", Toast.LENGTH_SHORT).show();
         }
     }
 

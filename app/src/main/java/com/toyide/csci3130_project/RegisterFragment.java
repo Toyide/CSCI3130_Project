@@ -318,7 +318,6 @@ public class RegisterFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "RegisterFragment attached", Toast.LENGTH_SHORT).show();
         }
         mContext = context;
     }

@@ -98,7 +98,7 @@ public class ScheduleFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "ScheduleFragment attached", Toast.LENGTH_SHORT).show();
+
         }
     }
 
