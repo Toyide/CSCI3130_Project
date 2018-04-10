@@ -332,37 +332,5 @@ public class RegisterFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    /*
-    private class MyTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            RegButton.setEnabled(false);
-            inAnimation = new AlphaAnimation(0f, 1f);
-            inAnimation.setDuration(200);
-            progressBarHolder.setAnimation(inAnimation);
-            progressBarHolder.setVisibility(View.VISIBLE);
-        }
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            outAnimation = new AlphaAnimation(1f, 0f);
-            outAnimation.setDuration(200);
-            progressBarHolder.setAnimation(outAnimation);
-            progressBarHolder.setVisibility(View.GONE);
-            RegButton.setEnabled(true);
-        }
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                for (int i = 0; i < 2; i++) {
-                    TimeUnit.SECONDS.sleep(1);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-    */
+
 }

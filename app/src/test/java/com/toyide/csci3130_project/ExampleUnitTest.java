@@ -2,6 +2,7 @@ package com.toyide.csci3130_project;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -56,5 +57,15 @@ public class ExampleUnitTest {
             checkConflict = true;
             assertEquals(true, checkConflict);
         }
+    }
+    @Test
+    public void check_upperbound() throws Exception {
+        Integer SpotCurrent = 100;
+        Integer SpotMax = 100;
+        ArrayList<String> courseFull = new ArrayList<>();
+        if (SpotCurrent == SpotMax) {
+            courseFull.add(course.CourseTitle);
+        }
+        assertEquals(false,courseFull.isEmpty());
     }
 }
